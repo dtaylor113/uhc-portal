@@ -3,7 +3,7 @@ import React from 'react';
 import { Content, Grid, GridItem, Title } from '@patternfly/react-core';
 
 const HypershiftMachinePoolHeader = () => (
-  <Grid>
+  <Grid hasGutter>
     <GridItem>
       <Title headingLevel="h3">Machine pools</Title>
     </GridItem>
@@ -18,7 +18,7 @@ const HypershiftMachinePoolHeader = () => (
 );
 
 const DefaultMachinePoolHeader = () => (
-  <Grid>
+  <Grid hasGutter>
     <GridItem>
       <Title headingLevel="h3">Default machine pool</Title>
     </GridItem>

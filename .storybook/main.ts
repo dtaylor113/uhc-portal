@@ -1,11 +1,17 @@
 import { StorybookConfig } from '@storybook/react-webpack5';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import { DefinePlugin, NormalModuleReplacementPlugin } from 'webpack';
+import path from 'path';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  stories: [
+    '../src/components/clusters/wizards/rosa/ControlPlaneScreen/ControlPlaneScreen.stories.tsx',
+    '../src/components/clusters/wizards/rosa/AccountsRolesScreen/AccountsRolesScreen.stories.tsx',
+    '../src/**/*.mdx',
+    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+  ],
   addons: [
     '@storybook/addon-webpack5-compiler-swc',
-    '@storybook/addon-onboarding',
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@chromatic-com/storybook',
@@ -64,7 +70,32 @@ const config: StorybookConfig = {
           extensions: config.resolve.extensions,
         }),
       ];
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@redhat-cloud-services/frontend-components/useChrome': path.resolve(
+          __dirname,
+          'mocks/useChrome.ts',
+        ),
+        // Mock the release hooks for VersionSelection
+        '~/components/releases/hooks': path.resolve(__dirname, 'mocks/releaseHooks.ts'),
+        'src/components/releases/hooks': path.resolve(__dirname, 'mocks/releaseHooks.ts'),
+      };
     }
+    config.plugins = [
+      ...(config.plugins || []),
+      new DefinePlugin({
+        APP_DEV_SERVER: true,
+      }) as any,
+      // Mock the release hooks for VersionSelection
+      new NormalModuleReplacementPlugin(
+        /^~\/components\/releases\/hooks$/,
+        path.resolve(__dirname, 'mocks/releaseHooks.ts')
+      ),
+      new NormalModuleReplacementPlugin(
+        /^src\/components\/releases\/hooks$/,
+        path.resolve(__dirname, 'mocks/releaseHooks.ts')
+      ),
+    ];
     return config;
   },
   core: {
