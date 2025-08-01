@@ -116,8 +116,8 @@ const baseInitialValues = {
   worker_volume_size_gib: defaultWorkerNodeVolumeSizeGiB, // Real default from constants (300 GiB)
 };
 
-export const RosaClassic: Story = {
-  name: `Rosa Classic (${workerNodeVolumeSizeMinGiB} - 16,384 GiB)`,
+export const RosaClassicVolume: Story = {
+  name: 'Rosa Classic',
   args: {
     minWorkerVolumeSizeGiB: workerNodeVolumeSizeMinGiB, // Real Classic ROSA minimum from constants
     maxWorkerVolumeSizeGiB: 16384, // Real maximum for cluster 4.14+
@@ -176,8 +176,8 @@ export const RosaClassic: Story = {
   },
 };
 
-export const Hosted: Story = {
-  name: `Hosted (${workerNodeVolumeSizeMinGiBHcp} - 16,384 GiB)`,
+export const ROSAHostedVolume: Story = {
+  name: 'ROSA Hosted',
   args: {
     minWorkerVolumeSizeGiB: workerNodeVolumeSizeMinGiBHcp, // Real Hypershift minimum from constants
     maxWorkerVolumeSizeGiB: 16384, // Same maximum as Classic
@@ -245,8 +245,8 @@ export const Hosted: Story = {
   },
 };
 
-export const ClusterVersionOlder: Story = {
-  name: `Cluster version < 4.14 (${workerNodeVolumeSizeMinGiB} - 1,024 GiB)`,
+export const ClusterVersionBefore414: Story = {
+  name: 'Cluster version before 4.14',
   args: {
     minWorkerVolumeSizeGiB: workerNodeVolumeSizeMinGiB,
     maxWorkerVolumeSizeGiB: 1024, // Real maximum for cluster versions < 4.14
@@ -312,8 +312,8 @@ export const ClusterVersionOlder: Story = {
   },
 };
 
-export const ClusterVersionNewer: Story = {
-  name: `Cluster version >= 4.14 (${workerNodeVolumeSizeMinGiB} - 16,384 GiB)`,
+export const ClusterVersion414AndLater: Story = {
+  name: 'Cluster version 4.14 and later',
   args: {
     minWorkerVolumeSizeGiB: workerNodeVolumeSizeMinGiB,
     maxWorkerVolumeSizeGiB: 16384, // Real maximum for cluster 4.14+
@@ -377,6 +377,71 @@ export const ClusterVersionNewer: Story = {
           {meta.render!(args, {
             parameters: { initialValues: { worker_volume_size_gib: 8192 } },
           } as any)}
+        </div>
+      </div>
+    );
+  },
+};
+
+export const RosaAddOrEditMachinePool: Story = {
+  name: 'Rosa: Add or Edit Machine Pool',
+  args: {
+    minWorkerVolumeSizeGiB: workerNodeVolumeSizeMinGiB,
+    maxWorkerVolumeSizeGiB: 16384,
+  },
+  parameters: {
+    initialValues: {
+      worker_volume_size_gib: 500, // Current volume size
+    },
+  },
+  render: (args) => {
+    const { Wrapper } = withState({ worker_volume_size_gib: 500 });
+
+    return (
+      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+        <div
+          style={{
+            backgroundColor: '#f8f9fa',
+            padding: '20px',
+            marginBottom: '24px',
+            borderRadius: '6px',
+            border: '1px solid #dee2e6',
+            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+          }}
+        >
+          <h4
+            style={{
+              margin: '0 0 16px 0',
+              color: '#495057',
+              fontSize: '16px',
+              fontWeight: '600',
+            }}
+          >
+            Worker Node Volume Size - Add/Edit Machine Pool
+          </h4>
+          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+            <p style={{ margin: '0 0 12px 0' }}>
+              <strong style={{ color: '#495057' }}>Mode:</strong> Day 2 operations - ROSA add/edit
+              machine pool
+            </p>
+            <p style={{ margin: '0 0 12px 0' }}>
+              <strong style={{ color: '#495057' }}>Context:</strong> Machine pool volume size
+              configuration
+            </p>
+            <p style={{ margin: '0 0 12px 0' }}>
+              <strong style={{ color: '#495057' }}>Current size:</strong> 500 GiB (example value)
+            </p>
+            <p style={{ margin: '0' }}>
+              <strong style={{ color: '#495057' }}>Use case:</strong> Configuring disk size for new
+              or existing machine pools
+            </p>
+          </div>
+        </div>
+
+        <div style={{ maxWidth: '600px' }}>
+          <Wrapper>
+            <WorkerNodeVolumeSizeSection {...args} />
+          </Wrapper>
         </div>
       </div>
     );

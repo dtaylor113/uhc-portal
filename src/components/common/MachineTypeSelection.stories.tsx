@@ -10,7 +10,6 @@ import { Form } from '@patternfly/react-core';
 
 import { MachineTypeSelection } from '~/components/clusters/common/ScaleSection/MachineTypeSelection/MachineTypeSelection';
 import { normalizedProducts } from '~/common/subscriptionTypes';
-import { CloudProviderType } from '~/components/clusters/wizards/common/constants';
 import { MachineType } from '~/types/clusters_mgmt.v1';
 
 // Mock machine types data (region-specific - always available)
@@ -97,7 +96,7 @@ const mockAllMachineTypes: MachineType[] = [
 const createTypesByID = (types: MachineType[]) => {
   return types.reduce(
     (acc, type) => {
-      acc[type.id] = type;
+      acc[type.id!] = type;
       return acc;
     },
     {} as { [key: string]: MachineType },
