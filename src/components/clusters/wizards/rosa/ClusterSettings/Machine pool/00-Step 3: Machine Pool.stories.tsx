@@ -10,73 +10,420 @@ import { Wizard, WizardStep, WizardBody, Page, PageSection } from '@patternfly/r
 
 import MachinePoolScreen from '../../MachinePoolScreen/MachinePoolScreen';
 import { baseRequestState } from '~/redux/reduxHelpers';
-import { IMDSType } from '~/components/clusters/wizards/common/constants';
-import { defaultWorkerNodeVolumeSizeGiB } from '~/components/clusters/common/machinePools/constants';
-import { CloudVpc, Subnetwork, MachineType } from '~/types/clusters_mgmt.v1';
-import { FormSubnet } from '~/components/clusters/wizards/common/FormSubnet';
-
+import { initialValues, FieldId } from '~/components/clusters/wizards/rosa/constants';
+import { normalizedProducts } from '~/common/subscriptionTypes';
+import { SubscriptionCommonFieldsCluster_billing_model as BillingModel } from '~/types/accounts_mgmt.v1';
+import { getRandomID } from '~/common/helpers';
 import '../../createROSAWizard.scss';
 
-// Mock VPC with subnets across multiple AZs
-const mockVpcWithSubnets: CloudVpc = {
-  id: 'vpc-123456789',
-  name: 'rosa-vpc-example',
-  aws_subnets: [
+// Proper ROSA quota structure (based on working MachineTypeSelection.stories.tsx)
+const workingRosaQuotaList = {
+  items: [
+    // ROSA cluster quota (unlimited)
     {
-      subnet_id: 'subnet-private-1a',
-      public: false,
-      availability_zone: 'us-east-1a',
-      cidr_block: '10.0.1.0/24',
+      kind: 'QuotaCost',
+      href: '/api/accounts_mgmt/v1/organizations/1H1PQMDtwzAUsjPxgoWRjhSpNGD/quota_cost',
+      organization_id: '1H1PQMDtwzAUsjPxgoWRjhSpNGD',
+      quota_id: 'cluster|gp.small|any|byoc|moa|aws',
+      allowed: 0,
+      consumed: 0,
+      related_resources: [
+        {
+          cloud_provider: 'aws',
+          resource_name: 'highmem',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'compute',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'memory',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'highmem',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'compute',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'memory',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+      ],
     },
+    // ROSA node quota (unlimited)
     {
-      subnet_id: 'subnet-private-1b',
-      public: false,
-      availability_zone: 'us-east-1b',
-      cidr_block: '10.0.2.0/24',
+      kind: 'QuotaCost',
+      href: '/api/accounts_mgmt/v1/organizations/1H1PQMDtwzAUsjPxgoWRjhSpNGD/quota_cost',
+      organization_id: '1H1PQMDtwzAUsjPxgoWRjhSpNGD',
+      quota_id: 'compute.node|gp.small|any|byoc|moa|aws',
+      allowed: 0,
+      consumed: 0,
+      related_resources: [
+        {
+          cloud_provider: 'aws',
+          resource_name: 'highmem',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'compute',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'memory',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'highmem',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'compute',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'memory',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 0,
+        },
+      ],
     },
-    {
-      subnet_id: 'subnet-private-1c',
-      public: false,
-      availability_zone: 'us-east-1c',
-      cidr_block: '10.0.3.0/24',
-    },
-  ] as Subnetwork[],
-} as CloudVpc;
+  ],
+};
 
-// Mock machine types
-const mockMachineTypes: MachineType[] = [
+// No quota structure for demonstrating quota alert
+const noQuotaList = {
+  items: [
+    // ROSA cluster quota (no available quota)
+    {
+      kind: 'QuotaCost',
+      href: '/api/accounts_mgmt/v1/organizations/1H1PQMDtwzAUsjPxgoWRjhSpNGD/quota_cost',
+      organization_id: '1H1PQMDtwzAUsjPxgoWRjhSpNGD',
+      quota_id: 'cluster|gp.small|any|byoc|moa|aws',
+      allowed: 0,
+      consumed: 0,
+      related_resources: [
+        {
+          cloud_provider: 'aws',
+          resource_name: 'highmem',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1, // Limited quota with no allowance = no available quota
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'compute',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'memory',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'highmem',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'compute',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'memory',
+          resource_type: 'cluster',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+      ],
+    },
+    // ROSA node quota (no available quota)
+    {
+      kind: 'QuotaCost',
+      href: '/api/accounts_mgmt/v1/organizations/1H1PQMDtwzAUsjPxgoWRjhSpNGD/quota_cost',
+      organization_id: '1H1PQMDtwzAUsjPxgoWRjhSpNGD',
+      quota_id: 'compute.node|gp.small|any|byoc|moa|aws',
+      allowed: 0,
+      consumed: 0,
+      related_resources: [
+        {
+          cloud_provider: 'aws',
+          resource_name: 'highmem',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'compute',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'memory',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'single',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'highmem',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'compute',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+        {
+          cloud_provider: 'aws',
+          resource_name: 'memory',
+          resource_type: 'compute.node',
+          byoc: 'byoc',
+          availability_zone_type: 'multi',
+          product: 'ROSA',
+          billing_model: 'standard',
+          cost: 1,
+        },
+      ],
+    },
+  ],
+};
+
+// Mock machine types data (region-specific - always available)
+const mockRegionMachineTypes = [
   {
     id: 'm5.large',
     name: 'm5.large',
-    cpu: { value: 2 },
-    memory: { value: 8589934592 }, // 8GB in bytes
+    cpu: { value: 2, unit: 'vCPUs' },
+    memory: { value: 8, unit: 'GiB' },
     category: 'general_purpose',
+    ccs_only: false,
+    generic_name: 'highmem',
+    size: 'large',
   },
   {
     id: 'm5.xlarge',
     name: 'm5.xlarge',
-    cpu: { value: 4 },
-    memory: { value: 17179869184 }, // 16GB in bytes
+    cpu: { value: 4, unit: 'vCPUs' },
+    memory: { value: 16, unit: 'GiB' },
     category: 'general_purpose',
+    ccs_only: false,
+    generic_name: 'highmem',
+    size: 'xlarge',
   },
   {
     id: 'c5.2xlarge',
     name: 'c5.2xlarge',
-    cpu: { value: 8 },
-    memory: { value: 17179869184 }, // 16GB in bytes
+    cpu: { value: 8, unit: 'vCPUs' },
+    memory: { value: 16, unit: 'GiB' },
     category: 'compute_optimized',
+    ccs_only: false,
+    generic_name: 'compute',
+    size: '2xlarge',
   },
-] as MachineType[];
+  {
+    id: 'r5.xlarge',
+    name: 'r5.xlarge',
+    cpu: { value: 4, unit: 'vCPUs' },
+    memory: { value: 32, unit: 'GiB' },
+    category: 'memory_optimized',
+    ccs_only: false,
+    generic_name: 'memory',
+    size: 'xlarge',
+  },
+];
+
+// All machine types (includes region-specific + potentially unavailable ones)
+const mockAllMachineTypes = [
+  ...mockRegionMachineTypes,
+  // Additional machine types that might be unavailable in certain regions/accounts
+  // These show up when "Include types that might be unavailable" toggle is enabled
+  {
+    id: 'p3.2xlarge',
+    name: 'p3.2xlarge',
+    cpu: { value: 8, unit: 'vCPUs' },
+    memory: { value: 61, unit: 'GiB' },
+    category: 'accelerated_computing',
+    ccs_only: false,
+    generic_name: 'compute',
+    size: '2xlarge',
+  },
+  {
+    id: 'x1e.xlarge',
+    name: 'x1e.xlarge',
+    cpu: { value: 4, unit: 'vCPUs' },
+    memory: { value: 122, unit: 'GiB' },
+    category: 'memory_optimized',
+    ccs_only: false,
+    generic_name: 'memory',
+    size: 'xlarge',
+  },
+  {
+    id: 'i3.large',
+    name: 'i3.large',
+    cpu: { value: 2, unit: 'vCPUs' },
+    memory: { value: 15.25, unit: 'GiB' },
+    category: 'storage_optimized',
+    ccs_only: false,
+    generic_name: 'compute',
+    size: 'large',
+  },
+];
+
+// Helper to create typesByID map
+const createTypesByID = (types: any[]) => {
+  return types.reduce((acc, type) => {
+    acc[type.id] = type;
+    return acc;
+  }, {});
+};
 
 const withState = (
-  initialValues: any,
-  showInWizardFramework: boolean = true,
+  quotaData: any,
+  hypershiftMode: boolean = false,
 ): {
   store: MockStoreEnhanced<unknown, any>;
   Wrapper: (props: { children: React.ReactNode }) => React.ReactNode;
 } => {
   const store = createMockStore([thunk, promiseMiddleware as any])({
-    ...baseRequestState,
+    modal: {
+      modalName: null,
+    },
+    // Flavours state (required by MachineTypeSelection)
+    flavours: {
+      ...baseRequestState,
+      fulfilled: true,
+      byID: {
+        'osd-4': {
+          aws: {
+            compute_instance_type: 'm5.xlarge',
+          },
+        },
+      },
+    },
     userProfile: {
       keycloakProfile: {
         username: 'test-user',
@@ -86,26 +433,139 @@ const withState = (
         fulfilled: true,
         details: {
           id: '123',
-          name: 'Test Org',
+          name: 'Test Organization',
         },
-        quotaList: {
-          items: [],
-        },
-        timestamp: 0,
+        quotaList: quotaData,
+        timestamp: Date.now(),
       },
     },
-    cloudProviders: {
+    machineTypesByRegion: {
+      ...baseRequestState,
       fulfilled: true,
-      details: [
+      types: {
+        aws: mockRegionMachineTypes, // Region-specific subset (verified available)
+        gcp: [],
+      },
+      typesByID: createTypesByID(mockRegionMachineTypes),
+    },
+    machineTypes: {
+      ...baseRequestState,
+      fulfilled: true,
+      types: {
+        aws: mockAllMachineTypes, // All types (shown when toggle enabled)
+        gcp: [],
+      },
+      typesByID: createTypesByID(mockAllMachineTypes),
+    },
+    rosaReducer: {
+      getAWSBillingAccountsResponse: {
+        ...baseRequestState,
+        fulfilled: true,
+        data: [],
+      },
+      getAWSAccountRolesARNsResponse: {
+        ...baseRequestState,
+        fulfilled: true,
+        data: [],
+      },
+      getAWSAccountIDsResponse: {
+        ...baseRequestState,
+        fulfilled: true,
+        data: ['123456789012'],
+      },
+    },
+    clusterVersions: {
+      ...baseRequestState,
+      fulfilled: true,
+      list: [
         {
-          id: 'aws',
-          name: 'aws',
-          machine_types: {
-            fulfilled: true,
-            items: mockMachineTypes,
-          },
+          id: '4.14.0',
+          raw_id: '4.14.0',
+          channel_group: 'stable',
+          available_upgrades: [],
+          rosa_enabled: true,
+          hosted_control_plane_enabled: hypershiftMode,
         },
       ],
+    },
+    // Additional Redux state that might be missing
+    cloudProviders: {
+      ...baseRequestState,
+      fulfilled: true,
+      list: [
+        {
+          id: 'aws',
+          name: 'Amazon Web Services',
+        },
+      ],
+    },
+    cloudAccounts: {
+      ...baseRequestState,
+      fulfilled: true,
+      data: [],
+    },
+    // Feature gates
+    featureGates: {
+      ...baseRequestState,
+      fulfilled: true,
+      data: {},
+    },
+    // VPC data (required by MachinePoolsSubnets for Hypershift - based on working MachinePoolsSubnets.stories.tsx)
+    ccsInquiries: {
+      vpcs: {
+        fulfilled: true,
+        pending: false,
+        error: false,
+        data: {
+          items: [
+            {
+              id: 'vpc-123456789',
+              name: 'rosa-vpc-example',
+              aws_subnets: [
+                // us-east-1a
+                {
+                  subnet_id: 'subnet-private-1a',
+                  public: false,
+                  availability_zone: 'us-east-1a',
+                  cidr_block: '10.0.1.0/24',
+                },
+                {
+                  subnet_id: 'subnet-public-1a',
+                  public: true,
+                  availability_zone: 'us-east-1a',
+                  cidr_block: '10.0.11.0/24',
+                },
+                // us-east-1b
+                {
+                  subnet_id: 'subnet-private-1b',
+                  public: false,
+                  availability_zone: 'us-east-1b',
+                  cidr_block: '10.0.2.0/24',
+                },
+                {
+                  subnet_id: 'subnet-public-1b',
+                  public: true,
+                  availability_zone: 'us-east-1b',
+                  cidr_block: '10.0.12.0/24',
+                },
+                // us-east-1c
+                {
+                  subnet_id: 'subnet-private-1c',
+                  public: false,
+                  availability_zone: 'us-east-1c',
+                  cidr_block: '10.0.3.0/24',
+                },
+                {
+                  subnet_id: 'subnet-public-1c',
+                  public: true,
+                  availability_zone: 'us-east-1c',
+                  cidr_block: '10.0.13.0/24',
+                },
+              ],
+            },
+          ],
+        },
+      },
     },
   });
 
@@ -117,221 +577,267 @@ const withState = (
         },
       },
     });
-
-    // Mock React Query data for VPCs
-    queryClient.setQueryData(['vpcs'], {
-      items: [mockVpcWithSubnets],
-    });
-
-    const content = (
+    return (
       <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <Formik initialValues={initialValues} onSubmit={() => {}}>
-            {showInWizardFramework ? (
-              <Page>
-                <PageSection variant="default" hasBodyWrapper>
-                  <div className="ocm-page">
-                    <Wizard height="100%" width="100%" className="rosa-wizard">
-                      <WizardStep name="Machine Pool" id="step3-machine-pool">
-                        <WizardBody>{children}</WizardBody>
-                      </WizardStep>
-                    </Wizard>
-                  </div>
-                </PageSection>
-              </Page>
-            ) : (
-              children
-            )}
-          </Formik>
-        </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       </Provider>
     );
-
-    return content;
   };
 
   return { store, Wrapper };
 };
 
-const meta: Meta<typeof MachinePoolScreen> = {
-  title: 'Wizards/ROSA/Step 3: Cluster settings/Machine pool',
-  component: MachinePoolScreen,
+type StoryWrapperProps = {
+  showInWizardFramework?: boolean;
+  hypershiftMode?: boolean;
+  multiAz?: boolean;
+  withNodeLabels?: boolean;
+};
+
+const StoryWrapper = ({
+  showInWizardFramework = true,
+  hypershiftMode = false,
+  multiAz = false,
+  withNodeLabels = false,
+}: StoryWrapperProps) => {
+  const { Wrapper } = withState(workingRosaQuotaList, hypershiftMode);
+
+  // Create initial values based on the mode
+  const formInitialValues = {
+    ...initialValues(hypershiftMode),
+    [FieldId.Hypershift]: hypershiftMode ? 'true' : 'false',
+    [FieldId.MultiAz]: multiAz ? 'true' : 'false',
+    [FieldId.MachineType]: 'm5.large',
+    [FieldId.Region]: 'us-east-1',
+    [FieldId.Product]: normalizedProducts.ROSA,
+    [FieldId.BillingModel]: BillingModel.standard,
+    [FieldId.CloudProvider]: 'aws',
+    [FieldId.ClusterVersion]: {
+      id: '4.14.0',
+      raw_id: '4.14.0',
+      channel_group: 'stable',
+    },
+    [FieldId.NodeLabels]: withNodeLabels
+      ? [
+          { id: getRandomID(), key: 'environment', value: 'production' },
+          { id: getRandomID(), key: 'team', value: 'backend' },
+        ]
+      : [{ id: getRandomID() }],
+  };
+
+  if (showInWizardFramework) {
+    // Show in wizard framework
+    return (
+      <Wrapper>
+        <Page>
+          <PageSection variant="default" hasBodyWrapper>
+            <div className="ocm-page">
+              <Wizard height="100%" width="100%" className="rosa-wizard">
+                <WizardStep name="Machine pool" id="machine-pool">
+                  <WizardBody>
+                    <Formik initialValues={formInitialValues} onSubmit={() => {}}>
+                      <MachinePoolScreen />
+                    </Formik>
+                  </WizardBody>
+                </WizardStep>
+              </Wizard>
+            </div>
+          </PageSection>
+        </Page>
+      </Wrapper>
+    );
+  }
+
+  // Show standalone version
+  return (
+    <Wrapper>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+        <Formik initialValues={formInitialValues} onSubmit={() => {}}>
+          <MachinePoolScreen />
+        </Formik>
+      </div>
+    </Wrapper>
+  );
+};
+
+const meta: Meta<typeof StoryWrapper> = {
+  title: 'Wizards/ROSA/Step 3: Cluster settings/Machine pool/- Step 3: Machine Pool -',
+  component: StoryWrapper,
+  argTypes: {
+    showInWizardFramework: {
+      control: 'boolean',
+      description: 'Show the step within the full wizard framework with left navigation panel',
+    },
+    hypershiftMode: {
+      control: 'boolean',
+      description: 'Enable Hypershift (ROSA Hosted) mode',
+    },
+    multiAz: {
+      control: 'boolean',
+      description: 'Enable Multi-AZ configuration',
+    },
+    withNodeLabels: {
+      control: 'boolean',
+      description: 'Pre-populate with sample node labels',
+    },
+  },
+  render: (args) => <StoryWrapper {...args} />,
   parameters: {
+    layout: 'fullscreen',
     docs: {
       description: {
         component: `
-## Machine Pool Screen
+## ROSA Machine Pool Configuration Step
 
-The Machine Pool screen configures compute resources for ROSA clusters, with different behaviors for Classic vs Hypershift architectures.
+Step 3 of the ROSA wizard handles machine pool configuration, including compute resources, scaling, networking, and node labels.
 
-### Key Features
-- **Architecture-aware UI** - Different sections for Classic vs Hypershift
-- **Machine type selection** - Choose EC2 instance types with resource quotas
-- **Scaling configuration** - Fixed node counts or autoscaling with min/max
-- **Storage configuration** - Root disk size with architecture-specific constraints
-- **Networking** - VPC and subnet selection for Hypershift clusters
-- **Security settings** - IMDS configuration and node labeling
+### Key Components Integrated
+- **MachinePoolScreenHeader** - Step introduction and context
+- **MachinePoolsSubnets** - VPC and subnet selection (Hypershift only)
+- **MachineTypeSelection** - Compute instance type selection
+- **NodeCountInput** - Worker node count configuration
+- **AutoScale** - Autoscaling configuration (when available)
+- **WorkerNodeVolumeSizeSection** - Storage configuration
+- **FormKeyValueList** - Node labels management (Classic only)
+- **ImdsSection** - Instance metadata service configuration
 
-### Architecture Differences
-- **Classic ROSA** - Single default machine pool, optional node labels
-- **Hypershift** - Up to 3 machine pools with subnet assignment, higher storage minimums
-- **Shared features** - Instance types, scaling, root disk size, IMDS configuration
+### Architecture Modes
+- **ROSA Classic** - Traditional deployment with full control
+- **ROSA Hosted** - Managed control plane deployment
 
-### Components Included
-- **MachinePoolScreenHeader** - Context-aware header text
-- **MachinePoolsSubnets** - VPC/subnet selection (Hypershift only)
-- **ScaleSection** - Instance types, scaling, storage, IMDS, node labels
+### Configuration Options
+- **Single AZ vs Multi-AZ** - Availability zone deployment options
+- **Manual vs Autoscaling** - Node count management strategies
+- **Network Configuration** - VPC, subnets, and security groups
+- **Node Customization** - Labels, storage, and instance metadata
         `,
       },
     },
-  },
-  render: (args: any, { parameters }) => {
-    const { initialValues, showInWizardFramework } = parameters;
-    const { Wrapper } = withState(initialValues, showInWizardFramework);
-
-    return (
-      <Wrapper>
-        <MachinePoolScreen {...args} />
-      </Wrapper>
-    );
   },
 };
 
 export default meta;
 
-type Story = StoryObj<typeof MachinePoolScreen>;
+type Story = StoryObj<typeof StoryWrapper>;
 
-// Base form values for Classic (non-Hypershift)
-const baseClassicValues = {
-  hypershift: 'false',
-  multi_az: 'true',
-  machine_type: 'm5.large',
-  cloud_provider_id: 'aws',
-  product: 'rosa',
-  autoscaling_enabled: false,
-  nodes_compute: 9, // 3 per zone for multi-AZ
-  worker_volume_size_gib: defaultWorkerNodeVolumeSizeGiB,
-  imds: IMDSType.V1AndV2,
-  node_labels: [{ key: '', value: '' }],
-  billing_model: 'standard',
-  cluster_version: { raw_id: '4.15.0' },
-  region: 'us-east-1',
-  installer_role_arn: 'arn:aws:iam::123456789012:role/ManagedOpenShift-Installer-Role',
+const baseArgs = {
+  showInWizardFramework: true,
+  hypershiftMode: false,
+  multiAz: false,
+  withNodeLabels: false,
 };
 
-// Base form values for Hypershift
-const baseHypershiftValues = {
-  hypershift: 'true',
-  multi_az: 'true',
-  machine_type: 'm5.large',
-  cloud_provider_id: 'aws',
-  product: 'rosa',
-  autoscaling_enabled: false,
-  nodes_compute: 6, // 2 per machine pool, 3 machine pools = 6 total
-  worker_volume_size_gib: 120, // Higher minimum for Hypershift
-  imds: IMDSType.V2Only,
-  billing_model: 'marketplace',
-  cluster_version: { raw_id: '4.15.0' },
-  region: 'us-east-1',
-  installer_role_arn: 'arn:aws:iam::123456789012:role/ManagedOpenShift-Installer-Role',
-  selected_vpc: mockVpcWithSubnets,
-  machine_pools_subnets: [
-    {
-      privateSubnetId: 'subnet-private-1a',
-    },
-    {
-      privateSubnetId: 'subnet-private-1b',
-    },
-  ] as FormSubnet[],
-};
-
-export const HypershiftHosted: Story = {
-  name: 'Hypershift (Hosted) - Machine Pools & Subnets',
-  parameters: {
-    initialValues: baseHypershiftValues,
+export const RosaClassicSingleAZ: Story = {
+  name: 'ROSA Classic Single AZ',
+  args: {
+    ...baseArgs,
+    hypershiftMode: false,
+    multiAz: false,
   },
-};
-
-export const ClassicMultiAz: Story = {
-  name: 'Classic - Multi-AZ Default Machine Pool',
   parameters: {
-    initialValues: baseClassicValues,
-  },
-};
-
-export const ClassicSingleAz: Story = {
-  name: 'Classic - Single-AZ Machine Pool',
-  parameters: {
-    initialValues: {
-      ...baseClassicValues,
-      multi_az: 'false',
-      nodes_compute: 3, // Single AZ
+    docs: {
+      description: {
+        story:
+          'ROSA Classic deployment in single availability zone. Shows standard machine pool configuration with node labels section.',
+      },
     },
   },
 };
 
-export const HypershiftWithAutoscaling: Story = {
-  name: 'Hypershift - Autoscaling Enabled',
+export const RosaClassicMultiAZ: Story = {
+  name: 'ROSA Classic Multi-AZ',
+  args: {
+    ...baseArgs,
+    hypershiftMode: false,
+    multiAz: true,
+  },
   parameters: {
-    initialValues: {
-      ...baseHypershiftValues,
-      autoscaling_enabled: true,
-      min_replicas: 2,
-      max_replicas: 10,
+    docs: {
+      description: {
+        story:
+          'ROSA Classic deployment across multiple availability zones. Node count is per zone.',
+      },
     },
   },
 };
 
-export const ClassicWithAutoscaling: Story = {
-  name: 'Classic - Autoscaling Enabled',
+export const RosaHostedMultiAZ: Story = {
+  name: 'ROSA Hosted',
+  args: {
+    ...baseArgs,
+    hypershiftMode: true,
+    multiAz: true,
+  },
   parameters: {
-    initialValues: {
-      ...baseClassicValues,
-      autoscaling_enabled: true,
-      min_replicas: 3,
-      max_replicas: 24,
+    docs: {
+      description: {
+        story:
+          'ROSA Hosted (Hypershift) deployment. Shows subnet selection for machine pools and per-machine-pool node count.',
+      },
     },
   },
 };
 
-export const LargeInstanceType: Story = {
-  name: 'Large Instance Type - c5.2xlarge',
+export const NoQuotaAlert: Story = {
+  name: 'No Quota Alert',
+  args: {
+    showInWizardFramework: true,
+    hypershiftMode: false,
+    multiAz: false,
+    withNodeLabels: false,
+  },
   parameters: {
-    initialValues: {
-      ...baseClassicValues,
-      machine_type: 'c5.2xlarge',
-      nodes_compute: 6, // Fewer nodes with larger instances
+    docs: {
+      description: {
+        story:
+          'Demonstrates the quota alert when insufficient quota is available. Shows "You do not have enough quota to create a cluster with the minimum required worker capacity." message instead of machine type selection.',
+      },
     },
   },
-};
+  render: (args) => {
+    const { Wrapper } = withState(noQuotaList, args.hypershiftMode);
 
-export const CustomVolumeSize: Story = {
-  name: 'Custom Root Disk Size - 500GB',
-  parameters: {
-    initialValues: {
-      ...baseClassicValues,
-      worker_volume_size_gib: 500,
-    },
-  },
-};
+    const formInitialValues = {
+      ...initialValues(args.hypershiftMode),
+      [FieldId.Hypershift]: args.hypershiftMode ? 'true' : 'false',
+      [FieldId.MultiAz]: args.multiAz ? 'true' : 'false',
+      [FieldId.MachineType]: 'm5.large',
+      [FieldId.Region]: 'us-east-1',
+      [FieldId.Product]: normalizedProducts.ROSA,
+      [FieldId.BillingModel]: BillingModel.standard,
+      [FieldId.CloudProvider]: 'aws',
+      [FieldId.ClusterVersion]: {
+        id: '4.14.0',
+        raw_id: '4.14.0',
+        channel_group: 'stable',
+      },
+      [FieldId.NodeLabels]: [{ id: getRandomID() }],
+    };
 
-export const WithNodeLabels: Story = {
-  name: 'Classic - With Node Labels',
-  parameters: {
-    initialValues: {
-      ...baseClassicValues,
-      node_labels: [
-        { key: 'environment', value: 'production' },
-        { key: 'team', value: 'platform' },
-      ],
-    },
-  },
-};
-
-export const StandaloneView: Story = {
-  name: 'Standalone (No Wizard Framework)',
-  parameters: {
-    initialValues: baseClassicValues,
-    showInWizardFramework: false,
+    return (
+      <Wrapper>
+        <Formik initialValues={formInitialValues} onSubmit={() => {}}>
+          {args.showInWizardFramework ? (
+            <Wizard>
+              <WizardStep name="machine-pool" id="machine-pool">
+                <WizardBody>
+                  <Page>
+                    <PageSection>
+                      <MachinePoolScreen />
+                    </PageSection>
+                  </Page>
+                </WizardBody>
+              </WizardStep>
+            </Wizard>
+          ) : (
+            <Page>
+              <PageSection>
+                <MachinePoolScreen />
+              </PageSection>
+            </Page>
+          )}
+        </Formik>
+      </Wrapper>
+    );
   },
 };

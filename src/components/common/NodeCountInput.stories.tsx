@@ -789,7 +789,7 @@ export const NoQuota: Story = {
 };
 
 export const Day2MachinePoolAutoscaling: Story = {
-  name: `Day 2: Machine Pool Autoscaling`,
+  name: 'Day 2: Machine Pool Autoscaling',
   args: {
     quota: mockQuotaWithLimitedNodes,
     label: 'Compute node count',
