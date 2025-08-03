@@ -185,7 +185,7 @@ const StoryWrapper = ({
 };
 
 const meta: Meta<typeof StoryWrapper> = {
-  title: 'Wizards/ROSA/Step 4: Networking',
+  title: 'Wizards/ROSA/Step 4: Networking/Configuration',
   component: StoryWrapper,
   parameters: {
     layout: 'fullscreen',
