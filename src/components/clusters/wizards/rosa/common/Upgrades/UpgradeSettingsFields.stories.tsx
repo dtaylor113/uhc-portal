@@ -33,7 +33,7 @@ const withState = (
 };
 
 const meta: Meta<typeof UpgradeSettingsFields> = {
-  title: 'Wizards/Rosa/Common/Upgrades/UpgradeSettingsFields',
+  title: 'Wizards/ROSA/Common/Upgrades/UpgradeSettingsFields',
   component: UpgradeSettingsFields,
   render: (args: any) => {
     const { Wrapper } = withState({

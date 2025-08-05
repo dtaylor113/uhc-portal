@@ -8,7 +8,14 @@ const config: StorybookConfig = {
     '../src/components/clusters/wizards/rosa/ControlPlaneScreen/ControlPlaneScreen.stories.tsx',
     '../src/components/clusters/wizards/rosa/AccountsRolesScreen/AccountsRolesScreen.stories.tsx',
     '../src/**/*.mdx',
-    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+    // Exclude specific files from glob pattern and add them in order
+    '../src/**/!(UpdatesScreen|ReviewClusterScreen|ReviewRoleItem|UpgradeSettingsFields).stories.@(js|jsx|mjs|ts|tsx)',
+    // Steps 6 and 7 in correct order
+    '../src/components/clusters/wizards/rosa/UpdatesScreen/UpdatesScreen.stories.tsx',
+    '../src/components/clusters/wizards/rosa/ReviewClusterScreen/ReviewClusterScreen.stories.tsx',
+    // Common components last
+    '../src/components/clusters/wizards/rosa/ReviewClusterScreen/ReviewRoleItem.stories.tsx',
+    '../src/components/clusters/wizards/rosa/common/Upgrades/UpgradeSettingsFields.stories.tsx',
   ],
   addons: [
     '@storybook/addon-webpack5-compiler-swc',
