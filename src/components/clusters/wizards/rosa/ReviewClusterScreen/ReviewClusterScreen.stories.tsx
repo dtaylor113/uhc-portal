@@ -6,10 +6,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
 import { thunk } from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
-import { WizardContext } from '@patternfly/react-core';
+import { WizardContext, Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
 
 import { FieldId } from '~/components/clusters/wizards/rosa/constants';
 import ReviewClusterScreen from './ReviewClusterScreen';
+import '../createROSAWizard.scss';
 
 const withState = (
   initialValues: any,
@@ -108,11 +109,51 @@ const defaultProps = {
   },
 };
 
-const StoryWrapper = (props: any) => {
-  const { Wrapper } = withState(props.formValues || {}, props);
+type StoryWrapperProps = {
+  showInWizardFramework?: boolean;
+  formValues?: any;
+  isSubmitPending?: boolean;
+  getUserRoleResponse?: any;
+  getOCMRoleResponse?: any;
+  createClusterResponse?: any;
+};
+
+const StoryWrapper = ({
+  showInWizardFramework = true,
+  formValues = {},
+  ...props
+}: StoryWrapperProps) => {
+  const { Wrapper } = withState(formValues, props);
+
+  const reviewProps = {
+    ...defaultProps,
+    ...props,
+    formValues,
+  };
+
+  if (showInWizardFramework) {
+    // Show in wizard framework
+    return (
+      <Wrapper>
+        <div className="ocm-page" style={{ height: '100vh', padding: 0, margin: 0 }}>
+          <Wizard height="100%" width="100%" className="rosa-wizard">
+            <WizardStep name="Review and create" id="review-create">
+              <WizardBody>
+                <ReviewClusterScreen {...reviewProps} />
+              </WizardBody>
+            </WizardStep>
+          </Wizard>
+        </div>
+      </Wrapper>
+    );
+  }
+
+  // Show standalone version
   return (
     <Wrapper>
-      <ReviewClusterScreen {...defaultProps} {...props} />
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+        <ReviewClusterScreen {...reviewProps} />
+      </div>
     </Wrapper>
   );
 };
@@ -125,11 +166,15 @@ const meta: Meta<typeof StoryWrapper> = {
     docs: {
       description: {
         component:
-          'Step 7 of the ROSA cluster creation wizard - Review and create cluster. Includes comprehensive mocking for Redux state (userProfile.organization), React Query, Formik form context, and PatternFly Wizard context. Form values include proper data structures for all valueTransform functions (arrays for node_labels, complete VPC objects with aws_subnets, etc.).',
+          'Step 7 of the ROSA cluster creation wizard - Review and create cluster. Features full wizard framework integration with left navigation panel and right content area. Includes comprehensive mocking for Redux state (userProfile.organization), React Query, Formik form context, and PatternFly Wizard context. Form values include proper data structures for all valueTransform functions (arrays for node_labels, complete VPC objects with aws_subnets, etc.). Use the "Show In Wizard Framework" control to toggle between full wizard view and standalone component view.',
       },
     },
   },
   argTypes: {
+    showInWizardFramework: {
+      control: 'boolean',
+      description: 'Show the step within the full wizard framework with left navigation panel',
+    },
     isSubmitPending: {
       control: 'boolean',
       description: 'Whether cluster creation is in progress',
@@ -139,6 +184,7 @@ const meta: Meta<typeof StoryWrapper> = {
       description: 'Form values for review',
     },
   },
+  render: (args) => <StoryWrapper {...args} />,
 };
 
 export default meta;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Wizard, WizardStep, WizardBody, Page, PageSection } from '@patternfly/react-core';
+import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
 
 import type { Meta, StoryObj } from '@storybook/react';
 import configureStore from 'redux-mock-store';
@@ -428,20 +428,16 @@ const StoryWrapper = ({
         hasUnstableVersions={hasUnstableVersions}
         isHypershiftMode={isHypershiftMode}
       >
-        <Page>
-          <PageSection variant="default" hasBodyWrapper>
-            <div className="ocm-page">
-              <Wizard height="100%" width="100%" className="rosa-wizard">
-                {/* Step 1: Cluster Settings - Details (Our main component) */}
-                <WizardStep name="Cluster settings: Details" id="step3-details">
-                  <WizardBody>
-                    <Details />
-                  </WizardBody>
-                </WizardStep>
-              </Wizard>
-            </div>
-          </PageSection>
-        </Page>
+        <div className="ocm-page" style={{ height: '100vh', padding: 0, margin: 0 }}>
+          <Wizard height="100%" width="100%" className="rosa-wizard">
+            {/* Step 1: Cluster Settings - Details (Our main component) */}
+            <WizardStep name="Cluster settings: Details" id="step3-details">
+              <WizardBody>
+                <Details />
+              </WizardBody>
+            </WizardStep>
+          </Wizard>
+        </div>
       </FormikWrapper>
     );
   }

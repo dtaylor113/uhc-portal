@@ -6,7 +6,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Wizard, WizardStep, WizardBody, Page, PageSection } from '@patternfly/react-core';
+import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
 
 import ClusterRolesScreen from './ClusterRolesScreen';
 import { initialValues } from '../constants';
@@ -170,21 +170,17 @@ const StoryWrapper = ({
     // Show in wizard framework
     return (
       <Wrapper>
-        <Page>
-          <PageSection variant="default" hasBodyWrapper>
-            <div className="ocm-page">
-              <Wizard height="100%" width="100%" className="rosa-wizard">
-                <WizardStep name="Cluster roles and policies" id="cluster-roles-policies">
-                  <WizardBody>
-                    <Formik initialValues={defaultFormValues} onSubmit={() => {}}>
-                      <ClusterRolesScreen />
-                    </Formik>
-                  </WizardBody>
-                </WizardStep>
-              </Wizard>
-            </div>
-          </PageSection>
-        </Page>
+        <div className="ocm-page" style={{ height: '100vh', padding: 0, margin: 0 }}>
+          <Wizard height="100%" width="100%" className="rosa-wizard">
+            <WizardStep name="Cluster roles and policies" id="cluster-roles-policies">
+              <WizardBody>
+                <Formik initialValues={defaultFormValues} onSubmit={() => {}}>
+                  <ClusterRolesScreen />
+                </Formik>
+              </WizardBody>
+            </WizardStep>
+          </Wizard>
+        </div>
       </Wrapper>
     );
   }

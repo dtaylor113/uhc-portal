@@ -6,7 +6,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Wizard, WizardStep, WizardBody, Page, PageSection } from '@patternfly/react-core';
+import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
 
 import AccountsRolesScreen from './AccountsRolesScreen';
 import { baseRequestState } from '~/redux/reduxHelpers';
@@ -103,21 +103,17 @@ const StoryWrapper = ({
     // Show in wizard framework
     return (
       <Wrapper>
-        <Page>
-          <PageSection variant="default" hasBodyWrapper>
-            <div className="ocm-page">
-              <Wizard height="100%" width="100%" className="rosa-wizard">
-                <WizardStep name="Accounts and roles" id="accounts-and-roles">
-                  <WizardBody>
-                    <Formik initialValues={{}} onSubmit={() => {}}>
-                      <AccountsRolesScreen {...accountsRolesProps} />
-                    </Formik>
-                  </WizardBody>
-                </WizardStep>
-              </Wizard>
-            </div>
-          </PageSection>
-        </Page>
+        <div className="ocm-page" style={{ height: '100vh', padding: 0, margin: 0 }}>
+          <Wizard height="100%" width="100%" className="rosa-wizard">
+            <WizardStep name="Accounts and roles" id="accounts-and-roles">
+              <WizardBody>
+                <Formik initialValues={{}} onSubmit={() => {}}>
+                  <AccountsRolesScreen {...accountsRolesProps} />
+                </Formik>
+              </WizardBody>
+            </WizardStep>
+          </Wizard>
+        </div>
       </Wrapper>
     );
   }

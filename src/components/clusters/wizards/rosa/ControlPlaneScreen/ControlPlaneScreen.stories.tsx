@@ -6,7 +6,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Wizard, WizardStep, WizardBody, Page, PageSection } from '@patternfly/react-core';
+import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
 
 import ControlPlaneScreen from './ControlPlaneScreen';
 import { baseRequestState } from '~/redux/reduxHelpers';
@@ -54,21 +54,17 @@ const meta: Meta<typeof ControlPlaneScreen> = {
 
     return (
       <Wrapper>
-        <Page>
-          <PageSection variant="default" hasBodyWrapper>
-            <div className="ocm-page">
-              <Formik initialValues={{}} onSubmit={() => {}}>
-                <Wizard height="100%" width="100%" className="rosa-wizard">
-                  <WizardStep name="Control Plane" id="step1">
-                    <WizardBody>
-                      <ControlPlaneScreen {...args} />
-                    </WizardBody>
-                  </WizardStep>
-                </Wizard>
-              </Formik>
-            </div>
-          </PageSection>
-        </Page>
+        <div className="ocm-page" style={{ height: '100vh', padding: 0, margin: 0 }}>
+          <Formik initialValues={{}} onSubmit={() => {}}>
+            <Wizard height="100%" width="100%" className="rosa-wizard">
+              <WizardStep name="Control Plane" id="step1">
+                <WizardBody>
+                  <ControlPlaneScreen {...args} />
+                </WizardBody>
+              </WizardStep>
+            </Wizard>
+          </Formik>
+        </div>
       </Wrapper>
     );
   },
