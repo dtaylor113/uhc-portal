@@ -183,7 +183,10 @@ export const RosaHosted: Story = {
     getUserRoleResponse: {
       ...baseRequestState,
       fulfilled: true,
-      data: [{ aws_id: '123456789012' }],
+      data: [
+        { aws_id: '123456789012' }, // Matches first account in getAWSAccountIDsResponse
+        { aws_id: '987654321098' }, // Matches second account for completeness
+      ],
     },
     getAWSAccountRolesARNsResponse: {
       ...baseRequestState,
@@ -226,6 +229,40 @@ export const RosaClassic: Story = {
     ...baseArgs,
     isHypershiftEnabled: false,
     isHypershiftSelected: false,
+    getUserRoleResponse: {
+      ...baseRequestState,
+      fulfilled: true,
+      data: [
+        { aws_id: '123456789012' }, // Matches first account in getAWSAccountIDsResponse
+        { aws_id: '987654321098' }, // Matches second account for completeness
+      ],
+    },
+    getAWSAccountRolesARNsResponse: {
+      ...baseRequestState,
+      fulfilled: true,
+      data: [
+        {
+          prefix: 'ManagedOpenShift',
+          managedPolicies: false, // Classic ROSA: false for unmanaged policies
+          hcpManagedPolicies: false, // Classic ROSA doesn't use HCP managed policies
+          version: '4.14.15',
+          Installer: 'arn:aws:iam::123456789012:role/ManagedOpenShift-Installer-Role',
+          Support: 'arn:aws:iam::123456789012:role/ManagedOpenShift-Support-Role',
+          Worker: 'arn:aws:iam::123456789012:role/ManagedOpenShift-Worker-Role',
+          ControlPlane: 'arn:aws:iam::123456789012:role/ManagedOpenShift-ControlPlane-Role',
+        },
+        {
+          prefix: 'CustomRoles',
+          managedPolicies: false, // Classic ROSA: false for unmanaged policies
+          hcpManagedPolicies: false,
+          version: '4.14.15',
+          Installer: 'arn:aws:iam::123456789012:role/CustomRoles-Installer-Role',
+          Support: 'arn:aws:iam::123456789012:role/CustomRoles-Support-Role',
+          Worker: 'arn:aws:iam::123456789012:role/CustomRoles-Worker-Role',
+          ControlPlane: 'arn:aws:iam::123456789012:role/CustomRoles-ControlPlane-Role',
+        },
+      ],
+    },
   },
 };
 

@@ -547,7 +547,7 @@ export default meta;
 type Story = StoryObj<typeof StoryWrapper>;
 
 export const Default: Story = {
-  name: 'Hosted',
+  name: 'ROSA Hosted',
   args: {
     quotaScenario: 'full',
     hasExternalAuthCapability: true,
@@ -562,7 +562,7 @@ export const Default: Story = {
 };
 
 export const LimitedQuota: Story = {
-  name: 'Classic: AZ - No quota, No Ext. Auth',
+  name: 'ROSA Classic: No AZ quota, ext. auth not shown',
   args: {
     quotaScenario: 'limited',
     hasExternalAuthCapability: false, // Disable external auth capability

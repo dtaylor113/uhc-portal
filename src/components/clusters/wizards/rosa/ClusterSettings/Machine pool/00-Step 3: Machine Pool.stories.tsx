@@ -6,7 +6,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Wizard, WizardStep, WizardBody, Page, PageSection } from '@patternfly/react-core';
+import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
 
 import MachinePoolScreen from '../../MachinePoolScreen/MachinePoolScreen';
 import { baseRequestState } from '~/redux/reduxHelpers';
@@ -629,21 +629,17 @@ const StoryWrapper = ({
     // Show in wizard framework
     return (
       <Wrapper>
-        <Page>
-          <PageSection variant="default" hasBodyWrapper>
-            <div className="ocm-page">
-              <Wizard height="100%" width="100%" className="rosa-wizard">
-                <WizardStep name="Machine pool" id="machine-pool">
-                  <WizardBody>
-                    <Formik initialValues={formInitialValues} onSubmit={() => {}}>
-                      <MachinePoolScreen />
-                    </Formik>
-                  </WizardBody>
-                </WizardStep>
-              </Wizard>
-            </div>
-          </PageSection>
-        </Page>
+        <div className="ocm-page" style={{ height: '100vh', padding: 0, margin: 0 }}>
+          <Wizard height="100%" width="100%" className="rosa-wizard">
+            <WizardStep name="Machine pool" id="machine-pool">
+              <WizardBody>
+                <Formik initialValues={formInitialValues} onSubmit={() => {}}>
+                  <MachinePoolScreen />
+                </Formik>
+              </WizardBody>
+            </WizardStep>
+          </Wizard>
+        </div>
       </Wrapper>
     );
   }
@@ -818,23 +814,19 @@ export const NoQuotaAlert: Story = {
       <Wrapper>
         <Formik initialValues={formInitialValues} onSubmit={() => {}}>
           {args.showInWizardFramework ? (
-            <Wizard>
-              <WizardStep name="machine-pool" id="machine-pool">
-                <WizardBody>
-                  <Page>
-                    <PageSection>
-                      <MachinePoolScreen />
-                    </PageSection>
-                  </Page>
-                </WizardBody>
-              </WizardStep>
-            </Wizard>
+            <div className="ocm-page" style={{ height: '100vh', padding: 0, margin: 0 }}>
+              <Wizard height="100%" width="100%" className="rosa-wizard">
+                <WizardStep name="Machine pool" id="machine-pool">
+                  <WizardBody>
+                    <MachinePoolScreen />
+                  </WizardBody>
+                </WizardStep>
+              </Wizard>
+            </div>
           ) : (
-            <Page>
-              <PageSection>
-                <MachinePoolScreen />
-              </PageSection>
-            </Page>
+            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+              <MachinePoolScreen />
+            </div>
           )}
         </Formik>
       </Wrapper>
