@@ -163,6 +163,30 @@ const meta: Meta<typeof StoryWrapper> = {
   component: StoryWrapper,
   parameters: {
     layout: 'fullscreen',
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/ReviewClusterScreen/ReviewClusterScreen.jsx',
+      componentType: 'wizard-step',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isHypershift', 'isSubmitPending', 'hasValidationErrors'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'form-validation',
+        'async-submission',
+        'error-handling',
+        'navigation-blocking',
+        'summary-display',
+      ],
+      step: 7,
+      sharedWith: ['wizard'],
+      keyComponents: [
+        'ReviewClusterForm',
+        'ClusterConfigurationSummary',
+        'SubmitButton',
+        'ValidationErrorsDisplay',
+        'WizardNavigation',
+      ],
+      title: 'Review and Create Cluster',
+    },
     docs: {
       description: {
         component:

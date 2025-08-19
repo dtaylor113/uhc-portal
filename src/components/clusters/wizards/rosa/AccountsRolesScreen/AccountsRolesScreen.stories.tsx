@@ -133,6 +133,34 @@ const StoryWrapper = ({
 const meta: Meta<typeof StoryWrapper> = {
   title: 'Wizards/ROSA/Step 2: Accounts and Roles',
   component: StoryWrapper,
+  parameters: {
+    layout: 'fullscreen',
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/AccountsRolesScreen/AccountsRolesScreen.tsx',
+      componentType: 'wizard-step',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isHypershiftSelected', 'isHypershiftEnabled'],
+      featureFlagDependencies: ['hcp-use-unmanaged'],
+      behaviors: [
+        'async-validation',
+        'conditional-disable',
+        'form-reset-on-change',
+        'cross-field-dependencies',
+        'error-handling',
+      ],
+      step: 2,
+      sharedWith: ['wizard'],
+      keyComponents: [
+        'AWSAccountSelection',
+        'AWSBillingAccount',
+        'AccountRolesARNsSection',
+        'WelcomeMessage',
+        'PrerequisitesInfoBox',
+        'AssociateAWSAccountDrawer',
+      ],
+      title: 'AWS Accounts and Roles Configuration',
+    },
+  },
   argTypes: {
     showInWizardFramework: {
       control: 'boolean',
@@ -140,9 +168,6 @@ const meta: Meta<typeof StoryWrapper> = {
     },
   },
   render: (args) => <StoryWrapper {...args} />,
-  parameters: {
-    layout: 'fullscreen',
-  },
 };
 
 export default meta;

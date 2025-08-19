@@ -202,6 +202,30 @@ const meta: Meta<typeof StoryWrapper> = {
   component: StoryWrapper,
   parameters: {
     layout: 'fullscreen',
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/ClusterRolesScreen/ClusterRolesScreen.jsx',
+      componentType: 'wizard-step',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isHypershift', 'isMultiRegionEnabled', 'isAutoModeAvailable'],
+      featureFlagDependencies: ['multiregion-preview'],
+      behaviors: [
+        'async-validation',
+        'conditional-disable',
+        'form-reset-on-change',
+        'cross-field-dependencies',
+        'cli-command-generation',
+      ],
+      step: 5,
+      sharedWith: ['wizard'],
+      keyComponents: [
+        'CustomerOIDCConfiguration',
+        'CustomOperatorRoleNames',
+        'ToggleGroup',
+        'InstructionCommand',
+        'BackToAssociateAwsAccountLink',
+      ],
+      title: 'Cluster Roles and Policies Configuration',
+    },
     docs: {
       description: {
         component: `

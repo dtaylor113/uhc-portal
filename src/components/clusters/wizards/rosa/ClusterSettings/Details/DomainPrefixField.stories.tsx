@@ -164,6 +164,27 @@ const meta: Meta<typeof StoryWrapper> = {
   title: 'Wizards/ROSA/Step 3: Cluster settings/Details/DomainPrefixField',
   component: StoryWrapper,
   parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/form/RichInputField.tsx',
+      componentType: 'field',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['hasDomainPrefix', 'domainPrefixValidation', 'asyncValidation'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'checkbox-toggle',
+        'real-time-validation',
+        'async-validation',
+        'progressive-disclosure',
+      ],
+      sharedWith: ['wizard', 'cluster-details-step'],
+      keyComponents: [
+        'CheckboxField',
+        'RichInputField',
+        'domainPrefixValidation',
+        'domainPrefixAsyncValidation',
+      ],
+      title: 'Domain Prefix Field',
+    },
     docs: {
       description: {
         component: `

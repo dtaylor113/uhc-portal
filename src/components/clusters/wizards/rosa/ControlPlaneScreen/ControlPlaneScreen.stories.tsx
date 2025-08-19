@@ -48,6 +48,31 @@ const withState = (
 const meta: Meta<typeof ControlPlaneScreen> = {
   title: 'Wizards/ROSA/Step 1: Control Plane',
   component: ControlPlaneScreen,
+  parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/ControlPlaneScreen/ControlPlaneScreen.tsx',
+      componentType: 'wizard-step',
+      usage: ['Hosted'],
+      conditionalLogic: ['hasHostedProductQuota', 'isMultiRegionEnabled'],
+      featureFlagDependencies: ['multiregion-preview', 'quota'],
+      behaviors: [
+        'quota-enforcement',
+        'conditional-disable',
+        'form-reset-on-change',
+        'cross-field-dependencies',
+      ],
+      step: 1,
+      sharedWith: ['wizard'],
+      keyComponents: [
+        'HostedTile',
+        'StandAloneTile',
+        'WelcomeMessage',
+        'PrerequisitesInfoBox',
+        'RosaArchitectureRenamingAlert',
+      ],
+      title: 'Control Plane Architecture Selection',
+    },
+  },
   render: (args: any, { parameters }) => {
     const { initialState } = parameters;
     const { Wrapper } = withState(initialState);

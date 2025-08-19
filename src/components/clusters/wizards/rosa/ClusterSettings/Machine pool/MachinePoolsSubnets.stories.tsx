@@ -124,6 +124,22 @@ const meta: Meta<typeof MachinePoolsSubnets> = {
   title: 'Wizards/ROSA/Step 3: Cluster settings/Machine pool/MachinePoolsSubnets',
   component: MachinePoolsSubnets,
   parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/MachinePoolScreen/MachinePoolsSubnets.tsx',
+      componentType: 'form-section',
+      usage: ['Hosted'],
+      conditionalLogic: ['isHypershift', 'selectedVPC', 'machinePoolsSubnets.length <= 3'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'dynamic-form-fields',
+        'availability-zone-validation',
+        'vpc-dependency',
+        'high-availability-warnings',
+      ],
+      sharedWith: ['wizard', 'machine-pool-step'],
+      keyComponents: ['VPCDropdown', 'MachinePoolSubnetsForm', 'FieldArray', 'FormSubnet'],
+      title: 'Machine Pools Subnets Configuration',
+    },
     docs: {
       description: {
         component: `

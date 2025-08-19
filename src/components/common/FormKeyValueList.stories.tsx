@@ -11,6 +11,22 @@ const meta: Meta<typeof FormKeyValueList> = {
   title: 'Common/FormKeyValueList',
   component: FormKeyValueList,
   parameters: {
+    metadata: {
+      sourceFile: '~/components/common/FormikFormComponents/FormKeyValueList/FormKeyValueList.tsx',
+      componentType: 'field',
+      usage: ['Classic', 'Hosted', 'Day-2'],
+      conditionalLogic: ['keyValueValidation', 'uniqueKeyCheck', 'emptyStateHandling'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'dynamic-add-remove',
+        'kubernetes-validation',
+        'unique-key-enforcement',
+        'empty-state-handling',
+      ],
+      sharedWith: ['wizard', 'machine-pool-step', 'day-2-operations', 'node-labels'],
+      keyComponents: ['FieldArray', 'TextInputField', 'AddRemoveButtons', 'ValidationPopover'],
+      title: 'Key-Value List Form',
+    },
     docs: {
       description: {
         component: `

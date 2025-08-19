@@ -118,6 +118,30 @@ const meta: Meta<typeof StoryWrapper> = {
   component: StoryWrapper,
   parameters: {
     layout: 'fullscreen',
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/CIDRScreen/CIDRScreen.jsx',
+      componentType: 'wizard-step',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['multiAz', 'installToVpc', 'cidrDefaultValuesToggle'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'real-time-validation',
+        'conditional-alerts',
+        'default-value-toggle',
+        'cidr-overlap-detection',
+      ],
+      step: 4,
+      sharedWith: ['wizard'],
+      keyComponents: [
+        'CIDRDefaultValuesToggle',
+        'MachineCIDRField',
+        'ServiceCIDRField',
+        'PodCIDRField',
+        'HostPrefixField',
+        'VPCInstallationAlert',
+      ],
+      title: 'CIDR Ranges Configuration',
+    },
     docs: {
       description: {
         component: `

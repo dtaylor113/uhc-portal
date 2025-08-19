@@ -39,6 +39,22 @@ const meta: Meta<typeof StoryWrapper> = {
   title: 'Wizards/Common/ReviewSection',
   component: StoryWrapper,
   parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/common/ReviewSection/ReviewSection.tsx',
+      componentType: 'form-section',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['formValues', 'valueTransform', 'displayConditions'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'expandable-section',
+        'value-transformation',
+        'conditional-display',
+        'edit-navigation',
+      ],
+      sharedWith: ['wizard', 'review-step'],
+      keyComponents: ['ExpandableSection', 'ReviewItem', 'ValueTransform', 'EditStepLink'],
+      title: 'Review Section Display',
+    },
     docs: {
       description: {
         component:

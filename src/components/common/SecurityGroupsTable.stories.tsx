@@ -8,6 +8,18 @@ const meta: Meta<typeof SecurityGroupsTable> = {
   title: 'Wizards/Common/SecurityGroupsTable',
   component: SecurityGroupsTable,
   parameters: {
+    metadata: {
+      sourceFile:
+        '~/components/clusters/common/VPCScreen/SecurityGroupsTable/SecurityGroupsTable.tsx',
+      componentType: 'form-section',
+      usage: ['Classic'],
+      conditionalLogic: ['installToVpc', 'selectedVPC', 'securityGroupsValidation'],
+      featureFlagDependencies: [],
+      behaviors: ['vpc-dependent', 'table-selection', 'multi-select', 'role-based-assignment'],
+      sharedWith: ['wizard', 'vpc-configuration'],
+      keyComponents: ['SecurityGroupTable', 'RoleAssignment', 'MultiSelect', 'VPCDependency'],
+      title: 'Security Groups Table',
+    },
     docs: {
       description: {
         component:

@@ -175,6 +175,22 @@ const meta: Meta<typeof SubnetSelectField> = {
   title: 'Common/SubnetSelectField',
   component: SubnetSelectField,
   parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/common/VPCScreen/SubnetSelectField/SubnetSelectField.tsx',
+      componentType: 'field',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['selectedVPC', 'subnetType', 'availabilityZoneFilter'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'vpc-dependent',
+        'subnet-filtering',
+        'availability-zone-grouping',
+        'dropdown-selection',
+      ],
+      sharedWith: ['wizard', 'vpc-configuration', 'network-step'],
+      keyComponents: ['SubnetDropdown', 'SubnetFiltering', 'AvailabilityZoneGrouping', 'FormGroup'],
+      title: 'Subnet Selection Field',
+    },
     docs: {
       description: {
         component: `

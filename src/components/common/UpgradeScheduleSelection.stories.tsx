@@ -7,6 +7,24 @@ import UpgradeScheduleSelection from '~/components/clusters/common/Upgrades/Upgr
 const meta: Meta<typeof UpgradeScheduleSelection> = {
   title: 'Common/UpgradeScheduleSelection',
   component: UpgradeScheduleSelection,
+  parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/common/Upgrades/UpgradeScheduleSelection.tsx',
+      componentType: 'field',
+      usage: ['Classic', 'Hosted', 'Day-2'],
+      conditionalLogic: ['isHypershift', 'isDisabled', 'scheduleValidation'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'schedule-validation',
+        'time-zone-handling',
+        'dropdown-selection',
+        'cron-expression-generation',
+      ],
+      sharedWith: ['wizard', 'updates-step', 'day-2-operations'],
+      keyComponents: ['DayOfWeekDropdown', 'TimeDropdown', 'CronGenerator', 'FormGroup'],
+      title: 'Upgrade Schedule Selection',
+    },
+  },
   render: (args: any) => {
     return (
       <Formik

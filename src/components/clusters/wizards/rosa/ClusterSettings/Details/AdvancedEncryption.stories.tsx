@@ -91,6 +91,31 @@ const meta: Meta<typeof StoryWrapper> = {
   title: 'Wizards/ROSA/Step 3: Cluster settings/Details/AdvancedEncryption',
   component: StoryWrapper,
   parameters: {
+    metadata: {
+      sourceFile:
+        '~/components/clusters/wizards/rosa/ClusterSettings/Details/AWSCustomerManagedEncryption.tsx',
+      componentType: 'form-section',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isHypershift', 'customerManagedKey', 'etcdEncryption'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'progressive-disclosure',
+        'expandable-section',
+        'kms-validation',
+        'conditional-fields',
+        'alert-warnings',
+      ],
+      sharedWith: ['wizard', 'cluster-details-step'],
+      keyComponents: [
+        'AWSCustomerManagedEncryption',
+        'HCPEtcdEncryptionSection',
+        'RadioGroupField',
+        'TextInputField',
+        'CheckboxField',
+        'ExpandableSection',
+      ],
+      title: 'Advanced Encryption Configuration',
+    },
     docs: {
       description: {
         component: `

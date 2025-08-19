@@ -175,24 +175,30 @@ const StoryWrapper = ({
 const meta: Meta<typeof StoryWrapper> = {
   title: 'Wizards/ROSA/Step 6: Cluster updates',
   component: StoryWrapper,
-  argTypes: {
-    showInWizardFramework: {
-      control: 'boolean',
-      description: 'Show the step within the full wizard framework with left navigation panel',
-    },
-    hypershiftMode: {
-      control: 'boolean',
-      description: 'Enable Hypershift (ROSA Hosted) mode',
-    },
-    upgradePolicy: {
-      control: 'select',
-      options: ['manual', 'automatic'],
-      description: 'Upgrade policy selection',
-    },
-  },
-  render: (args) => <StoryWrapper {...args} />,
   parameters: {
     layout: 'fullscreen',
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/UpdatesScreen/UpdatesScreen.jsx',
+      componentType: 'wizard-step',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isHypershift', 'upgradePolicy === "automatic"'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'conditional-visibility',
+        'schedule-validation',
+        'form-reset-on-change',
+        'time-zone-handling',
+      ],
+      step: 6,
+      sharedWith: ['wizard'],
+      keyComponents: [
+        'UpgradeSettingsFields',
+        'UpgradeScheduleSelection',
+        'PodDisruptionBudgetGraceSelect',
+        'AutomaticUpgradeRadioButtons',
+      ],
+      title: 'Cluster Updates Configuration',
+    },
     docs: {
       description: {
         component: `
@@ -223,6 +229,22 @@ Step 6 of the ROSA wizard handles cluster update strategy configuration, includi
       },
     },
   },
+  argTypes: {
+    showInWizardFramework: {
+      control: 'boolean',
+      description: 'Show the step within the full wizard framework with left navigation panel',
+    },
+    hypershiftMode: {
+      control: 'boolean',
+      description: 'Enable Hypershift (ROSA Hosted) mode',
+    },
+    upgradePolicy: {
+      control: 'select',
+      options: ['manual', 'automatic'],
+      description: 'Upgrade policy selection',
+    },
+  },
+  render: (args) => <StoryWrapper {...args} />,
 };
 
 export default meta;

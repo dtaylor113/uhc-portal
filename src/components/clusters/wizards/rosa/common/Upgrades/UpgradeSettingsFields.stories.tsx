@@ -35,6 +35,29 @@ const withState = (
 const meta: Meta<typeof UpgradeSettingsFields> = {
   title: 'Wizards/ROSA/Common/Upgrades/UpgradeSettingsFields',
   component: UpgradeSettingsFields,
+  parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/common/Upgrades/UpgradeSettingsFields.tsx',
+      componentType: 'form-section',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isHypershift', 'upgradePolicy === "automatic"'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'conditional-visibility',
+        'schedule-validation',
+        'time-zone-handling',
+        'radio-button-selection',
+      ],
+      sharedWith: ['wizard', 'updates-step'],
+      keyComponents: [
+        'RadioButtons',
+        'UpgradeScheduleSelection',
+        'PodDisruptionBudgetGraceSelect',
+        'FormGroup',
+      ],
+      title: 'Upgrade Settings Configuration',
+    },
+  },
   render: (args: any) => {
     const { Wrapper } = withState({
       [FieldId.UpgradePolicy]: args.upgradePolicy || 'manual',

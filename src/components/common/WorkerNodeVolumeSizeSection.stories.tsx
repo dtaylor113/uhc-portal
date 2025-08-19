@@ -49,6 +49,23 @@ const meta: Meta<typeof WorkerNodeVolumeSizeSection> = {
   title: 'Common/WorkerNodeVolumeSizeSection',
   component: WorkerNodeVolumeSizeSection,
   parameters: {
+    metadata: {
+      sourceFile:
+        '~/components/clusters/wizards/rosa/MachinePoolScreen/components/WorkerNodeVolumeSizeSection/WorkerNodeVolumeSizeSection.tsx',
+      componentType: 'form-section',
+      usage: ['Classic', 'Hosted', 'Day-2'],
+      conditionalLogic: ['isHypershift', 'volumeSizeValidation', 'minVolumeSize'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'min-max-validation',
+        'hypershift-aware-minimums',
+        'number-input',
+        'unit-display',
+      ],
+      sharedWith: ['wizard', 'machine-pool-step', 'day-2-operations'],
+      keyComponents: ['NumberInputField', 'VolumeValidation', 'MinimumSizeCheck', 'FormGroup'],
+      title: 'Worker Node Volume Size Configuration',
+    },
     docs: {
       description: {
         component: `

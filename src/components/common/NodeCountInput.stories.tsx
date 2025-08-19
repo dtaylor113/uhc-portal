@@ -226,6 +226,22 @@ const meta: Meta<typeof NodeCountInput> = {
   component: NodeCountInput,
   parameters: {
     layout: 'centered',
+    metadata: {
+      sourceFile: '~/components/clusters/common/NodeCountInput/NodeCountInput.tsx',
+      componentType: 'field',
+      usage: ['Classic', 'Hosted', 'Day-2'],
+      conditionalLogic: ['isMultiAZ', 'hasQuota', 'nodeCountValidation'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'quota-enforcement',
+        'multi-az-calculation',
+        'real-time-validation',
+        'number-input',
+      ],
+      sharedWith: ['wizard', 'machine-pool-step', 'day-2-operations'],
+      keyComponents: ['NumberInputField', 'QuotaValidation', 'MultiAZCalculation', 'FormGroup'],
+      title: 'Node Count Input',
+    },
     docs: {
       description: {
         component: `

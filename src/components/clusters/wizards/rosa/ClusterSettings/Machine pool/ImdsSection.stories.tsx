@@ -45,6 +45,22 @@ const meta: Meta<typeof ImdsSection> = {
   title: 'Wizards/ROSA/Step 3: Cluster settings/Machine pool/ImdsSection',
   component: ImdsSection,
   parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/MachinePoolScreen/components/ImdsSection.tsx',
+      componentType: 'form-section',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isDisabled', 'clusterVersion', 'imdsType'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'version-dependent-features',
+        'conditional-disable',
+        'security-enhancement',
+        'radio-button-selection',
+      ],
+      sharedWith: ['wizard', 'machine-pool-step'],
+      keyComponents: ['RadioButtons', 'ImdsSectionHint', 'ImdsSectionAlert', 'FormGroup'],
+      title: 'Instance Metadata Service Configuration',
+    },
     docs: {
       description: {
         component: `

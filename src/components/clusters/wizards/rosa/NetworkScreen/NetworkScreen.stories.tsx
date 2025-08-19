@@ -185,6 +185,36 @@ const meta: Meta<typeof StoryWrapper> = {
   component: StoryWrapper,
   parameters: {
     layout: 'fullscreen',
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/NetworkScreen/NetworkScreen.jsx',
+      componentType: 'wizard-step',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: [
+        'isHypershift',
+        'clusterVersion >= 4.14',
+        'privateLinkSelected',
+        'forcePrivateLink',
+      ],
+      featureFlagDependencies: ['application-ingress'],
+      behaviors: [
+        'conditional-visibility',
+        'version-dependent-features',
+        'cross-field-dependencies',
+        'form-reset-on-change',
+      ],
+      step: 4,
+      sharedWith: ['wizard'],
+      keyComponents: [
+        'ClusterPrivacyRadioButtons',
+        'VPCConfigurationSection',
+        'PrivateLinkCheckbox',
+        'ClusterWideProxyCheckbox',
+        'ApplicationIngressSection',
+        'DefaultIngressFieldsFormik',
+        'PublicSubnetSelection',
+      ],
+      title: 'Network Configuration',
+    },
     docs: {
       description: {
         component: `

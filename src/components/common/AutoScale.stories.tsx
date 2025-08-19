@@ -92,6 +92,23 @@ const meta: Meta<typeof AutoScale> = {
   title: 'Common/AutoScale',
   component: AutoScale,
   parameters: {
+    metadata: {
+      sourceFile:
+        '~/components/clusters/wizards/common/ClusterSettings/MachinePool/AutoScale/AutoScale.tsx',
+      componentType: 'form-section',
+      usage: ['Classic', 'Hosted', 'Day-2'],
+      conditionalLogic: ['hasAutoscaleCapability', 'autoscalingEnabled', 'minMaxValidation'],
+      featureFlagDependencies: ['autoscaling'],
+      behaviors: [
+        'capability-dependent',
+        'checkbox-toggle',
+        'min-max-validation',
+        'conditional-visibility',
+      ],
+      sharedWith: ['wizard', 'machine-pool-step', 'day-2-operations'],
+      keyComponents: ['CheckboxField', 'NumberInputField', 'MinMaxValidation', 'CapabilityCheck'],
+      title: 'Autoscaling Configuration',
+    },
     docs: {
       description: {
         component: `

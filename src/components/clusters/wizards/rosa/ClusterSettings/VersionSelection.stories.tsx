@@ -157,6 +157,36 @@ const withState = (
 const meta: Meta<typeof VersionSelection> = {
   title: 'Wizards/ROSA/Step 3: Cluster settings/Details/VersionSelection',
   component: VersionSelection,
+  parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/ClusterSettings/VersionSelection.tsx',
+      componentType: 'field',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: [
+        'isHypershift',
+        'unstableVersionsEnabled',
+        'rosaMaxOsVersion',
+        'arnCompatibility',
+      ],
+      featureFlagDependencies: ['ocmui-unstable-cluster-versions'],
+      behaviors: [
+        'version-filtering',
+        'arn-compatibility-check',
+        'grouping-by-support-level',
+        'default-selection',
+        'async-loading',
+      ],
+      sharedWith: ['wizard', 'cluster-details-step'],
+      keyComponents: [
+        'VersionDropdown',
+        'VersionGrouping',
+        'CompatibilityCheck',
+        'LoadingState',
+        'ErrorAlert',
+      ],
+      title: 'OpenShift Version Selection',
+    },
+  },
   render: (args: any, { parameters }: any) => {
     const { Wrapper } = withState({
       userProfile: {

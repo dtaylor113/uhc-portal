@@ -91,6 +91,25 @@ const withState = (
 const meta: Meta<typeof CloudRegionSelectField> = {
   title: 'Wizards/Common/CloudRegionSelectField',
   component: CloudRegionSelectField,
+  parameters: {
+    metadata: {
+      sourceFile:
+        '~/components/clusters/wizards/common/ClusterSettings/Details/CloudRegionSelectField/index.tsx',
+      componentType: 'field',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isHypershift', 'isMultiAZ', 'supportsHypershift', 'supportsMultiAz'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'region-filtering',
+        'hypershift-compatibility-check',
+        'multi-az-support-check',
+        'dropdown-selection',
+      ],
+      sharedWith: ['wizard', 'cluster-details-step'],
+      keyComponents: ['RegionDropdown', 'RegionFiltering', 'CompatibilityCheck', 'FormGroup'],
+      title: 'Cloud Region Selection',
+    },
+  },
   render: (args: any) => {
     const { Wrapper } = withState({
       cloudProviders: {

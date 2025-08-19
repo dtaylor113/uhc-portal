@@ -7,6 +7,24 @@ import PodDistruptionBudgetGraceSelect from '~/components/clusters/common/Upgrad
 const meta: Meta<typeof PodDistruptionBudgetGraceSelect> = {
   title: 'Common/PodDistruptionBudgetGraceSelect',
   component: PodDistruptionBudgetGraceSelect,
+  parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/common/Upgrades/PodDistruptionBudgetGraceSelect.tsx',
+      componentType: 'field',
+      usage: ['Classic'],
+      conditionalLogic: ['!isHypershift', 'upgradePolicy === "automatic"'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'classic-only',
+        'dropdown-selection',
+        'grace-period-validation',
+        'conditional-visibility',
+      ],
+      sharedWith: ['wizard', 'updates-step'],
+      keyComponents: ['FormSelectField', 'GracePeriodOptions', 'FormGroup'],
+      title: 'Pod Disruption Budget Grace Period',
+    },
+  },
   render: (args: any) => {
     return (
       <Formik

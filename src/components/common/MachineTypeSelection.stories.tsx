@@ -566,6 +566,30 @@ const meta: Meta<typeof MachineTypeSelection> = {
   title: 'Common/MachineTypeSelection',
   component: MachineTypeSelection,
   parameters: {
+    metadata: {
+      sourceFile:
+        '~/components/clusters/common/ScaleSection/MachineTypeSelection/MachineTypeSelection.tsx',
+      componentType: 'field',
+      usage: ['Classic', 'Hosted', 'Day-2'],
+      conditionalLogic: ['hasQuota', 'showUnavailableTypes', 'machineTypeCategory'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'quota-enforcement',
+        'category-filtering',
+        'availability-toggle',
+        'dropdown-selection',
+        'real-time-validation',
+      ],
+      sharedWith: ['wizard', 'machine-pool-step', 'day-2-operations'],
+      keyComponents: [
+        'MachineTypeDropdown',
+        'CategoryFilter',
+        'AvailabilityToggle',
+        'QuotaValidation',
+        'MachineTypeCard',
+      ],
+      title: 'Machine Type Selection',
+    },
     docs: {
       description: {
         component: `

@@ -112,6 +112,28 @@ const meta: Meta<typeof StoryWrapper> = {
   title: 'Wizards/ROSA/Step 3: Cluster settings/Details/ExternalAuthentication',
   component: StoryWrapper,
   parameters: {
+    metadata: {
+      sourceFile:
+        '~/components/clusters/wizards/rosa/ClusterSettings/Details/EnableExternalAuthentication.tsx',
+      componentType: 'form-section',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['hasExternalAuthCapability', 'isHypershift', 'externalAuthEnabled'],
+      featureFlagDependencies: ['external-authentication-oidc'],
+      behaviors: [
+        'capability-dependent',
+        'expandable-section',
+        'conditional-visibility',
+        'progressive-disclosure',
+      ],
+      sharedWith: ['wizard', 'cluster-details-step'],
+      keyComponents: [
+        'EnableExternalAuthentication',
+        'ExpandableSection',
+        'CheckboxField',
+        'CapabilityCheck',
+      ],
+      title: 'External Authentication Configuration',
+    },
     docs: {
       description: {
         component: `

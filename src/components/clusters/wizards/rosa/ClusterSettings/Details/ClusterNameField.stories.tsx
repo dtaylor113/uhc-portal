@@ -141,6 +141,27 @@ const meta: Meta<typeof StoryWrapper> = {
   title: 'Wizards/ROSA/Step 3: Cluster settings/Details/ClusterNameField',
   component: StoryWrapper,
   parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/form/RichInputField.tsx',
+      componentType: 'field',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isMultiRegion', 'clusterNameValidation', 'asyncValidation'],
+      featureFlagDependencies: ['multiregion-preview'],
+      behaviors: [
+        'real-time-validation',
+        'async-validation',
+        'progressive-disclosure',
+        'cross-field-dependencies',
+      ],
+      sharedWith: ['wizard', 'cluster-details-step'],
+      keyComponents: [
+        'RichInputField',
+        'clusterNameValidation',
+        'clusterNameAsyncValidation',
+        'FormGroup',
+      ],
+      title: 'Cluster Name Input Field',
+    },
     docs: {
       description: {
         component: `

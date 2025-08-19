@@ -8,6 +8,22 @@ const meta: Meta<typeof AwsVpcTable> = {
   title: 'Wizards/Common/AwsVpcTable',
   component: AwsVpcTable,
   parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/common/VPCScreen/AwsVpcTable/AwsVpcTable.tsx',
+      componentType: 'form-section',
+      usage: ['Classic'],
+      conditionalLogic: ['installToVpc', 'vpcSelection', 'subnetValidation'],
+      featureFlagDependencies: [],
+      behaviors: [
+        'table-selection',
+        'vpc-filtering',
+        'subnet-validation',
+        'conditional-visibility',
+      ],
+      sharedWith: ['wizard', 'vpc-configuration'],
+      keyComponents: ['VPCTable', 'VPCSelection', 'SubnetValidation', 'TableFiltering'],
+      title: 'AWS VPC Table Selection',
+    },
     docs: {
       description: {
         component:

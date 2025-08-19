@@ -121,6 +121,26 @@ const meta: Meta<typeof DefaultIngressFieldsFormik> = {
   title: 'Common/DefaultIngressFields',
   component: DefaultIngressFieldsFormik,
   parameters: {
+    metadata: {
+      sourceFile: '~/components/clusters/common/IngressFields/DefaultIngressFieldsFormik.tsx',
+      componentType: 'form-section',
+      usage: ['Classic'],
+      conditionalLogic: [
+        '!isHypershift',
+        'clusterVersion >= 4.14',
+        'applicationIngress === "custom"',
+      ],
+      featureFlagDependencies: ['application-ingress'],
+      behaviors: [
+        'classic-only',
+        'version-dependent-features',
+        'conditional-visibility',
+        'progressive-disclosure',
+      ],
+      sharedWith: ['wizard', 'network-step'],
+      keyComponents: ['DefaultIngressFields', 'IngressConfiguration', 'FormGroup', 'VersionCheck'],
+      title: 'Default Ingress Fields Configuration',
+    },
     docs: {
       description: {
         component: `

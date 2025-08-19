@@ -659,27 +659,35 @@ const StoryWrapper = ({
 const meta: Meta<typeof StoryWrapper> = {
   title: 'Wizards/ROSA/Step 3: Cluster settings/Machine pool/- Step 3: Machine Pool -',
   component: StoryWrapper,
-  argTypes: {
-    showInWizardFramework: {
-      control: 'boolean',
-      description: 'Show the step within the full wizard framework with left navigation panel',
-    },
-    hypershiftMode: {
-      control: 'boolean',
-      description: 'Enable Hypershift (ROSA Hosted) mode',
-    },
-    multiAz: {
-      control: 'boolean',
-      description: 'Enable Multi-AZ configuration',
-    },
-    withNodeLabels: {
-      control: 'boolean',
-      description: 'Pre-populate with sample node labels',
-    },
-  },
-  render: (args) => <StoryWrapper {...args} />,
   parameters: {
     layout: 'fullscreen',
+    metadata: {
+      sourceFile: '~/components/clusters/wizards/rosa/MachinePoolScreen/MachinePoolScreen.jsx',
+      componentType: 'wizard-step',
+      usage: ['Classic', 'Hosted'],
+      conditionalLogic: ['isHypershift', 'isMultiAZ', 'isAutoscalingEnabled', 'hasQuota'],
+      featureFlagDependencies: ['autoscaling'],
+      behaviors: [
+        'quota-enforcement',
+        'conditional-disable',
+        'form-reset-on-change',
+        'cross-field-dependencies',
+        'async-validation',
+      ],
+      step: 3,
+      sharedWith: ['wizard'],
+      keyComponents: [
+        'MachinePoolScreenHeader',
+        'MachinePoolsSubnets',
+        'MachineTypeSelection',
+        'NodeCountInput',
+        'AutoScale',
+        'WorkerNodeVolumeSizeSection',
+        'FormKeyValueList',
+        'ImdsSection',
+      ],
+      title: 'Machine Pool Configuration',
+    },
     docs: {
       description: {
         component: `
@@ -710,6 +718,25 @@ Step 3 of the ROSA wizard handles machine pool configuration, including compute 
       },
     },
   },
+  argTypes: {
+    showInWizardFramework: {
+      control: 'boolean',
+      description: 'Show the step within the full wizard framework with left navigation panel',
+    },
+    hypershiftMode: {
+      control: 'boolean',
+      description: 'Enable Hypershift (ROSA Hosted) mode',
+    },
+    multiAz: {
+      control: 'boolean',
+      description: 'Enable Multi-AZ configuration',
+    },
+    withNodeLabels: {
+      control: 'boolean',
+      description: 'Pre-populate with sample node labels',
+    },
+  },
+  render: (args) => <StoryWrapper {...args} />,
 };
 
 export default meta;
