@@ -13,7 +13,7 @@ import { baseRequestState } from '~/redux/reduxHelpers';
 import { normalizedProducts } from '~/common/subscriptionTypes';
 import {
   RelatedResourceBilling_model as RelatedResourceBillingModel,
-  SubscriptionCommonFieldsCluster_billing_model as SubscriptionCommonFieldsClusterBillingModel,
+  // SubscriptionCommonFieldsCluster_billing_model as SubscriptionCommonFieldsClusterBillingModel, // Unused
 } from '~/types/accounts_mgmt.v1';
 
 import '../createROSAWizard.scss';

@@ -7,7 +7,10 @@ import { Form } from '@patternfly/react-core';
 import { DefaultIngressFieldsFormik } from '~/components/clusters/wizards/rosa/NetworkScreen/DefaultIngressFieldsFormik';
 
 // Mock form state hook for stories
-const useFormStateMock = (initialValues: any) => ({
+// Mock form state hook for stories - keeping for potential future use
+// @ts-ignore - Unused but kept for future use
+// eslint-disable-next-line
+const _useFormStateMock = (initialValues: any) => ({
   getFieldProps: (name: string) => ({
     name,
     value: initialValues[name] || '',

@@ -3,7 +3,7 @@ import { Formik, Field, FieldProps } from 'formik';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { FormGroup } from '@patternfly/react-core';
+// import { FormGroup } from '@patternfly/react-core'; // Unused
 
 import type { Meta, StoryObj } from '@storybook/react';
 import configureStore from 'redux-mock-store';
@@ -13,8 +13,8 @@ import { RichInputField } from '~/components/clusters/wizards/form';
 import { constants } from '~/components/clusters/common/CreateOSDFormConstants';
 import {
   clusterNameValidation,
-  clusterNameAsyncValidation,
-  createPessimisticValidator,
+  // clusterNameAsyncValidation, // Unused
+  // createPessimisticValidator, // Unused
 } from '~/common/validators';
 
 // Create a query client for React Query

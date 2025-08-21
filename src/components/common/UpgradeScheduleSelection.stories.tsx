@@ -59,7 +59,10 @@ type Story = StoryObj<typeof UpgradeScheduleSelection>;
 export const Default: Story = {
   name: 'ROSA Classic Schedule',
   args: {
-    initialValue: '0 14 * * 2', // Tuesday at 2 PM UTC
+    input: {
+      value: '0 14 * * 2', // Tuesday at 2 PM UTC
+      onChange: (cron: string) => console.log('Schedule changed:', cron),
+    },
     isHypershift: false,
     isDisabled: false,
   },
@@ -135,7 +138,10 @@ export const Default: Story = {
 export const HypershiftMode: Story = {
   name: 'ROSA Hosted Schedule',
   args: {
-    initialValue: '0 10 * * 5', // Friday at 10 AM UTC
+    input: {
+      value: '0 10 * * 5', // Friday at 10 AM UTC
+      onChange: (cron: string) => console.log('Schedule changed:', cron),
+    },
     isHypershift: true,
     isDisabled: false,
   },
@@ -211,7 +217,10 @@ export const HypershiftMode: Story = {
 export const CustomSchedule: Story = {
   name: 'Custom Schedule (Read-only)',
   args: {
-    initialValue: '0 3 15 * *', // Invalid format for UI - monthly on 15th
+    input: {
+      value: '0 3 15 * *', // Invalid format for UI - monthly on 15th
+      onChange: (cron: string) => console.log('Schedule changed:', cron),
+    },
     isHypershift: false,
     isDisabled: false,
   },
@@ -287,7 +296,10 @@ export const CustomSchedule: Story = {
 export const Disabled: Story = {
   name: 'Disabled state',
   args: {
-    initialValue: '0 8 * * 1', // Monday at 8 AM UTC
+    input: {
+      value: '0 8 * * 1', // Monday at 8 AM UTC
+      onChange: (cron: string) => console.log('Schedule changed:', cron),
+    },
     isHypershift: false,
     isDisabled: true,
   },

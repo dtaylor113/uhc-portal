@@ -86,27 +86,27 @@ const mockVpcSecurityGroups: SecurityGroup[] = [
   {
     id: 'sg-control123',
     name: 'ROSA-Control-Plane-SG',
-    description: 'Security group for ROSA control plane nodes',
+    // description: 'Security group for ROSA control plane nodes', // Not part of SecurityGroup type
   },
   {
     id: 'sg-worker456',
     name: 'ROSA-Worker-SG',
-    description: 'Security group for ROSA worker nodes',
+    // description: 'Security group for ROSA worker nodes', // Not part of SecurityGroup type
   },
   {
     id: 'sg-infra789',
     name: 'ROSA-Infrastructure-SG',
-    description: 'Security group for ROSA infrastructure nodes',
+    // description: 'Security group for ROSA infrastructure nodes', // Not part of SecurityGroup type
   },
   {
     id: 'sg-default012',
     name: 'Default VPC Security Group',
-    description: 'Default security group for the VPC',
+    // description: 'Default security group for the VPC', // Not part of SecurityGroup type
   },
   {
     id: 'sg-custom345',
     name: 'Custom Application SG',
-    description: 'Custom security group for applications',
+    // description: 'Custom security group for applications', // Not part of SecurityGroup type
   },
 ] as SecurityGroup[];
 
@@ -203,22 +203,22 @@ export const MixedConfiguration: Story = {
       {
         id: 'sg-shared001',
         name: 'Shared Security Group',
-        description: 'Used across multiple node types',
+        // description: 'Used across multiple node types', // Not part of SecurityGroup type
       },
       {
         id: 'sg-control002',
         name: 'Control Plane Specific',
-        description: 'Only for control plane nodes',
+        // description: 'Only for control plane nodes', // Not part of SecurityGroup type
       },
       {
         id: 'sg-compute003',
         name: 'Compute Nodes SG',
-        description: 'For worker and infra nodes',
+        // description: 'For worker and infra nodes', // Not part of SecurityGroup type
       },
       {
         id: 'sg-external004',
         name: 'External Access SG',
-        description: 'Allows external traffic',
+        // description: 'Allows external traffic', // Not part of SecurityGroup type
       },
     ] as SecurityGroup[],
     formGroups: {

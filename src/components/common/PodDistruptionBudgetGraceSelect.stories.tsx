@@ -58,7 +58,10 @@ type Story = StoryObj<typeof PodDistruptionBudgetGraceSelect>;
 export const Default: Story = {
   name: 'Default (1 hour)',
   args: {
-    initialValue: 60,
+    input: {
+      value: 60,
+      onChange: (value: number) => console.log('Changed to:', value),
+    },
     isDisabled: false,
   },
   render: (args: any) => {
@@ -132,7 +135,10 @@ export const Default: Story = {
 export const Disabled: Story = {
   name: 'Disabled state',
   args: {
-    initialValue: 60,
+    input: {
+      value: 60,
+      onChange: (value: number) => console.log('Changed to:', value),
+    },
     isDisabled: true,
   },
   render: (args: any) => {

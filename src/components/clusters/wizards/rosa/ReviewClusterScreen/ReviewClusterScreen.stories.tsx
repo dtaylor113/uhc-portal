@@ -19,7 +19,7 @@ const withState = (
   store: MockStoreEnhanced<unknown, any>;
   Wrapper: React.FC<{ children: React.ReactNode }>;
 } => {
-  const middlewares = [thunk, promiseMiddleware];
+  const middlewares = [thunk, promiseMiddleware] as any[];
   const mockStore = createMockStore(middlewares);
   const store = mockStore({
     userProfile: {
@@ -51,10 +51,17 @@ const withState = (
     currentStepIndex: 6,
     goToStepByIndex: (index: number) => console.log(`Navigate to step ${index}`),
     goToStepById: (stepId: string) => console.log(`Navigate to step ${stepId}`),
+    goToStepByName: (stepName: string) => console.log(`Navigate to step ${stepName}`),
     goToNextStep: () => console.log('Go to next step'),
     goToPrevStep: () => console.log('Go to previous step'),
     close: () => console.log('Close wizard'),
-  };
+    footer: null,
+    setFooter: () => {},
+    getStep: () => null,
+    hasBodyPadding: true,
+    height: undefined,
+    width: undefined,
+  } as any;
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => (
     <Provider store={store}>

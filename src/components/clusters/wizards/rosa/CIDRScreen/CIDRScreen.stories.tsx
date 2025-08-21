@@ -10,7 +10,7 @@ import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
 
 import CIDRScreen from './CIDRScreen';
 import { initialValues } from '../constants';
-import { baseRequestState } from '~/redux/reduxHelpers';
+// import { baseRequestState } from '~/redux/reduxHelpers'; // Unused
 import {
   MACHINE_CIDR_DEFAULT,
   SERVICE_CIDR_DEFAULT,
@@ -24,7 +24,7 @@ const withState = (
 ): {
   Wrapper: React.FC<{ children: React.ReactNode }>;
 } => {
-  const middlewares = [thunk, promiseMiddleware];
+  const middlewares = [thunk, promiseMiddleware] as any[];
   const mockStore = createMockStore(middlewares);
 
   const store: MockStoreEnhanced<unknown, {}> = mockStore({

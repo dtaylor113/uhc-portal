@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Formik } from 'formik';
+// import { Formik } from 'formik'; // Unused
 import { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { Form } from '@patternfly/react-core';
@@ -145,18 +145,20 @@ const SubnetSelectFieldWrapper = ({
       <SubnetSelectField
         name="subnet_id"
         label={label}
-        input={{
-          name: 'subnet_id',
-          value: value,
-          onChange: (subnetId: string | undefined) => {
-            setValue(subnetId || '');
-            action('subnet-changed')(subnetId);
-          },
-          onBlur: () => {
-            setTouched(true);
-            action('subnet-blurred')();
-          },
-        }}
+        input={
+          {
+            name: 'subnet_id',
+            value: value,
+            onChange: (subnetId: string | undefined) => {
+              setValue(subnetId || '');
+              action('subnet-changed')(subnetId);
+            },
+            onBlur: () => {
+              setTouched(true);
+              action('subnet-blurred')();
+            },
+          } as any
+        }
         meta={{
           error: isRequired && !value ? 'Subnet is required' : undefined,
           touched: touched,
