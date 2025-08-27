@@ -1,3 +1,10 @@
+<!--
+Documentation for Storybook stories
+This file provides comprehensive alert documentation for the Overview component stories
+The Overview stories reference this documentation to understand complex alert behavior and conditions
+Used by: Overview.stories.tsx for alert state scenarios and component documentation
+-->
+
 # Cluster Details Alerts Documentation
 
 This document describes all the alerts that can appear on the Cluster Details Overview page and their trigger conditions.

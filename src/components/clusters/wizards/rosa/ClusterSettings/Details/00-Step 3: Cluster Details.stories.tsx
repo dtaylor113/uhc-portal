@@ -1,11 +1,11 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
-
-import type { Meta, StoryObj } from '@storybook/react';
 import configureStore from 'redux-mock-store';
+
+import { Wizard, WizardBody, WizardStep } from '@patternfly/react-core';
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Commented out unused imports
 // import { normalizedProducts } from '~/common/subscriptionTypes';
@@ -15,11 +15,12 @@ import configureStore from 'redux-mock-store';
 // import { availableQuota } from '~/components/clusters/common/quotaSelectors';
 import { emptyAWSSubnet } from '~/components/clusters/wizards/common/constants';
 import { FieldId } from '~/components/clusters/wizards/rosa/constants';
-import { SubscriptionCommonFieldsCluster_billing_model as SubscriptionCommonFieldsClusterBillingModel } from '~/types/accounts_mgmt.v1';
-import type { QuotaCostList } from '~/types/accounts_mgmt.v1';
 import { MULTIREGION_PREVIEW_ENABLED } from '~/queries/featureGates/featureConstants';
+import type { QuotaCostList } from '~/types/accounts_mgmt.v1';
+import { SubscriptionCommonFieldsCluster_billing_model as SubscriptionCommonFieldsClusterBillingModel } from '~/types/accounts_mgmt.v1';
 
 import Details from './Details';
+
 import '../../createROSAWizard.scss';
 
 // Create a query client for React Query with pre-populated feature gate data

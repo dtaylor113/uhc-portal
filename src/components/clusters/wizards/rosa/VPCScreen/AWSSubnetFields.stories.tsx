@@ -1,14 +1,15 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Form, Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
-import { Grid } from '@patternfly/react-core';
+import { thunk } from 'redux-thunk';
 
-import { FieldId } from '~/components/clusters/wizards/rosa/constants';
+import { Grid } from '@patternfly/react-core';
+import type { Meta, StoryObj } from '@storybook/react';
+
 import { emptyAWSSubnet } from '~/components/clusters/wizards/common/constants';
+import { FieldId } from '~/components/clusters/wizards/rosa/constants';
 import { CloudVpc } from '~/types/clusters_mgmt.v1';
 
 import AWSSubnetFields from './AWSSubnetFields';
@@ -85,17 +86,17 @@ const mockVPCWithMultiAZSubnets: CloudVpc = {
     {
       id: 'sg-default-123',
       name: 'default',
-      description: 'Default VPC security group',
+      // description: 'Default VPC security group', // Not part of SecurityGroup type
     },
     {
       id: 'sg-web-456',
       name: 'web-servers',
-      description: 'Security group for web servers',
+      // description: 'Security group for web servers', // Not part of SecurityGroup type
     },
     {
       id: 'sg-db-789',
       name: 'database',
-      description: 'Security group for database servers',
+      // description: 'Security group for database servers', // Not part of SecurityGroup type
     },
   ],
 };
@@ -127,7 +128,7 @@ const mockVPCSingleAZ: CloudVpc = {
     {
       id: 'sg-default-single',
       name: 'default',
-      description: 'Default VPC security group',
+      // description: 'Default VPC security group', // Not part of SecurityGroup type
     },
   ],
 };

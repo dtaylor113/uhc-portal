@@ -2,14 +2,16 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
+
 import { Form } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { IMDSType } from '~/components/clusters/wizards/common/constants';
 
 import ImdsSection from '../../MachinePoolScreen/components/ImdsSection';
-import { IMDSType } from '~/components/clusters/wizards/common/constants';
 
 const withState = (
   initialValues: any,
@@ -124,54 +126,51 @@ export const Default: Story = {
   parameters: {
     initialValues: baseInitialValues,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Default IMDS Configuration
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Mode:</strong> Both IMDSv1 and IMDSv2 enabled
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Selection enabled for all
-              versions
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Interaction:</strong> Click radio buttons to
-              change IMDS version
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Backward compatibility with
-              existing workloads
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          {meta.render!(args, { parameters: { initialValues: baseInitialValues } } as any)}
+          Default IMDS Configuration
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Mode:</strong> Both IMDSv1 and IMDSv2 enabled
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Selection enabled for all versions
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Interaction:</strong> Click radio buttons to change
+            IMDS version
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Backward compatibility with
+            existing workloads
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        {meta.render!(args, { parameters: { initialValues: baseInitialValues } } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const V2OnlySelected: Story = {
@@ -187,55 +186,53 @@ export const V2OnlySelected: Story = {
       imds: IMDSType.V2Only,
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Enhanced Security Mode (IMDSv2 Only)
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Mode:</strong> IMDSv2 only (session-oriented)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Security:</strong> Enhanced metadata service
-              security
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Interaction:</strong> Pre-selected for security
-              compliance
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Security-focused deployments
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          {meta.render!(args, {
-            parameters: { initialValues: { ...baseInitialValues, imds: IMDSType.V2Only } },
-          } as any)}
+          Enhanced Security Mode (IMDSv2 Only)
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Mode:</strong> IMDSv2 only (session-oriented)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Security:</strong> Enhanced metadata service
+            security
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Interaction:</strong> Pre-selected for security
+            compliance
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Security-focused deployments
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        {meta.render!(args, {
+          parameters: { initialValues: { ...baseInitialValues, imds: IMDSType.V2Only } },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const DisabledForOlderClusterVersion: Story = {
@@ -248,51 +245,49 @@ export const DisabledForOlderClusterVersion: Story = {
   parameters: {
     initialValues: baseInitialValues,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            IMDS Selection Disabled (Older Cluster Version)
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Mode:</strong> Forced to IMDSv1 and IMDSv2
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Constraint:</strong> Cluster version doesn't
-              support IMDSv2-only
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Visibility:</strong> Alert shown instead of radio
-              buttons
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Legacy cluster versions
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          {meta.render!(args, { parameters: { initialValues: baseInitialValues } } as any)}
+          IMDS Selection Disabled (Older Cluster Version)
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Mode:</strong> Forced to IMDSv1 and IMDSv2
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Constraint:</strong> Cluster version doesn't
+            support IMDSv2-only
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Visibility:</strong> Alert shown instead of radio
+            buttons
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Legacy cluster versions
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        {meta.render!(args, { parameters: { initialValues: baseInitialValues } } as any)}
+      </div>
+    </div>
+  ),
 };

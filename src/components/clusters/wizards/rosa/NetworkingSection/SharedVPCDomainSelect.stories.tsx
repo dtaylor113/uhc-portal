@@ -1,10 +1,11 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Form, Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
+import { thunk } from 'redux-thunk';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 import SharedVPCDomainSelect from './SharedVPCDomainSelect';
 
@@ -171,11 +172,14 @@ const StoryWrapper = ({
           label={label}
           input={{
             value: selectedDomain || '',
-            onChange: (value: string) => console.log('Domain changed:', value),
+            onChange: (e: any) =>
+              console.log('Domain changed:', typeof e === 'string' ? e : e.target.value),
             onBlur: () => {},
             name: 'base_dns_domain',
           }}
           meta={{
+            value: selectedDomain || '',
+            initialTouched: false,
             touched: showValidationError || false,
             error: showValidationError ? 'This field is required.' : '',
           }}
@@ -565,7 +569,7 @@ export const CreationError: Story = {
       createdDnsId: '',
       deletedDnsId: '',
       items: mockDnsDomains,
-      errorMessage: 'Failed to create DNS domain. Please try again.',
+      // errorMessage: 'Failed to create DNS domain. Please try again.', // Not part of the expected type
     },
     showValidationError: false,
   },

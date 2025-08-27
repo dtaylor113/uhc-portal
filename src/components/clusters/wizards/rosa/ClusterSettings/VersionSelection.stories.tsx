@@ -1,14 +1,14 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-// import { FormGroup } from '@patternfly/react-core'; // Unused
-
-import type { Meta, StoryObj } from '@storybook/react';
 import configureStore from 'redux-mock-store';
 
+// import { FormGroup } from '@patternfly/react-core'; // Unused
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { FieldId } from '../constants';
+
 import VersionSelection from './VersionSelection';
 
 // Create a query client for React Query
@@ -143,13 +143,11 @@ const withState = (
     },
   });
 
-  const Wrapper = ({ children }: { children: React.ReactNode }) => {
-    return (
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-      </Provider>
-    );
-  };
+  const Wrapper = ({ children }: { children: React.ReactNode }) => (
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </Provider>
+  );
 
   return { store, Wrapper };
 };

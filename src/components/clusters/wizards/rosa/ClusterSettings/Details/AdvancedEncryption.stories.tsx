@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-import { ExpandableSection, Grid } from '@patternfly/react-core';
-
-import type { Meta, StoryObj } from '@storybook/react';
 import configureStore from 'redux-mock-store';
 
+import { ExpandableSection, Grid } from '@patternfly/react-core';
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { FieldId } from '~/components/clusters/wizards/rosa/constants';
+
 import { AWSCustomerManagedEncryption } from './AWSCustomerManagedEncryption';
 import { HCPEtcdEncryptionSection } from './HCPEtcdEncryptionSection';
 
@@ -167,53 +167,51 @@ export const Default: Story = {
     initialEtcdEncryption: false,
     isInitiallyExpanded: true,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Default Advanced Encryption
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Default KMS keys selected, no
-              etcd encryption
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Interaction:</strong> Select "Use custom KMS
-              keys" to see Key ARN field appear
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>etcd:</strong> Check "Encrypt etcd with custom
-              KMS key" to reveal etcd Key ARN field
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Interactive demonstration of
-              all encryption options
-            </p>
-          </div>
+          Default Advanced Encryption
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Default KMS keys selected, no etcd
+            encryption
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Interaction:</strong> Select "Use custom KMS keys"
+            to see Key ARN field appear
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>etcd:</strong> Check "Encrypt etcd with custom KMS
+            key" to reveal etcd Key ARN field
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Interactive demonstration of all
+            encryption options
+          </p>
         </div>
-
-        <StoryWrapper {...args} />
       </div>
-    );
-  },
+
+      <StoryWrapper {...args} />
+    </div>
+  ),
 };
 
 export const ClassicMode: Story = {
@@ -224,50 +222,48 @@ export const ClassicMode: Story = {
     initialEtcdEncryption: false,
     isInitiallyExpanded: true,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Classic ROSA Encryption Options
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Mode:</strong> Classic ROSA (not Hypershift)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Available:</strong> Only AWS customer-managed
-              encryption
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Hidden:</strong> etcd encryption options
-              (Hypershift-only feature)
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Standard ROSA deployment
-              encryption configuration
-            </p>
-          </div>
+          Classic ROSA Encryption Options
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Mode:</strong> Classic ROSA (not Hypershift)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Available:</strong> Only AWS customer-managed
+            encryption
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Hidden:</strong> etcd encryption options
+            (Hypershift-only feature)
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Standard ROSA deployment
+            encryption configuration
+          </p>
         </div>
-
-        <StoryWrapper {...args} />
       </div>
-    );
-  },
+
+      <StoryWrapper {...args} />
+    </div>
+  ),
 };

@@ -1,16 +1,16 @@
 import React from 'react';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import type { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
 
-import { baseRequestState } from '~/redux/reduxHelpers';
-import { CloudProviderType } from '~/components/clusters/wizards/common/constants';
 import { FormGroup } from '@patternfly/react-core';
-import { Field } from 'formik';
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { CloudProviderType } from '~/components/clusters/wizards/common/constants';
+import { baseRequestState } from '~/redux/reduxHelpers';
 
 import CloudRegionSelectField from './index';
 
@@ -141,8 +141,8 @@ const meta: Meta<typeof CloudRegionSelectField> = {
               component={CloudRegionSelectField}
               name="region"
               cloudProviderID={CloudProviderType.Aws}
-              isBYOC={true}
-              isMultiAz={true}
+              isBYOC
+              isMultiAz
               isHypershiftSelected={false}
               {...args}
             />
@@ -228,8 +228,8 @@ export const Default: Story = {
                 component={CloudRegionSelectField}
                 name="region"
                 cloudProviderID={CloudProviderType.Aws}
-                isBYOC={true}
-                isMultiAz={true}
+                isBYOC
+                isMultiAz
                 isHypershiftSelected={false}
                 {...args}
               />
@@ -318,9 +318,9 @@ export const HypershiftMode: Story = {
                 component={CloudRegionSelectField}
                 name="region"
                 cloudProviderID={CloudProviderType.Aws}
-                isBYOC={true}
-                isMultiAz={true}
-                isHypershiftSelected={true}
+                isBYOC
+                isMultiAz
+                isHypershiftSelected
                 {...args}
               />
             </FormGroup>
@@ -408,7 +408,7 @@ export const SingleAZ: Story = {
                 component={CloudRegionSelectField}
                 name="region"
                 cloudProviderID={CloudProviderType.Aws}
-                isBYOC={true}
+                isBYOC
                 isMultiAz={false}
                 isHypershiftSelected={false}
                 {...args}

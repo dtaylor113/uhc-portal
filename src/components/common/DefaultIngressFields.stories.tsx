@@ -1,10 +1,15 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { Meta, StoryObj } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+
 import { Form } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
 
 import { DefaultIngressFieldsFormik } from '~/components/clusters/wizards/rosa/NetworkScreen/DefaultIngressFieldsFormik';
+// Mock action for stories since @storybook/addon-actions is not available
+const action =
+  (name: string) =>
+  (...args: any[]) =>
+    console.log(`${name}:`, ...args);
 
 // Mock form state hook for stories
 // Mock form state hook for stories - keeping for potential future use
@@ -231,55 +236,53 @@ export const RosaClassicWizard: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic: Custom Ingress Settings
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic wizard "Custom
-              settings" option
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Features:</strong> Route selectors, namespace
-              exclusions, policies
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Cluster version:</strong> 4.14+
-              (hasSufficientIngressEditVersion)
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Load balancer:</strong> Not shown in wizard (Day
-              2 only)
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <DefaultIngressFieldsWrapper {...args} />
+          Rosa Classic: Custom Ingress Settings
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic wizard "Custom
+            settings" option
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Features:</strong> Route selectors, namespace
+            exclusions, policies
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Cluster version:</strong> 4.14+
+            (hasSufficientIngressEditVersion)
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Load balancer:</strong> Not shown in wizard (Day 2
+            only)
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <DefaultIngressFieldsWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const Day2EditDialog: Story = {
@@ -300,55 +303,53 @@ export const Day2EditDialog: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Day 2: Complete Ingress Configuration
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> Edit Application Ingress modal
-              dialog
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>All features:</strong> Router address, TLS,
-              policies, load balancer
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>TLS fields:</strong> Custom certificate secret
-              and hostname
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Load balancer:</strong> Classic vs Network Load
-              Balancer toggle
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <DefaultIngressFieldsWrapper {...args} />
+          Day 2: Complete Ingress Configuration
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> Edit Application Ingress modal
+            dialog
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>All features:</strong> Router address, TLS,
+            policies, load balancer
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>TLS fields:</strong> Custom certificate secret and
+            hostname
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Load balancer:</strong> Classic vs Network Load
+            Balancer toggle
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <DefaultIngressFieldsWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const RosaHostedDisabled: Story = {
@@ -368,55 +369,53 @@ export const RosaHostedDisabled: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Hosted: Hypershift Limitations
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> ROSA Hosted cluster with hosted
-              control plane
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Limitation:</strong> Advanced ingress features
-              not available
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Architecture:</strong> Hypershift
-              (isHypershiftCluster=true)
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Result:</strong> Minimal or no configuration
-              options shown
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <DefaultIngressFieldsWrapper {...args} />
+          Rosa Hosted: Hypershift Limitations
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> ROSA Hosted cluster with hosted
+            control plane
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Limitation:</strong> Advanced ingress features not
+            available
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Architecture:</strong> Hypershift
+            (isHypershiftCluster=true)
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Result:</strong> Minimal or no configuration
+            options shown
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <DefaultIngressFieldsWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const LegacyClusterVersion: Story = {
@@ -436,69 +435,67 @@ export const LegacyClusterVersion: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic: Version Limitations
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic cluster version
-              &lt; 4.14
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Limitation:</strong>{' '}
-              hasSufficientIngressEditVersion = false
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Features blocked:</strong> Route selectors,
-              policies, custom TLS
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Result:</strong> No ingress configuration options
-              available
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <DefaultIngressFieldsWrapper {...args} />
-          <div
-            style={{
-              marginTop: '20px',
-              padding: '16px',
-              backgroundColor: '#fff3cd',
-              border: 'solid 1px #ffeaa7',
-              borderRadius: '4px',
-              fontSize: '14px',
-              color: '#856404',
-            }}
-          >
-            <strong>Note:</strong> No configuration fields are shown for clusters below version
-            4.14. Users must upgrade their cluster to access advanced ingress settings.
-          </div>
+          Rosa Classic: Version Limitations
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic cluster version &lt;
+            4.14
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Limitation:</strong>{' '}
+            hasSufficientIngressEditVersion = false
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Features blocked:</strong> Route selectors,
+            policies, custom TLS
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Result:</strong> No ingress configuration options
+            available
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <DefaultIngressFieldsWrapper {...args} />
+        <div
+          style={{
+            marginTop: '20px',
+            padding: '16px',
+            backgroundColor: '#fff3cd',
+            border: 'solid 1px #ffeaa7',
+            borderRadius: '4px',
+            fontSize: '14px',
+            color: '#856404',
+          }}
+        >
+          <strong>Note:</strong> No configuration fields are shown for clusters below version 4.14.
+          Users must upgrade their cluster to access advanced ingress settings.
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 export const ValidationErrors: Story = {
@@ -519,55 +516,53 @@ export const ValidationErrors: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic: Form Validation Examples
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> Day 2 edit dialog with
-              validation errors
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Invalid data:</strong> Route selectors,
-              namespaces, TLS fields
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Visual cues:</strong> Red borders and error
-              messages
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>User action:</strong> Fix input formats to clear
-              errors
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <DefaultIngressFieldsWrapper {...args} />
+          Rosa Classic: Form Validation Examples
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> Day 2 edit dialog with validation
+            errors
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Invalid data:</strong> Route selectors, namespaces,
+            TLS fields
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Visual cues:</strong> Red borders and error
+            messages
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>User action:</strong> Fix input formats to clear
+            errors
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <DefaultIngressFieldsWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const DisabledFieldsState: Story = {
@@ -587,52 +582,50 @@ export const DisabledFieldsState: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Day 2: Disabled Fields (Hypershift)
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> Day 2 modal with Hypershift
-              cluster
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> areFieldsDisabled = true
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Reason:</strong> Hosted control plane manages
-              ingress settings
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Visual:</strong> All form fields grayed out and
-              non-interactive
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <DefaultIngressFieldsWrapper {...args} />
+          Day 2: Disabled Fields (Hypershift)
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> Day 2 modal with Hypershift
+            cluster
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> areFieldsDisabled = true
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Reason:</strong> Hosted control plane manages
+            ingress settings
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Visual:</strong> All form fields grayed out and
+            non-interactive
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <DefaultIngressFieldsWrapper {...args} />
+      </div>
+    </div>
+  ),
 };

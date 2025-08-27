@@ -1,13 +1,13 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-import type { Meta, StoryObj } from '@storybook/react';
 import configureStore from 'redux-mock-store';
 
-import { normalizedProducts } from '~/common/subscriptionTypes';
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { noQuotaTooltip } from '~/common/helpers';
+import { normalizedProducts } from '~/common/subscriptionTypes';
 import { constants } from '~/components/clusters/common/CreateOSDFormConstants';
 import { QuotaTypes } from '~/components/clusters/common/quotaModel';
 import { availableQuota } from '~/components/clusters/common/quotaSelectors';
@@ -18,8 +18,8 @@ import {
 import { CloudProviderType, emptyAWSSubnet } from '~/components/clusters/wizards/common/constants';
 import { RadioGroupField } from '~/components/clusters/wizards/form';
 import { FieldId } from '~/components/clusters/wizards/rosa/constants';
-import { SubscriptionCommonFieldsCluster_billing_model as SubscriptionCommonFieldsClusterBillingModel } from '~/types/accounts_mgmt.v1';
 import type { QuotaCostList } from '~/types/accounts_mgmt.v1';
+import { SubscriptionCommonFieldsCluster_billing_model as SubscriptionCommonFieldsClusterBillingModel } from '~/types/accounts_mgmt.v1';
 
 // Create a query client for React Query
 const queryClient = new QueryClient({
@@ -303,53 +303,51 @@ export const Default: Story = {
     isHypershiftSelected: false,
     initialMultiAz: false,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Default Availability Zones Selection
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Both single-zone and multi-zone
-              options available
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Quota:</strong> Sufficient quota for both
-              deployment types
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Tooltips:</strong> Hover over ? icons to see
-              availability zone explanations
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Behavior:</strong> Selecting multi-zone will
-              update node counts and subnet arrays
-            </p>
-          </div>
+          Default Availability Zones Selection
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Both single-zone and multi-zone
+            options available
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Quota:</strong> Sufficient quota for both
+            deployment types
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Tooltips:</strong> Hover over ? icons to see
+            availability zone explanations
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Behavior:</strong> Selecting multi-zone will update
+            node counts and subnet arrays
+          </p>
         </div>
-
-        <StoryWrapper {...args} />
       </div>
-    );
-  },
+
+      <StoryWrapper {...args} />
+    </div>
+  ),
 };
 
 export const QuotaLimited: Story = {
@@ -360,50 +358,48 @@ export const QuotaLimited: Story = {
     isHypershiftSelected: false,
     initialMultiAz: false,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Quota Limited Scenario
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Multi-zone option disabled due to
-              insufficient quota ⚠️
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Quota:</strong> Only single-zone quota available
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Visual:</strong> Multi-zone option is grayed out
-              with quota warning tooltip
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Guides users when quota limits
-              deployment options
-            </p>
-          </div>
+          Quota Limited Scenario
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Multi-zone option disabled due to
+            insufficient quota ⚠️
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Quota:</strong> Only single-zone quota available
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Visual:</strong> Multi-zone option is grayed out
+            with quota warning tooltip
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Guides users when quota limits
+            deployment options
+          </p>
         </div>
-
-        <StoryWrapper {...args} />
       </div>
-    );
-  },
+
+      <StoryWrapper {...args} />
+    </div>
+  ),
 };

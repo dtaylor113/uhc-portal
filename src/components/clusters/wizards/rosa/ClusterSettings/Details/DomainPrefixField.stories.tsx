@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react';
-import { Formik, Field, FieldProps } from 'formik';
+import { Field, FieldProps, Formik } from 'formik';
 import { Provider } from 'react-redux';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-import { Split, SplitItem } from '@patternfly/react-core';
-
-import type { Meta, StoryObj } from '@storybook/react';
 import configureStore from 'redux-mock-store';
 
-import { FieldId } from '~/components/clusters/wizards/rosa/constants';
-import { RichInputField, CheckboxField } from '~/components/clusters/wizards/form';
-import { constants } from '~/components/clusters/common/CreateOSDFormConstants';
+import { Split, SplitItem } from '@patternfly/react-core';
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import {
   domainPrefixValidation,
   // domainPrefixAsyncValidation, // Unused
   // createPessimisticValidator, // Unused
 } from '~/common/validators';
+import { constants } from '~/components/clusters/common/CreateOSDFormConstants';
+import { CheckboxField, RichInputField } from '~/components/clusters/wizards/form';
+import { FieldId } from '~/components/clusters/wizards/rosa/constants';
 import PopoverHint from '~/components/common/PopoverHint';
 
 // Create a query client for React Query
@@ -228,50 +227,48 @@ export const Default: Story = {
     initialHasDomainPrefix: false,
     autoTriggerValidation: false,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Default Domain Prefix Field
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Checkbox unchecked, field hidden
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Behavior:</strong> Check the box to reveal the
-              domain prefix input field
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Help Text:</strong> Explains 15-character limit
-              and automatic generation
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Optional subdomain
-              customization in wizard
-            </p>
-          </div>
+          Default Domain Prefix Field
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Checkbox unchecked, field hidden
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Behavior:</strong> Check the box to reveal the
+            domain prefix input field
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Help Text:</strong> Explains 15-character limit and
+            automatic generation
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Optional subdomain customization
+            in wizard
+          </p>
         </div>
-
-        <StoryWrapper {...args} />
       </div>
-    );
-  },
+
+      <StoryWrapper {...args} />
+    </div>
+  ),
 };

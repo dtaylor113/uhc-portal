@@ -2,14 +2,15 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Form } from '@patternfly/react-core';
 
-import { MachineTypeSelection } from '~/components/clusters/common/ScaleSection/MachineTypeSelection/MachineTypeSelection';
+import { Form } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { normalizedProducts } from '~/common/subscriptionTypes';
+import { MachineTypeSelection } from '~/components/clusters/common/ScaleSection/MachineTypeSelection/MachineTypeSelection';
 import { MachineType } from '~/types/clusters_mgmt.v1';
 
 // Mock machine types data (region-specific - always available)
@@ -93,15 +94,14 @@ const mockAllMachineTypes: MachineType[] = [
 ] as MachineType[];
 
 // Helper to create typesByID map
-const createTypesByID = (types: MachineType[]) => {
-  return types.reduce(
+const createTypesByID = (types: MachineType[]) =>
+  types.reduce(
     (acc, type) => {
       acc[type.id!] = type;
       return acc;
     },
     {} as { [key: string]: MachineType },
   );
-};
 
 const mockMachineTypesResponse = {
   error: false,

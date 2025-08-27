@@ -1,3 +1,10 @@
+<!--
+Documentation for Storybook stories
+This file provides technical analysis of alert lifecycles for the Overview component stories
+The Overview stories use this documentation to understand when alerts appear/disappear during cluster states
+Used by: Overview.stories.tsx for modeling realistic alert behavior across cluster lifecycle phases
+-->
+
 # Alert Lifecycle Analysis
 
 This document analyzes when different alerts appear in the cluster lifecycle.

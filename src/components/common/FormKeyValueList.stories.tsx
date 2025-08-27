@@ -1,11 +1,17 @@
 import React from 'react';
-import { Formik, FieldArray, Form } from 'formik';
-import { Meta, StoryObj } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+import { FieldArray, Form, Formik } from 'formik';
 
-import FormKeyValueList from '~/components/common/FormikFormComponents/FormKeyValueList/FormKeyValueList';
+import { Meta, StoryObj } from '@storybook/react';
+
 import { getRandomID } from '~/common/helpers';
 import { validateLabelKey, validateLabelValue } from '~/common/validators';
+import FormKeyValueList from '~/components/common/FormikFormComponents/FormKeyValueList/FormKeyValueList';
+
+// Mock action for stories since @storybook/addon-actions is not available
+const action =
+  (name: string) =>
+  (...args: any[]) =>
+    console.log(`${name}:`, ...args);
 
 const meta: Meta<typeof FormKeyValueList> = {
   title: 'Common/FormKeyValueList',

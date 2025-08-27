@@ -1,6 +1,7 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+
 import { DescriptionList } from '@patternfly/react-core';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import ReviewRoleItem from './ReviewRoleItem';
 

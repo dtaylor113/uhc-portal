@@ -2,15 +2,17 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
+
 import { Form } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { FormSubnet } from '~/components/clusters/wizards/common/FormSubnet';
+import { CloudVpc, Subnetwork } from '~/types/clusters_mgmt.v1';
 
 import MachinePoolsSubnets from '../../MachinePoolScreen/MachinePoolsSubnets';
-import { CloudVpc, Subnetwork } from '~/types/clusters_mgmt.v1';
-import { FormSubnet } from '~/components/clusters/wizards/common/FormSubnet';
 
 const mockVpcWithSubnets: CloudVpc = {
   id: 'vpc-123456789',
@@ -200,56 +202,53 @@ export const Default: Story = {
       machinePoolsSubnets: [],
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Initial VPC Selection State
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> No VPC selected
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Action required:</strong> Select a VPC to
-              continue
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Next step:</strong> Subnet selection will appear
-              after VPC choice
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Starting point for Hypershift
-              networking setup
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '800px' }}>
-          {meta.render!(args, {
-            parameters: { initialValues: { selected_vpc: null, machinePoolsSubnets: [] } },
-          } as any)}
+          Initial VPC Selection State
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> No VPC selected
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Action required:</strong> Select a VPC to continue
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Next step:</strong> Subnet selection will appear
+            after VPC choice
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Starting point for Hypershift
+            networking setup
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '800px' }}>
+        {meta.render!(args, {
+          parameters: { initialValues: { selected_vpc: null, machinePoolsSubnets: [] } },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const VpcSelectedMultiAz: Story = {
@@ -271,73 +270,70 @@ export const VpcSelectedMultiAz: Story = {
       ] as FormSubnet[],
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Optimal Multi-AZ Configuration
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Architecture:</strong> 2 machine pools across
-              different AZs
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>High availability:</strong> ✅ Subnets in
-              us-east-1a and us-east-1b
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Configuration:</strong> Private subnets selected
-              for each pool
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Production Hypershift
-              deployment
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '800px' }}>
-          {meta.render!(args, {
-            parameters: {
-              initialValues: {
-                selected_vpc: mockVpcWithSubnets,
-                machinePoolsSubnets: [
-                  {
-                    availabilityZone: '',
-                    privateSubnetId: 'subnet-private-1a',
-                    publicSubnetId: '',
-                  },
-                  {
-                    availabilityZone: '',
-                    privateSubnetId: 'subnet-private-1b',
-                    publicSubnetId: '',
-                  },
-                ],
-              },
-            },
-          } as any)}
+          Optimal Multi-AZ Configuration
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Architecture:</strong> 2 machine pools across
+            different AZs
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>High availability:</strong> ✅ Subnets in
+            us-east-1a and us-east-1b
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Configuration:</strong> Private subnets selected
+            for each pool
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Production Hypershift deployment
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '800px' }}>
+        {meta.render!(args, {
+          parameters: {
+            initialValues: {
+              selected_vpc: mockVpcWithSubnets,
+              machinePoolsSubnets: [
+                {
+                  availabilityZone: '',
+                  privateSubnetId: 'subnet-private-1a',
+                  publicSubnetId: '',
+                },
+                {
+                  availabilityZone: '',
+                  privateSubnetId: 'subnet-private-1b',
+                  publicSubnetId: '',
+                },
+              ],
+            },
+          },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const HighAvailabilityWarning: Story = {
@@ -359,73 +355,71 @@ export const HighAvailabilityWarning: Story = {
       ] as FormSubnet[],
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            High Availability Warning Scenario
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Issue:</strong> All subnets in same availability
-              zone (us-east-1a)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Warning displayed:</strong> Cluster will not be
-              highly available
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Recommendation:</strong> Select subnets from
-              different AZs
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Single-AZ VPC or subnet
-              configuration error
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '800px' }}>
-          {meta.render!(args, {
-            parameters: {
-              initialValues: {
-                selected_vpc: mockVpcSingleAz,
-                machinePoolsSubnets: [
-                  {
-                    availabilityZone: '',
-                    privateSubnetId: 'subnet-private-single',
-                    publicSubnetId: '',
-                  },
-                  {
-                    availabilityZone: '',
-                    privateSubnetId: 'subnet-private-single',
-                    publicSubnetId: '',
-                  },
-                ],
-              },
-            },
-          } as any)}
+          High Availability Warning Scenario
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Issue:</strong> All subnets in same availability
+            zone (us-east-1a)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Warning displayed:</strong> Cluster will not be
+            highly available
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Recommendation:</strong> Select subnets from
+            different AZs
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Single-AZ VPC or subnet
+            configuration error
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '800px' }}>
+        {meta.render!(args, {
+          parameters: {
+            initialValues: {
+              selected_vpc: mockVpcSingleAz,
+              machinePoolsSubnets: [
+                {
+                  availabilityZone: '',
+                  privateSubnetId: 'subnet-private-single',
+                  publicSubnetId: '',
+                },
+                {
+                  availabilityZone: '',
+                  privateSubnetId: 'subnet-private-single',
+                  publicSubnetId: '',
+                },
+              ],
+            },
+          },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const ThreeMachinePools: Story = {
@@ -452,76 +446,73 @@ export const ThreeMachinePools: Story = {
       ] as FormSubnet[],
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Maximum Capacity Configuration
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Scale:</strong> 3 machine pools (maximum
-              supported)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Distribution:</strong> Across us-east-1a,
-              us-east-1b, us-east-1c
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>High availability:</strong> ✅ Optimal AZ
-              distribution
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Large-scale Hypershift
-              deployment
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '800px' }}>
-          {meta.render!(args, {
-            parameters: {
-              initialValues: {
-                selected_vpc: mockVpcWithSubnets,
-                machinePoolsSubnets: [
-                  {
-                    availabilityZone: '',
-                    privateSubnetId: 'subnet-private-1a',
-                    publicSubnetId: '',
-                  },
-                  {
-                    availabilityZone: '',
-                    privateSubnetId: 'subnet-private-1b',
-                    publicSubnetId: '',
-                  },
-                  {
-                    availabilityZone: '',
-                    privateSubnetId: 'subnet-private-1c',
-                    publicSubnetId: '',
-                  },
-                ],
-              },
-            },
-          } as any)}
+          Maximum Capacity Configuration
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Scale:</strong> 3 machine pools (maximum supported)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Distribution:</strong> Across us-east-1a,
+            us-east-1b, us-east-1c
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>High availability:</strong> ✅ Optimal AZ
+            distribution
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Large-scale Hypershift
+            deployment
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '800px' }}>
+        {meta.render!(args, {
+          parameters: {
+            initialValues: {
+              selected_vpc: mockVpcWithSubnets,
+              machinePoolsSubnets: [
+                {
+                  availabilityZone: '',
+                  privateSubnetId: 'subnet-private-1a',
+                  publicSubnetId: '',
+                },
+                {
+                  availabilityZone: '',
+                  privateSubnetId: 'subnet-private-1b',
+                  publicSubnetId: '',
+                },
+                {
+                  availabilityZone: '',
+                  privateSubnetId: 'subnet-private-1c',
+                  publicSubnetId: '',
+                },
+              ],
+            },
+          },
+        } as any)}
+      </div>
+    </div>
+  ),
 };

@@ -2,15 +2,19 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
+
+import { Wizard, WizardBody, WizardStep } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { queryConstants } from '~/queries/queriesConstants';
+
+import { initialValues } from '../constants';
 
 import ClusterRolesScreen from './ClusterRolesScreen';
-import { initialValues } from '../constants';
-import { queryConstants } from '~/queries/queriesConstants';
+
 import '../createROSAWizard.scss';
 
 // Mock OIDC configurations data - matches real AWS/CloudFront URLs
@@ -107,11 +111,12 @@ const withState = (
 
   const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     // Cleanup function to reset global flag when story changes
-    React.useEffect(() => {
-      return () => {
+    React.useEffect(
+      () => () => {
         delete (window as any).__storybookOCMRoleError;
-      };
-    }, []);
+      },
+      [],
+    );
 
     return (
       <Provider store={store}>

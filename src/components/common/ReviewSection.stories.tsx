@@ -1,11 +1,12 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+
 import {
+  DescriptionListDescription,
   DescriptionListGroup,
   DescriptionListTerm,
-  DescriptionListDescription,
   Grid,
 } from '@patternfly/react-core';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import ReviewSection, {
   ReviewItem,

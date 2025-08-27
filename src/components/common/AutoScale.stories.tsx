@@ -2,15 +2,16 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Form } from '@patternfly/react-core';
 
-import { AutoScale } from '~/components/clusters/wizards/common/ClusterSettings/MachinePool/AutoScale/AutoScale';
+import { Form } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { normalizedProducts } from '~/common/subscriptionTypes';
 import { getDefaultClusterAutoScaling } from '~/components/clusters/common/clusterAutoScalingValues';
+import { AutoScale } from '~/components/clusters/wizards/common/ClusterSettings/MachinePool/AutoScale/AutoScale';
 import { FieldId } from '~/components/clusters/wizards/rosa/constants';
 
 const baseRequestState = {
@@ -184,81 +185,79 @@ export const RosaClassicMultiAz: Story = {
     },
     hasAutoscaleCapability: true,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            ROSA Classic Multi-AZ - Autoscaling Configuration
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Autoscaling enabled (checkbox
-              checked)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Cluster type:</strong> Classic ROSA Multi-AZ
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Node labels:</strong> "Minimum/Maximum nodes per
-              zone"
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Helper text:</strong> Shows "x 3 zones = X"
-              multiplier
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Additional configuration:</strong> "Edit cluster
-              autoscaling settings" button visible
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Help text:</strong> Kubernetes-style declarative
-              arguments
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Multi-AZ Classic ROSA with
-              dynamic scaling
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '800px' }}>
-          {meta.render!(args, {
-            parameters: {
-              initialValues: {
-                [FieldId.Product]: normalizedProducts.ROSA,
-                [FieldId.Hypershift]: 'false',
-                [FieldId.Byoc]: 'true',
-                [FieldId.MultiAz]: 'true',
-                [FieldId.AutoscalingEnabled]: true,
-                [FieldId.MinReplicas]: 2,
-                [FieldId.MaxReplicas]: 6,
-                [FieldId.ClusterVersion]: mockClusterVersion,
-                [FieldId.ClusterAutoscaling]: getDefaultClusterAutoScaling(249),
-              },
-              hasAutoscaleCapability: true,
-            },
-          } as any)}
+          ROSA Classic Multi-AZ - Autoscaling Configuration
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Autoscaling enabled (checkbox
+            checked)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Cluster type:</strong> Classic ROSA Multi-AZ
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Node labels:</strong> "Minimum/Maximum nodes per
+            zone"
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Helper text:</strong> Shows "x 3 zones = X"
+            multiplier
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Additional configuration:</strong> "Edit cluster
+            autoscaling settings" button visible
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Help text:</strong> Kubernetes-style declarative
+            arguments
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Multi-AZ Classic ROSA with
+            dynamic scaling
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '800px' }}>
+        {meta.render!(args, {
+          parameters: {
+            initialValues: {
+              [FieldId.Product]: normalizedProducts.ROSA,
+              [FieldId.Hypershift]: 'false',
+              [FieldId.Byoc]: 'true',
+              [FieldId.MultiAz]: 'true',
+              [FieldId.AutoscalingEnabled]: true,
+              [FieldId.MinReplicas]: 2,
+              [FieldId.MaxReplicas]: 6,
+              [FieldId.ClusterVersion]: mockClusterVersion,
+              [FieldId.ClusterAutoscaling]: getDefaultClusterAutoScaling(249),
+            },
+            hasAutoscaleCapability: true,
+          },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const RosaClassicSingleAz: Story = {
@@ -277,82 +276,80 @@ export const RosaClassicSingleAz: Story = {
     },
     hasAutoscaleCapability: true,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            ROSA Classic Single-AZ - Autoscaling Configuration
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Architecture:</strong> Classic ROSA Single-AZ
-              (non-Hypershift)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Autoscaling enabled (checkbox
-              checked)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Node labels:</strong> "Minimum/Maximum node
-              count" (no "per zone")
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Helper text:</strong> No multiplier (raw node
-              count, not "x 3 zones")
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Additional configuration:</strong> "Edit cluster
-              autoscaling settings" button visible
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Help text:</strong> Kubernetes-style declarative
-              arguments
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Single-AZ Classic ROSA with
-              dynamic scaling
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '800px' }}>
-          {meta.render!(args, {
-            parameters: {
-              initialValues: {
-                [FieldId.Product]: normalizedProducts.ROSA,
-                [FieldId.Hypershift]: 'false',
-                [FieldId.Byoc]: 'true',
-                [FieldId.MultiAz]: 'false', // Single-AZ
-                [FieldId.AutoscalingEnabled]: true,
-                [FieldId.MinReplicas]: 2,
-                [FieldId.MaxReplicas]: 6,
-                [FieldId.ClusterVersion]: mockClusterVersion,
-                [FieldId.ClusterAutoscaling]: getDefaultClusterAutoScaling(249),
-              },
-              hasAutoscaleCapability: true,
-            },
-          } as any)}
+          ROSA Classic Single-AZ - Autoscaling Configuration
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Architecture:</strong> Classic ROSA Single-AZ
+            (non-Hypershift)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Autoscaling enabled (checkbox
+            checked)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Node labels:</strong> "Minimum/Maximum node count"
+            (no "per zone")
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Helper text:</strong> No multiplier (raw node
+            count, not "x 3 zones")
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Additional configuration:</strong> "Edit cluster
+            autoscaling settings" button visible
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Help text:</strong> Kubernetes-style declarative
+            arguments
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Single-AZ Classic ROSA with
+            dynamic scaling
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '800px' }}>
+        {meta.render!(args, {
+          parameters: {
+            initialValues: {
+              [FieldId.Product]: normalizedProducts.ROSA,
+              [FieldId.Hypershift]: 'false',
+              [FieldId.Byoc]: 'true',
+              [FieldId.MultiAz]: 'false', // Single-AZ
+              [FieldId.AutoscalingEnabled]: true,
+              [FieldId.MinReplicas]: 2,
+              [FieldId.MaxReplicas]: 6,
+              [FieldId.ClusterVersion]: mockClusterVersion,
+              [FieldId.ClusterAutoscaling]: getDefaultClusterAutoScaling(249),
+            },
+            hasAutoscaleCapability: true,
+          },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const RosaHosted: Story = {
@@ -375,94 +372,91 @@ export const RosaHosted: Story = {
     },
     hasAutoscaleCapability: true,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            ROSA Hosted - Machine Pool Autoscaling
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Architecture:</strong> Hypershift (hosted control
-              plane)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Autoscaling enabled (checkbox
-              checked)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Node labels:</strong> "Minimum/Maximum nodes per
-              machine pool"
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Machine pools:</strong> 2 machine pools
-              configured
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Note:</strong> No "Edit cluster autoscaling
-              settings" button for Hypershift/hosted
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Help text:</strong> Automatic node
-              addition/removal based on requirements
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Hypershift clusters with
-              per-pool scaling
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '800px' }}>
-          {meta.render!(args, {
-            parameters: {
-              initialValues: {
-                [FieldId.Product]: normalizedProducts.ROSA,
-                [FieldId.Hypershift]: 'true',
-                [FieldId.Byoc]: 'true',
-                [FieldId.MultiAz]: 'true',
-                [FieldId.AutoscalingEnabled]: true,
-                [FieldId.MinReplicas]: 1,
-                [FieldId.MaxReplicas]: 3,
-                [FieldId.MachinePoolsSubnets]: [
-                  {
-                    availabilityZone: 'us-east-1a',
-                    privateSubnetId: 'subnet-123',
-                    publicSubnetId: '',
-                  },
-                  {
-                    availabilityZone: 'us-east-1b',
-                    privateSubnetId: 'subnet-456',
-                    publicSubnetId: '',
-                  },
-                ],
-                [FieldId.ClusterVersion]: mockClusterVersion,
-                [FieldId.ClusterAutoscaling]: getDefaultClusterAutoScaling(249),
-              },
-              hasAutoscaleCapability: true,
-            },
-          } as any)}
+          ROSA Hosted - Machine Pool Autoscaling
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Architecture:</strong> Hypershift (hosted control
+            plane)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Autoscaling enabled (checkbox
+            checked)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Node labels:</strong> "Minimum/Maximum nodes per
+            machine pool"
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Machine pools:</strong> 2 machine pools configured
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Note:</strong> No "Edit cluster autoscaling
+            settings" button for Hypershift/hosted
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Help text:</strong> Automatic node addition/removal
+            based on requirements
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Hypershift clusters with
+            per-pool scaling
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '800px' }}>
+        {meta.render!(args, {
+          parameters: {
+            initialValues: {
+              [FieldId.Product]: normalizedProducts.ROSA,
+              [FieldId.Hypershift]: 'true',
+              [FieldId.Byoc]: 'true',
+              [FieldId.MultiAz]: 'true',
+              [FieldId.AutoscalingEnabled]: true,
+              [FieldId.MinReplicas]: 1,
+              [FieldId.MaxReplicas]: 3,
+              [FieldId.MachinePoolsSubnets]: [
+                {
+                  availabilityZone: 'us-east-1a',
+                  privateSubnetId: 'subnet-123',
+                  publicSubnetId: '',
+                },
+                {
+                  availabilityZone: 'us-east-1b',
+                  privateSubnetId: 'subnet-456',
+                  publicSubnetId: '',
+                },
+              ],
+              [FieldId.ClusterVersion]: mockClusterVersion,
+              [FieldId.ClusterAutoscaling]: getDefaultClusterAutoScaling(249),
+            },
+            hasAutoscaleCapability: true,
+          },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const FeatureGateDisabled: Story = {
@@ -484,76 +478,73 @@ export const FeatureGateDisabled: Story = {
       MAX_NODES_TOTAL_249: false, // Feature gate disabled
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Feature Gate Disabled - Restricted Node Limits
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Feature gate:</strong> MAX_NODES_TOTAL_249
-              disabled
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Node limit:</strong> 180 nodes maximum (vs 249
-              when enabled)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Validation:</strong> Lower maximum enforced in
-              autoscaler settings
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Current max:</strong> 180 nodes (shown in UI)
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Organizations without extended
-              node limit capability
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '800px' }}>
-          {meta.render!(args, {
-            parameters: {
-              initialValues: {
-                [FieldId.Product]: normalizedProducts.ROSA,
-                [FieldId.Hypershift]: 'false',
-                [FieldId.Byoc]: 'true',
-                [FieldId.MultiAz]: 'true',
-                [FieldId.AutoscalingEnabled]: true,
-                [FieldId.MinReplicas]: 2,
-                [FieldId.MaxReplicas]: 180,
-                [FieldId.ClusterVersion]: mockClusterVersion,
-                [FieldId.ClusterAutoscaling]: getDefaultClusterAutoScaling(180),
-              },
-              hasAutoscaleCapability: true,
-              featureGates: {
-                MAX_NODES_TOTAL_249: false,
-              },
-            },
-          } as any)}
+          Feature Gate Disabled - Restricted Node Limits
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Feature gate:</strong> MAX_NODES_TOTAL_249 disabled
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Node limit:</strong> 180 nodes maximum (vs 249 when
+            enabled)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Validation:</strong> Lower maximum enforced in
+            autoscaler settings
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Current max:</strong> 180 nodes (shown in UI)
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Organizations without extended
+            node limit capability
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '800px' }}>
+        {meta.render!(args, {
+          parameters: {
+            initialValues: {
+              [FieldId.Product]: normalizedProducts.ROSA,
+              [FieldId.Hypershift]: 'false',
+              [FieldId.Byoc]: 'true',
+              [FieldId.MultiAz]: 'true',
+              [FieldId.AutoscalingEnabled]: true,
+              [FieldId.MinReplicas]: 2,
+              [FieldId.MaxReplicas]: 180,
+              [FieldId.ClusterVersion]: mockClusterVersion,
+              [FieldId.ClusterAutoscaling]: getDefaultClusterAutoScaling(180),
+            },
+            hasAutoscaleCapability: true,
+            featureGates: {
+              MAX_NODES_TOTAL_249: false,
+            },
+          },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const NoAutoscaleCapability: Story = {
@@ -571,60 +562,57 @@ export const NoAutoscaleCapability: Story = {
     },
     hasAutoscaleCapability: false, // Organization lacks capability
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Autoscaling Capability Not Available
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Product:</strong> OSD with standard billing (not
-              marketplace)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Organization:</strong> Lacks autoscaling
-              capability
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Behavior:</strong> AutoScale component will not
-              render
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Alternative:</strong> Manual node count
-              configuration only
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Standard OSD without
-              marketplace billing or capability
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '800px', textAlign: 'center', padding: '40px', color: '#6c757d' }}>
-          <p>AutoScale component would not render due to missing capability.</p>
-          <p>
-            <em>In the actual wizard, only manual node count input would be shown.</em>
+          Autoscaling Capability Not Available
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Product:</strong> OSD with standard billing (not
+            marketplace)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Organization:</strong> Lacks autoscaling capability
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Behavior:</strong> AutoScale component will not
+            render
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Alternative:</strong> Manual node count
+            configuration only
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Standard OSD without marketplace
+            billing or capability
           </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '800px', textAlign: 'center', padding: '40px', color: '#6c757d' }}>
+        <p>AutoScale component would not render due to missing capability.</p>
+        <p>
+          <em>In the actual wizard, only manual node count input would be shown.</em>
+        </p>
+      </div>
+    </div>
+  ),
 };

@@ -2,21 +2,25 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
 
-import CIDRScreen from './CIDRScreen';
-import { initialValues } from '../constants';
+import { Wizard, WizardBody, WizardStep } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 // import { baseRequestState } from '~/redux/reduxHelpers'; // Unused
 import {
-  MACHINE_CIDR_DEFAULT,
-  SERVICE_CIDR_DEFAULT,
-  POD_CIDR_DEFAULT,
   HOST_PREFIX_DEFAULT,
+  MACHINE_CIDR_DEFAULT,
+  POD_CIDR_DEFAULT,
+  SERVICE_CIDR_DEFAULT,
 } from '~/components/clusters/common/networkingConstants';
+
+import { initialValues } from '../constants';
+
+import CIDRScreen from './CIDRScreen';
+
 import '../createROSAWizard.scss';
 
 const withState = (

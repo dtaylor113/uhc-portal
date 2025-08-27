@@ -2,18 +2,19 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Form } from '@patternfly/react-core';
 
-import WorkerNodeVolumeSizeSection from '~/components/clusters/wizards/rosa/MachinePoolScreen/components/WorkerNodeVolumeSizeSection/WorkerNodeVolumeSizeSection';
+import { Form } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import {
   defaultWorkerNodeVolumeSizeGiB,
   workerNodeVolumeSizeMinGiB,
   workerNodeVolumeSizeMinGiBHcp,
 } from '~/components/clusters/common/machinePools/constants';
+import WorkerNodeVolumeSizeSection from '~/components/clusters/wizards/rosa/MachinePoolScreen/components/WorkerNodeVolumeSizeSection/WorkerNodeVolumeSizeSection';
 
 const withState = (
   initialValues: any,
@@ -142,55 +143,52 @@ export const RosaClassicVolume: Story = {
   parameters: {
     initialValues: baseInitialValues,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic - Default Configuration
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Architecture:</strong> Classic ROSA
-              (non-Hypershift)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Range:</strong> {workerNodeVolumeSizeMinGiB} -
-              16,384 GiB (cluster 4.14+)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Default:</strong>{' '}
-              {defaultWorkerNodeVolumeSizeGiB} GiB (shown in UI)
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Standard Classic ROSA
-              deployment
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          {meta.render!(args, { parameters: { initialValues: baseInitialValues } } as any)}
+          Rosa Classic - Default Configuration
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Architecture:</strong> Classic ROSA
+            (non-Hypershift)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Range:</strong> {workerNodeVolumeSizeMinGiB} -
+            16,384 GiB (cluster 4.14+)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Default:</strong> {defaultWorkerNodeVolumeSizeGiB}{' '}
+            GiB (shown in UI)
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Standard Classic ROSA deployment
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        {meta.render!(args, { parameters: { initialValues: baseInitialValues } } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const ROSAHostedVolume: Story = {
@@ -204,62 +202,60 @@ export const ROSAHostedVolume: Story = {
       worker_volume_size_gib: defaultWorkerNodeVolumeSizeGiB, // Keep default value
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Hosted (Hypershift) Configuration
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Architecture:</strong> Hypershift (hosted control
-              plane)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Range:</strong> {workerNodeVolumeSizeMinGiBHcp} -
-              16,384 GiB
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Default:</strong>{' '}
-              {defaultWorkerNodeVolumeSizeGiB} GiB (shown in UI)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Minimum:</strong> Lower than Classic ROSA (
-              {workerNodeVolumeSizeMinGiBHcp} vs {workerNodeVolumeSizeMinGiB} GiB)
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Hypershift cluster deployments
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          {meta.render!(args, {
-            parameters: {
-              initialValues: { worker_volume_size_gib: defaultWorkerNodeVolumeSizeGiB },
-            },
-          } as any)}
+          Hosted (Hypershift) Configuration
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Architecture:</strong> Hypershift (hosted control
+            plane)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Range:</strong> {workerNodeVolumeSizeMinGiBHcp} -
+            16,384 GiB
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Default:</strong> {defaultWorkerNodeVolumeSizeGiB}{' '}
+            GiB (shown in UI)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Minimum:</strong> Lower than Classic ROSA (
+            {workerNodeVolumeSizeMinGiBHcp} vs {workerNodeVolumeSizeMinGiB} GiB)
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Hypershift cluster deployments
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        {meta.render!(args, {
+          parameters: {
+            initialValues: { worker_volume_size_gib: defaultWorkerNodeVolumeSizeGiB },
+          },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const ClusterVersionBefore414: Story = {
@@ -273,60 +269,58 @@ export const ClusterVersionBefore414: Story = {
       worker_volume_size_gib: 500,
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Cluster Version &lt; 4.14 Constraints
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Version constraint:</strong> Cluster version &lt;
-              4.14
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Applies to:</strong> Both Classic ROSA and
-              Hypershift clusters
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Range:</strong> {workerNodeVolumeSizeMinGiB} -
-              1,024 GiB (1TB maximum)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Example:</strong> 500 GiB (shown in UI)
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Legacy cluster versions with
-              EBS volume limits
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          {meta.render!(args, {
-            parameters: { initialValues: { worker_volume_size_gib: 500 } },
-          } as any)}
+          Cluster Version &lt; 4.14 Constraints
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Version constraint:</strong> Cluster version &lt;
+            4.14
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Applies to:</strong> Both Classic ROSA and
+            Hypershift clusters
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Range:</strong> {workerNodeVolumeSizeMinGiB} -
+            1,024 GiB (1TB maximum)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Example:</strong> 500 GiB (shown in UI)
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Legacy cluster versions with EBS
+            volume limits
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        {meta.render!(args, {
+          parameters: { initialValues: { worker_volume_size_gib: 500 } },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const ClusterVersion414AndLater: Story = {
@@ -340,64 +334,62 @@ export const ClusterVersion414AndLater: Story = {
       worker_volume_size_gib: 8192, // 8TB example
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Cluster Version {'>'}= 4.14 - Maximum Volume Support
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Version constraint:</strong> Cluster version{' '}
-              {'>'}= 4.14
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Applies to:</strong> Both Classic ROSA and
-              Hypershift clusters
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Range:</strong> {workerNodeVolumeSizeMinGiB} -
-              16,384 GiB (16TB maximum)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Example:</strong> 8TB (8,192 GiB) shown in UI
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Enhancement:</strong> 16x larger volumes than
-              older versions
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Data-intensive applications
-              requiring large storage
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          {meta.render!(args, {
-            parameters: { initialValues: { worker_volume_size_gib: 8192 } },
-          } as any)}
+          Cluster Version {'>'}= 4.14 - Maximum Volume Support
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Version constraint:</strong> Cluster version {'>'}=
+            4.14
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Applies to:</strong> Both Classic ROSA and
+            Hypershift clusters
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Range:</strong> {workerNodeVolumeSizeMinGiB} -
+            16,384 GiB (16TB maximum)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Example:</strong> 8TB (8,192 GiB) shown in UI
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Enhancement:</strong> 16x larger volumes than older
+            versions
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Data-intensive applications
+            requiring large storage
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        {meta.render!(args, {
+          parameters: { initialValues: { worker_volume_size_gib: 8192 } },
+        } as any)}
+      </div>
+    </div>
+  ),
 };
 
 export const RosaAddOrEditMachinePool: Story = {

@@ -2,18 +2,21 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
+
+import { Wizard, WizardBody, WizardStep } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { getRandomID } from '~/common/helpers';
+import { normalizedProducts } from '~/common/subscriptionTypes';
+import { FieldId, initialValues } from '~/components/clusters/wizards/rosa/constants';
+import { baseRequestState } from '~/redux/reduxHelpers';
+import { SubscriptionCommonFieldsCluster_billing_model as BillingModel } from '~/types/accounts_mgmt.v1';
 
 import MachinePoolScreen from '../../MachinePoolScreen/MachinePoolScreen';
-import { baseRequestState } from '~/redux/reduxHelpers';
-import { initialValues, FieldId } from '~/components/clusters/wizards/rosa/constants';
-import { normalizedProducts } from '~/common/subscriptionTypes';
-import { SubscriptionCommonFieldsCluster_billing_model as BillingModel } from '~/types/accounts_mgmt.v1';
-import { getRandomID } from '~/common/helpers';
+
 import '../../createROSAWizard.scss';
 
 // Proper ROSA quota structure (based on working MachineTypeSelection.stories.tsx)
@@ -394,12 +397,11 @@ const mockAllMachineTypes = [
 ];
 
 // Helper to create typesByID map
-const createTypesByID = (types: any[]) => {
-  return types.reduce((acc, type) => {
+const createTypesByID = (types: any[]) =>
+  types.reduce((acc, type) => {
     acc[type.id] = type;
     return acc;
   }, {});
-};
 
 const withState = (
   quotaData: any,

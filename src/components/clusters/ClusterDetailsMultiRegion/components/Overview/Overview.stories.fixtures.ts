@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
+
+import { normalizedProducts } from '~/common/subscriptionTypes';
+import clusterStates from '~/components/clusters/common/clusterStates';
 import {
   SubscriptionCommonFieldsStatus,
   SubscriptionCommonFieldsSupport_level as SubscriptionCommonFieldsSupportLevel,
 } from '~/types/accounts_mgmt.v1';
-import { normalizedProducts } from '~/common/subscriptionTypes';
-import clusterStates from '~/components/clusters/common/clusterStates';
 
 // Mock Feature Gates
 export const mockFeatureGates = {

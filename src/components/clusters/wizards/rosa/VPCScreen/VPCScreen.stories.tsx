@@ -1,19 +1,21 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
+import { thunk } from 'redux-thunk';
 
-import { FieldId } from '~/components/clusters/wizards/rosa/constants';
+import { Wizard, WizardBody, WizardStep } from '@patternfly/react-core';
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { emptyAWSSubnet } from '~/components/clusters/wizards/common/constants';
-import { CloudVpc } from '~/types/clusters_mgmt.v1';
+import { FieldId } from '~/components/clusters/wizards/rosa/constants';
 import { baseRequestState } from '~/redux/reduxHelpers';
+import { CloudVpc } from '~/types/clusters_mgmt.v1';
 
 import { VPCScreen } from './VPCScreen';
+
 import '../createROSAWizard.scss';
 
 // Mock VPC data with comprehensive configurations
@@ -79,17 +81,17 @@ const mockVPCWithFullConfiguration: CloudVpc = {
     {
       id: 'sg-default-123',
       name: 'default',
-      description: 'Default VPC security group',
+      // description: 'Default VPC security group', // Not part of SecurityGroup type
     },
     {
       id: 'sg-web-456',
       name: 'web-servers',
-      description: 'Security group for web servers',
+      // description: 'Security group for web servers', // Not part of SecurityGroup type
     },
     {
       id: 'sg-db-789',
       name: 'database-servers',
-      description: 'Security group for database servers',
+      // description: 'Security group for database servers', // Not part of SecurityGroup type
     },
   ],
 };

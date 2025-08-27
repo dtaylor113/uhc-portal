@@ -1,10 +1,11 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Form, Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
+import { thunk } from 'redux-thunk';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { FieldId } from '~/components/clusters/wizards/rosa/constants';
 

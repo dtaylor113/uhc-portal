@@ -1,15 +1,18 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Form, Formik } from 'formik';
 import { Provider } from 'react-redux';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
-import { WizardContext, Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
+import { thunk } from 'redux-thunk';
+
+import { Wizard, WizardBody, WizardContext, WizardStep } from '@patternfly/react-core';
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { FieldId } from '~/components/clusters/wizards/rosa/constants';
+
 import ReviewClusterScreen from './ReviewClusterScreen';
+
 import '../createROSAWizard.scss';
 
 const withState = (

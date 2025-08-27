@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react';
-import { Formik, Field, FieldProps } from 'formik';
+import { Field, FieldProps, Formik } from 'formik';
 import { Provider } from 'react-redux';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-// import { FormGroup } from '@patternfly/react-core'; // Unused
-
-import type { Meta, StoryObj } from '@storybook/react';
 import configureStore from 'redux-mock-store';
 
-import { FieldId } from '~/components/clusters/wizards/rosa/constants';
-import { RichInputField } from '~/components/clusters/wizards/form';
-import { constants } from '~/components/clusters/common/CreateOSDFormConstants';
+// import { FormGroup } from '@patternfly/react-core'; // Unused
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import {
   clusterNameValidation,
   // clusterNameAsyncValidation, // Unused
   // createPessimisticValidator, // Unused
 } from '~/common/validators';
+import { constants } from '~/components/clusters/common/CreateOSDFormConstants';
+import { RichInputField } from '~/components/clusters/wizards/form';
+import { FieldId } from '~/components/clusters/wizards/rosa/constants';
 
 // Create a query client for React Query
 const queryClient = new QueryClient({
@@ -204,52 +203,50 @@ export const Default: Story = {
     hasExistingName: false,
     autoTriggerValidation: false,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Default Cluster Name Field
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Empty field with help text
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Validation:</strong> Shows validation rules when
-              focused, then clicked outside
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Help Text:</strong> Explains cluster name purpose
-              and subdomain usage
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Initial state when user starts
-              entering cluster name
-            </p>
-          </div>
+          Default Cluster Name Field
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Empty field with help text
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Validation:</strong> Shows validation rules when
+            focused, then clicked outside
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Help Text:</strong> Explains cluster name purpose
+            and subdomain usage
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Initial state when user starts
+            entering cluster name
+          </p>
         </div>
-
-        <StoryWrapper {...args} />
       </div>
-    );
-  },
+
+      <StoryWrapper {...args} />
+    </div>
+  ),
 };
 
 export const MultiRegionMode: Story = {
@@ -259,50 +256,48 @@ export const MultiRegionMode: Story = {
     hasExistingName: false,
     isMultiRegion: true,
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Multi-Region Cluster Name Validation
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Mode:</strong> Multi-region enabled (Hypershift)
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Validation:</strong> Regional uniqueness checking
-              instead of global
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Scope:</strong> Name must be unique within
-              selected regional instance
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Hypershift clusters with
-              multi-region support
-            </p>
-          </div>
+          Multi-Region Cluster Name Validation
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Mode:</strong> Multi-region enabled (Hypershift)
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Validation:</strong> Regional uniqueness checking
+            instead of global
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Scope:</strong> Name must be unique within selected
+            regional instance
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Hypershift clusters with
+            multi-region support
+          </p>
         </div>
-
-        <StoryWrapper {...args} />
       </div>
-    );
-  },
+
+      <StoryWrapper {...args} />
+    </div>
+  ),
 };

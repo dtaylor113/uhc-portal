@@ -1,32 +1,34 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import relativeTime from 'dayjs/plugin/relativeTime';
+
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { HAS_USER_DISMISSED_RECOMMENDED_OPERATORS_ALERT } from '~/common/localStorageConstants';
+import { normalizedProducts } from '~/common/subscriptionTypes';
 import clusterStates from '~/components/clusters/common/clusterStates';
+import { SubscriptionCommonFieldsStatus } from '~/types/accounts_mgmt.v1';
 
 import ClusterDetailsTop from '../ClusterDetailsTop/ClusterDetailsTop';
+
 import {
-  mockReduxState,
-  mockReduxStateNoTerms,
-  mockFeatureGates,
-  installingOnlyCluster,
-  readyAlertsCluster,
   errorStateCluster,
   hibernatingCluster,
+  installingOnlyCluster,
+  mockFeatureGates,
+  mockReduxState,
+  mockReduxStateNoTerms,
+  readyAlertsCluster,
   // postInstallationCluster, // Unused
   // mockCloudProviders, // Unused
   // mockUserAccess, // Unused
   // mockInsightsData, // Unused
 } from './Overview.stories.fixtures';
-import { normalizedProducts } from '~/common/subscriptionTypes';
-import { SubscriptionCommonFieldsStatus } from '~/types/accounts_mgmt.v1';
 
 // Mock localStorage for recommended operators alert
 const mockLocalStorage = {

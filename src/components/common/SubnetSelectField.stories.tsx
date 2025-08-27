@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
+
+import { Form } from '@patternfly/react-core';
 // import { Formik } from 'formik'; // Unused
 import { Meta, StoryObj } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { Form } from '@patternfly/react-core';
 
 import { SubnetSelectField } from '~/components/clusters/common/SubnetSelectField';
 import { CloudVpc } from '~/types/clusters_mgmt.v1';
+// Mock action for stories since @storybook/addon-actions is not available
+const action =
+  (name: string) =>
+  (...args: any[]) =>
+    console.log(`${name}:`, ...args);
 
 // Mock VPC data with comprehensive subnet configurations
 const mockVpcWithAllSubnets: CloudVpc = {
@@ -148,7 +153,7 @@ const SubnetSelectFieldWrapper = ({
         input={
           {
             name: 'subnet_id',
-            value: value,
+            value,
             onChange: (subnetId: string | undefined) => {
               setValue(subnetId || '');
               action('subnet-changed')(subnetId);
@@ -161,7 +166,7 @@ const SubnetSelectFieldWrapper = ({
         }
         meta={{
           error: isRequired && !value ? 'Subnet is required' : undefined,
-          touched: touched,
+          touched,
         }}
         isRequired={isRequired}
         privacy={privacy}
@@ -262,55 +267,53 @@ export const PrivateSubnets: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic: Private Subnet Selection
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic VPC configuration
-              screen
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Purpose:</strong> Select private subnets for
-              worker node placement
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Grouping:</strong> Subnets grouped by
-              availability zone
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Auto-select:</strong> First available subnet
-              automatically selected
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <SubnetSelectFieldWrapper {...args} />
+          Rosa Classic: Private Subnet Selection
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic VPC configuration
+            screen
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Purpose:</strong> Select private subnets for worker
+            node placement
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Grouping:</strong> Subnets grouped by availability
+            zone
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Auto-select:</strong> First available subnet
+            automatically selected
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <SubnetSelectFieldWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const PublicSubnets: Story = {
@@ -330,55 +333,53 @@ export const PublicSubnets: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Hosted: Public Subnet Selection
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> ROSA Hosted networking
-              configuration step
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Purpose:</strong> Select public subnet for load
-              balancers and internet access
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Requirement:</strong> Required for public cluster
-              configuration
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Auto-select:</strong> First available public
-              subnet selected
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <SubnetSelectFieldWrapper {...args} />
+          Rosa Hosted: Public Subnet Selection
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> ROSA Hosted networking
+            configuration step
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Purpose:</strong> Select public subnet for load
+            balancers and internet access
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Requirement:</strong> Required for public cluster
+            configuration
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Auto-select:</strong> First available public subnet
+            selected
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <SubnetSelectFieldWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const FilteredByAvailabilityZone: Story = {
@@ -399,55 +400,53 @@ export const FilteredByAvailabilityZone: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic: Availability Zone Filtering
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic subnet selection
-              with AZ constraints
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Filter:</strong> Only subnets from us-east-1c
-              availability zone
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Matching subnet AZ with other
-              cluster resources
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Result:</strong> 2 private subnets shown
-              (filtered from 4 total)
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <SubnetSelectFieldWrapper {...args} />
+          Rosa Classic: Availability Zone Filtering
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic subnet selection
+            with AZ constraints
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Filter:</strong> Only subnets from us-east-1c
+            availability zone
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Matching subnet AZ with other
+            cluster resources
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Result:</strong> 2 private subnets shown (filtered
+            from 4 total)
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <SubnetSelectFieldWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const AutoSelectDisabled: Story = {
@@ -467,55 +466,53 @@ export const AutoSelectDisabled: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic: Manual Subnet Selection
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic subnet selection
-              without auto-selection
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Behavior:</strong> No automatic selection of
-              first subnet
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Requirement:</strong> User must explicitly choose
-              subnet
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Deliberate subnet selection
-              without assumptions
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <SubnetSelectFieldWrapper {...args} />
+          Rosa Classic: Manual Subnet Selection
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> ROSA Classic subnet selection
+            without auto-selection
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Behavior:</strong> No automatic selection of first
+            subnet
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Requirement:</strong> User must explicitly choose
+            subnet
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Deliberate subnet selection
+            without assumptions
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <SubnetSelectFieldWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const ValidationError: Story = {
@@ -537,55 +534,51 @@ export const ValidationError: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic: Validation Error State
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> Required subnet field
-              validation
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Error state:</strong> Empty required field with
-              validation error
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Visual cues:</strong> Red border and error
-              message
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>User action:</strong> Must select subnet to clear
-              error
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <SubnetSelectFieldWrapper {...args} />
+          Rosa Classic: Validation Error State
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> Required subnet field validation
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Error state:</strong> Empty required field with
+            validation error
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Visual cues:</strong> Red border and error message
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>User action:</strong> Must select subnet to clear
+            error
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <SubnetSelectFieldWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const NoSubnetsAvailable: Story = {
@@ -605,54 +598,52 @@ export const NoSubnetsAvailable: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic: No Matching Subnets
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> VPC with only public subnets
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Request:</strong> Private subnets needed but none
-              available
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>State:</strong> Dropdown disabled with
-              explanatory message
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Resolution:</strong> Choose different VPC or
-              configure private subnets
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <SubnetSelectFieldWrapper {...args} />
+          Rosa Classic: No Matching Subnets
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> VPC with only public subnets
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Request:</strong> Private subnets needed but none
+            available
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>State:</strong> Dropdown disabled with explanatory
+            message
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Resolution:</strong> Choose different VPC or
+            configure private subnets
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <SubnetSelectFieldWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const LongSubnetNames: Story = {
@@ -672,55 +663,52 @@ export const LongSubnetNames: Story = {
       },
     },
   },
-  render: (args) => {
-    return (
-      <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
-        <div
+  render: (args) => (
+    <div style={{ maxWidth: '750px', margin: '0 auto', padding: '20px' }}>
+      <div
+        style={{
+          backgroundColor: '#f8f9fa',
+          padding: '20px',
+          marginBottom: '24px',
+          borderRadius: '6px',
+          border: '1px solid #dee2e6',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+        }}
+      >
+        <h4
           style={{
-            backgroundColor: '#f8f9fa',
-            padding: '20px',
-            marginBottom: '24px',
-            borderRadius: '6px',
-            border: '1px solid #dee2e6',
-            fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+            margin: '0 0 16px 0',
+            color: '#495057',
+            fontSize: '16px',
+            fontWeight: '600',
           }}
         >
-          <h4
-            style={{
-              margin: '0 0 16px 0',
-              color: '#495057',
-              fontSize: '16px',
-              fontWeight: '600',
-            }}
-          >
-            Rosa Classic: Subnet Name Truncation
-          </h4>
-          <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Context:</strong> VPC with descriptive subnet
-              naming conventions
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Behavior:</strong> Names &gt;40 characters
-              truncated with "..."
-            </p>
-            <p style={{ margin: '0 0 12px 0' }}>
-              <strong style={{ color: '#495057' }}>Interaction:</strong> Hover to see full subnet
-              name
-            </p>
-            <p style={{ margin: '0' }}>
-              <strong style={{ color: '#495057' }}>Use case:</strong> Enterprise environments with
-              detailed naming
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '600px' }}>
-          <SubnetSelectFieldWrapper {...args} />
+          Rosa Classic: Subnet Name Truncation
+        </h4>
+        <div style={{ lineHeight: '1.6', fontSize: '14px', color: '#6c757d' }}>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Context:</strong> VPC with descriptive subnet
+            naming conventions
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Behavior:</strong> Names &gt;40 characters
+            truncated with "..."
+          </p>
+          <p style={{ margin: '0 0 12px 0' }}>
+            <strong style={{ color: '#495057' }}>Interaction:</strong> Hover to see full subnet name
+          </p>
+          <p style={{ margin: '0' }}>
+            <strong style={{ color: '#495057' }}>Use case:</strong> Enterprise environments with
+            detailed naming
+          </p>
         </div>
       </div>
-    );
-  },
+
+      <div style={{ maxWidth: '600px' }}>
+        <SubnetSelectFieldWrapper {...args} />
+      </div>
+    </div>
+  ),
 };
 
 export const Day2MachinePoolSubnet: Story = {

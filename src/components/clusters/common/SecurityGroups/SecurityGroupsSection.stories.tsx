@@ -1,15 +1,15 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Form, Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { thunk } from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
+import { thunk } from 'redux-thunk';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { FieldId } from '~/components/clusters/wizards/rosa/constants';
-import { CloudVpc } from '~/types/clusters_mgmt.v1';
-
 import SecurityGroupsSection from '~/components/clusters/wizards/rosa/VPCScreen/SecurityGroupsSection';
+import { CloudVpc } from '~/types/clusters_mgmt.v1';
 
 // Mock VPC data with security groups
 const mockVPCWithSecurityGroups: CloudVpc = {
@@ -31,27 +31,27 @@ const mockVPCWithSecurityGroups: CloudVpc = {
     {
       id: 'sg-default-123',
       name: 'default',
-      description: 'Default VPC security group',
+      // description: 'Default VPC security group', // Not part of SecurityGroup type
     },
     {
       id: 'sg-web-456',
       name: 'web-servers',
-      description: 'Security group for web servers allowing HTTP/HTTPS',
+      // description: 'Security group for web servers allowing HTTP/HTTPS', // Not part of SecurityGroup type
     },
     {
       id: 'sg-db-789',
       name: 'database-servers',
-      description: 'Security group for database servers with restricted access',
+      // description: 'Security group for database servers with restricted access', // Not part of SecurityGroup type
     },
     {
       id: 'sg-app-101',
       name: 'application-tier',
-      description: 'Security group for application tier with custom ports',
+      // description: 'Security group for application tier with custom ports', // Not part of SecurityGroup type
     },
     {
       id: 'sg-monitoring-202',
       name: 'monitoring',
-      description: 'Security group for monitoring and logging services',
+      // description: 'Security group for monitoring and logging services', // Not part of SecurityGroup type
     },
   ],
 };

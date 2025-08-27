@@ -2,17 +2,21 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import createMockStore, { MockStoreEnhanced } from 'redux-mock-store';
-import { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import promiseMiddleware from 'redux-promise-middleware';
 import { thunk } from 'redux-thunk';
-import { Wizard, WizardStep, WizardBody } from '@patternfly/react-core';
+
+import { Wizard, WizardBody, WizardStep } from '@patternfly/react-core';
+import { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { normalizedProducts } from '~/common/subscriptionTypes';
+import { baseRequestState } from '~/redux/reduxHelpers';
+import { SubscriptionCommonFieldsCluster_billing_model as BillingModel } from '~/types/accounts_mgmt.v1';
+
+import { FieldId, initialValues } from '../constants';
 
 import UpdatesScreen from './UpdatesScreen';
-import { baseRequestState } from '~/redux/reduxHelpers';
-import { initialValues, FieldId } from '../constants';
-import { normalizedProducts } from '~/common/subscriptionTypes';
-import { SubscriptionCommonFieldsCluster_billing_model as BillingModel } from '~/types/accounts_mgmt.v1';
+
 import '../createROSAWizard.scss';
 
 const withState = (

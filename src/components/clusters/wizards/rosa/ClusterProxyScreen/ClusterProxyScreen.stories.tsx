@@ -1,14 +1,13 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { Wizard, WizardStep } from '@patternfly/react-core';
+import type { Meta, StoryObj } from '@storybook/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { FieldId } from '~/components/clusters/wizards/rosa/constants';
 
 import ClusterProxyScreen from '../ClusterProxyScreen';
-
-import type { Meta, StoryObj } from '@storybook/react';
 
 type StoryWrapperProps = {
   showInWizardFramework: boolean;
@@ -20,6 +19,23 @@ type StoryWrapperProps = {
   };
 };
 
+// Wrapper component moved outside to avoid nested component definition
+const FormikQueryWrapper = ({
+  children,
+  queryClient,
+  initialFormValues,
+}: {
+  children: React.ReactNode;
+  queryClient: QueryClient;
+  initialFormValues: any;
+}) => (
+  <QueryClientProvider client={queryClient}>
+    <Formik initialValues={initialFormValues} onSubmit={() => {}} validate={() => ({})}>
+      {children}
+    </Formik>
+  </QueryClientProvider>
+);
+
 const StoryWrapper = ({ showInWizardFramework, initialFormValues }: StoryWrapperProps) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -28,18 +44,10 @@ const StoryWrapper = ({ showInWizardFramework, initialFormValues }: StoryWrapper
     },
   });
 
-  const Wrapper = ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>
-      <Formik initialValues={initialFormValues} onSubmit={() => {}} validate={() => ({})}>
-        {children}
-      </Formik>
-    </QueryClientProvider>
-  );
-
   if (showInWizardFramework) {
     return (
       <div style={{ height: '100vh' }}>
-        <Wrapper>
+        <FormikQueryWrapper queryClient={queryClient} initialFormValues={initialFormValues}>
           <Wizard>
             <WizardStep name="Cluster-wide proxy" id="cluster-proxy">
               <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
@@ -47,16 +55,16 @@ const StoryWrapper = ({ showInWizardFramework, initialFormValues }: StoryWrapper
               </div>
             </WizardStep>
           </Wizard>
-        </Wrapper>
+        </FormikQueryWrapper>
       </div>
     );
   }
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-      <Wrapper>
+      <FormikQueryWrapper queryClient={queryClient} initialFormValues={initialFormValues}>
         <ClusterProxyScreen />
-      </Wrapper>
+      </FormikQueryWrapper>
     </div>
   );
 };
@@ -130,7 +138,6 @@ export default meta;
 type Story = StoryObj<typeof StoryWrapper>;
 
 export const InitialState: Story = {
-  name: 'Initial State',
   args: {
     showInWizardFramework: true,
     initialFormValues: {
@@ -164,7 +171,6 @@ Shows the initial state when user first enters the cluster-wide proxy configurat
 };
 
 export const Populated: Story = {
-  name: 'Populated',
   args: {
     showInWizardFramework: true,
     initialFormValues: {
