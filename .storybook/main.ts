@@ -16,13 +16,15 @@ const config: StorybookConfig = {
     // Step 5
     '../src/components/clusters/wizards/rosa/ClusterRolesScreen/ClusterRolesScreen.stories.tsx',
     // Exclude specific files from glob pattern and add them in order
-    '../src/**/!(UpdatesScreen|ReviewClusterScreen|ReviewRoleItem|UpgradeSettingsFields|NetworkScreen|CIDRScreen|ClusterRolesScreen).stories.@(js|jsx|mjs|ts|tsx)',
+    '../src/**/!(UpdatesScreen|ReviewClusterScreen|ReviewRoleItem|UpgradeSettingsFields|NetworkScreen|CIDRScreen|ClusterRolesScreen|SharedVPCSection|SharedVPCDomainSelect).stories.@(js|jsx|mjs|ts|tsx)',
     // Steps 6 and 7 in correct order
     '../src/components/clusters/wizards/rosa/UpdatesScreen/UpdatesScreen.stories.tsx',
     '../src/components/clusters/wizards/rosa/ReviewClusterScreen/ReviewClusterScreen.stories.tsx',
     // Common components last
     '../src/components/clusters/wizards/rosa/ReviewClusterScreen/ReviewRoleItem.stories.tsx',
     '../src/components/clusters/wizards/rosa/common/Upgrades/UpgradeSettingsFields.stories.tsx',
+    '../src/components/clusters/wizards/rosa/NetworkingSection/SharedVPCSection.stories.tsx',
+    '../src/components/clusters/wizards/rosa/NetworkingSection/SharedVPCDomainSelect.stories.tsx',
   ],
   addons: [
     '@storybook/addon-webpack5-compiler-swc',
