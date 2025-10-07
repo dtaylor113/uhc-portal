@@ -1,0 +1,9 @@
+# Tech notes portal artifacts
+portal/.docusaurus/
+portal/node_modules/
+portal/build/
+portal/.cache/
+
+# OS files
+.DS_Store
+
