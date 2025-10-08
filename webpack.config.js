@@ -91,6 +91,18 @@ module.exports = async (_env, argv) => {
     timeout: 60000,
   });
 
+  // Babel configuration that includes the source mapping plugin
+  const babelDevConfig = {
+    cacheDirectory: true,
+    plugins: [path.resolve(__dirname, 'babel-plugins/sol-sc-explorer/index.js')],
+  };
+
+  // Additional TypeScript handling for .ts/.tsx files
+  const typescriptBabelConfig = {
+    ...babelDevConfig,
+    presets: ['@babel/preset-typescript', '@babel/preset-react'],
+  };
+
   return {
     mode: argv.mode || 'development',
     entry,
@@ -167,16 +179,22 @@ module.exports = async (_env, argv) => {
           test: /\.jsx?$/,
           include: srcDir,
           use: {
-            loader: 'babel-loader', // babel config is in babel.config.js
-            options: {
-              cacheDirectory: true,
-            },
+            loader: 'babel-loader',
+            options: devMode ? babelDevConfig : { cacheDirectory: true },
           },
         },
         {
-          test: /src\/.*\.tsx?$/,
-          loader: 'ts-loader',
+          // TS and TSX files
+          test: /\.tsx?$/,
+          include: srcDir,
           exclude: /(node_modules)/i,
+          use: devMode
+            ? {
+                // In development, use babel-loader with TypeScript presets
+                loader: 'babel-loader',
+                options: typescriptBabelConfig,
+              }
+            : 'ts-loader', // In production, use ts-loader as before
         },
         {
           test: /\.scss$/,
