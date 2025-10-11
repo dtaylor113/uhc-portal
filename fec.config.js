@@ -40,6 +40,8 @@ module.exports = {
       APP_DEVMODE: process.env.NODE_ENV !== 'production',
       APP_SENTRY_RELEASE_VERSION: JSON.stringify(process.env.SENTRY_VERSION),
       APP_DEV_SERVER: process.env.NODE_ENV !== 'production',
+      APP_MSW: JSON.stringify(!!process.env.MSW),
+      APP_BASE_PATH: JSON.stringify(`/${name}`),
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: 'public', to: path.resolve(__dirname, 'dist', name), toType: 'dir' }],

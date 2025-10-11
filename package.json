@@ -200,7 +200,8 @@
     "webpack": "^5.89.0",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^6.0.0",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-dev-server": "^5.0.4",
+    "msw": "^2.6.8"
   },
   "resolutions": {
     "@cypress/webpack-preprocessor": "6.0.2",
@@ -245,7 +246,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "postinstall": "ts-patch install",
-    "find-circular-dependencies": "madge --circular --extensions ts,js ./src "
+    "find-circular-dependencies": "madge --circular --extensions ts,js ./src ",
+    "msw:init": "msw init public --save"
   },
   "insights": {
     "appname": "openshift"
@@ -258,5 +260,10 @@
   "engines": {
     "node": ">= 18.12.0",
     "yarn": ">= 1.22.19"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

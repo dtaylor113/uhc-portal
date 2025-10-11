@@ -21,6 +21,7 @@ declare const APP_DEVMODE: boolean;
 declare const APP_DEV_SERVER: boolean;
 declare const BASE_PATH: string;
 declare const APP_SENTRY_RELEASE_VERSION: string;
+declare const APP_MSW: boolean;
 
 declare module '*.png' {
   const value: any;

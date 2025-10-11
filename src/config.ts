@@ -53,6 +53,8 @@ configs.integration = import(/* webpackMode: "eager" */ './config/integration.js
 if (APP_DEV_SERVER) {
   // running in webpack dev server, add mockdata configs
   configs.mockdata = import(/* webpackMode: "eager" */ './config/mockdata.json');
+  // explicit msw env toggle (uses same config values)
+  (configs as any)['msw-mockdata'] = configs.mockdata;
 }
 
 // select config according to the environment

@@ -15,6 +15,8 @@ const EnvOverrideMessage = ({ env }: Props) => {
     localStorage.removeItem(ENV_OVERRIDE_LOCALSTORAGE_KEY);
   };
 
+  const displayEnv = APP_MSW && env === 'mockdata' ? 'msw mockdata' : env;
+
   return (
     <Alert
       variant="warning"
@@ -22,7 +24,7 @@ const EnvOverrideMessage = ({ env }: Props) => {
       id="env-override-message"
       title={
         <>
-          Using the <em>{env}</em> environment API
+          Using the <em>{displayEnv}</em> environment API
         </>
       }
       className="pf-v6-u-flex-basis-0 pf-v6-u-flex-grow-1"

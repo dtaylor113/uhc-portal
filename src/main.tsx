@@ -18,6 +18,8 @@ import fromEntries from 'object.fromentries';
 import { createRoot } from 'react-dom/client';
 
 import AppEntry from './chrome-main';
+import { ENV_OVERRIDE_LOCALSTORAGE_KEY } from './common/localStorageConstants';
+import { startMsw } from '../mockdata/msw/browser.js';
 
 if (!Object.fromEntries) {
   fromEntries.shim();
@@ -47,6 +49,24 @@ if (!window.insights && APP_DEV_SERVER) {
   // so I made sure it's only ever called in development mode
   renderDevEnvError();
 } else {
-  const root = createRoot(document.getElementById('root') as HTMLElement);
-  root.render(<AppEntry />);
+  const search = window.location.search;
+  const isMswMockdata = /(^|&)env=msw-mockdata(&|$)/.test(search.substring(1));
+  // Persist env override ASAP so SPA redirects can't drop it
+  try {
+    const envVal = new URLSearchParams(search).get('env');
+    if (envVal === 'mockdata' || envVal === 'mockserver' || envVal === 'msw-mockdata') {
+      localStorage.setItem(ENV_OVERRIDE_LOCALSTORAGE_KEY, 'mockdata');
+    }
+  } catch {}
+
+  const renderApp = () => {
+    const root = createRoot(document.getElementById('root') as HTMLElement);
+    root.render(<AppEntry />);
+  };
+
+  if (isMswMockdata) {
+    startMsw().finally(renderApp);
+  } else {
+    renderApp();
+  }
 }
