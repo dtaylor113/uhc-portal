@@ -13,6 +13,8 @@ type Props = {
 const EnvOverrideMessage = ({ env }: Props) => {
   const goBackToNormal = () => {
     localStorage.removeItem(ENV_OVERRIDE_LOCALSTORAGE_KEY);
+    // Also clear the HTTP cookie
+    document.cookie = 'ocmOverridenEnvironment=; path=/; max-age=0';
   };
 
   return (

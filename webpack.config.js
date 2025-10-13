@@ -28,6 +28,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const { Agent } = require('https');
 const { insights } = require('./package.json');
+const mswMiddleware = require('./mockdata/msw/msw-middleware');
 
 const name = insights.appname;
 const moduleName = name.replace(/-(\w)/g, (_, match) => match.toUpperCase());
@@ -70,8 +71,14 @@ module.exports = async (_env, argv) => {
 
   const chromeTemplateUrl = `https://console.redhat.com/apps/chrome/index.html`;
   const getChromeTemplate = async () => {
-    const result = await axios.get(chromeTemplateUrl);
-    return result.data;
+    try {
+      const result = await axios.get(chromeTemplateUrl);
+      return result.data;
+    } catch (error) {
+      console.warn('[webpack] Failed to fetch Chrome template (offline/VPN required). Using fallback.');
+      // Return a minimal fallback template
+      return '<html><head></head><body><div id="root"></div></body></html>';
+    }
   };
   const chromeTemplate = await getChromeTemplate();
 
@@ -259,6 +266,10 @@ module.exports = async (_env, argv) => {
     },
 
     devServer: {
+      static: {
+        directory: path.join(__dirname, 'public'),
+        publicPath: '/',
+      },
       historyApiFallback: {
         index: `${publicPath}index.html`,
         rewrites: [
@@ -271,6 +282,14 @@ module.exports = async (_env, argv) => {
         if (!devServer) {
           throw new Error('webpack-dev-server is not defined');
         }
+
+        // MSW Middleware - intercepts API requests BEFORE proxying
+        // This runs when ?env=msw-mockdata is present
+        middlewares.unshift({
+          name: 'msw-mock-middleware',
+          middleware: mswMiddleware,
+        });
+        console.log('[WEBPACK] ✅ MSW middleware registered - will intercept API requests when ?env=msw-mockdata is present');
 
         if (verboseLogging) {
           middlewares.unshift({

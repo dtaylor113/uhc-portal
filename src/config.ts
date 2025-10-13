@@ -53,6 +53,7 @@ configs.integration = import(/* webpackMode: "eager" */ './config/integration.js
 if (APP_DEV_SERVER) {
   // running in webpack dev server, add mockdata configs
   configs.mockdata = import(/* webpackMode: "eager" */ './config/mockdata.json');
+  configs['msw-mockdata'] = import(/* webpackMode: "eager" */ './config/msw-mockdata.json');
 }
 
 // select config according to the environment
@@ -163,12 +164,16 @@ const config = {
 
       const queryEnv = parseEnvQueryParam() || localStorage.getItem(ENV_OVERRIDE_LOCALSTORAGE_KEY);
       if (queryEnv && configs[queryEnv]) {
-        configs[queryEnv]!.then((data) => {
+        configs[queryEnv]!.then(async (data) => {
           this.loadConfig(data, chrome);
           // eslint-disable-next-line no-console
           console.info(`Loaded override config: ${queryEnv}`);
           that.envOverride = queryEnv;
           localStorage.setItem(ENV_OVERRIDE_LOCALSTORAGE_KEY, queryEnv);
+
+          // Also set as HTTP cookie so backend middleware can detect it
+          document.cookie = `ocmOverridenEnvironment=${queryEnv}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+
           resolve();
         });
       } else {

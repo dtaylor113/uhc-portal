@@ -36,10 +36,28 @@ import { store } from './redux/store';
 import { authInterceptor } from './services/apiRequest';
 import { Chrome } from './types/types';
 import config, { APP_API_ENV } from './config';
+import { ENV_OVERRIDE_LOCALSTORAGE_KEY } from './common/localStorageConstants';
 
 import './styles/main.scss';
 
 import './i18n';
+
+// ============================================
+// MSW Note: Mocking is now handled by webpack dev server middleware
+// See mockdata/msw-middleware.js
+// ============================================
+const urlParams = new URLSearchParams(window.location.search);
+const envParam = urlParams.get('env');
+const storedEnv = localStorage.getItem(ENV_OVERRIDE_LOCALSTORAGE_KEY);
+const shouldUseMSW = envParam === 'msw-mockdata' || storedEnv === 'msw-mockdata';
+
+if (shouldUseMSW) {
+  console.log(
+    '%c[MSW] 🎭 MSW MOCK MODE ACTIVE',
+    'background: #00ff00; color: #000; font-size: 16px; padding: 10px;',
+  );
+  console.log('[MSW] API requests will be intercepted by webpack dev server middleware');
+}
 
 const { Api, Config } = OCM;
 
@@ -61,7 +79,7 @@ type Props = {
 class AppEntry extends React.Component<Props> {
   state = { ready: false };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { chrome, track } = this.props;
     config.dateConfig();
     chrome.on('APP_NAVIGATION', ({ navId, domEvent: { href } }) => {
@@ -72,6 +90,7 @@ class AppEntry extends React.Component<Props> {
         },
       });
     });
+
     chrome.auth.getUser().then((data: any) => {
       if (data?.identity?.user) {
         store.dispatch(userInfoResponse(data.identity.user));
