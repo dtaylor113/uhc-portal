@@ -44,7 +44,7 @@ import './i18n';
 
 // ============================================
 // MSW Note: Mocking is now handled by webpack dev server middleware
-// See mockdata/msw-middleware.js
+// See mockdata/msw/msw-middleware.js
 // ============================================
 const urlParams = new URLSearchParams(window.location.search);
 const envParam = urlParams.get('env');

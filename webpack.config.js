@@ -46,6 +46,16 @@ module.exports = async (_env, argv) => {
 
   const isDevServer = process.argv.includes('serve');
 
+  // Check if we should use the MSW Node.js server
+  // Using file-based detection since FEC doesn't pass env vars through
+  const useMswServer = fs.existsSync(path.join(__dirname, '.msw-mode'));
+  
+  if (useMswServer) {
+    console.log('[WEBPACK CONFIG] 🚀 MSW Node.js server mode ENABLED (.msw-mode file detected)');
+  } else {
+    console.log('[WEBPACK CONFIG] ℹ️  MSW Node.js server mode disabled (using custom middleware or Python server)');
+  }
+
   const outDir = outputPath
     ? path.resolve(__dirname, outputPath)
     : path.resolve(__dirname, 'dist', insights.appname);
@@ -81,6 +91,22 @@ module.exports = async (_env, argv) => {
     }
   };
   const chromeTemplate = await getChromeTemplate();
+  
+  // Read MSW pre-init script (wrap in try-catch for safety)
+  let chromeTemplateWithMSW = chromeTemplate;
+  try {
+    const mswPreInitScript = fs.readFileSync(path.resolve(srcDir, 'msw-pre-init.js'), 'utf-8');
+    
+    // Inject MSW pre-init into Chrome template (before closing </head> tag)
+    chromeTemplateWithMSW = chromeTemplate.replace(
+      '</head>',
+      `<script>${mswPreInitScript}</script></head>`
+    );
+    console.log('[webpack] ✅ MSW pre-init script injected into HTML');
+  } catch (error) {
+    console.warn('[webpack] ⚠️  Could not inject MSW pre-init script:', error.message);
+    console.warn('[webpack] Continuing without MSW pre-init...');
+  }
 
   // For hot reloads while developing, reset window's onbeforeunload event
   // to prevent browser confirmation dialogs.
@@ -123,7 +149,7 @@ module.exports = async (_env, argv) => {
         chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css',
       }),
       new HtmlWebpackPlugin({
-        templateContent: chromeTemplate,
+        templateContent: chromeTemplateWithMSW,
       }),
       new webpack.DefinePlugin({
         APP_DEVMODE: devMode,
@@ -285,11 +311,16 @@ module.exports = async (_env, argv) => {
 
         // MSW Middleware - intercepts API requests BEFORE proxying
         // This runs when ?env=msw-mockdata is present
-        middlewares.unshift({
-          name: 'msw-mock-middleware',
-          middleware: mswMiddleware,
-        });
-        console.log('[WEBPACK] ✅ MSW middleware registered - will intercept API requests when ?env=msw-mockdata is present');
+        // NOTE: Only used when not using MSW Node.js server (fallback mode)
+        if (!useMswServer) {
+          middlewares.unshift({
+            name: 'msw-mock-middleware',
+            middleware: mswMiddleware,
+          });
+          console.log('[WEBPACK] ✅ MSW middleware registered - will intercept API requests when ?env=msw-mockdata is present');
+        } else {
+          console.log('[WEBPACK] ℹ️  MSW Node.js server mode - using proxy to localhost:9001');
+        }
 
         if (verboseLogging) {
           middlewares.unshift({
@@ -343,10 +374,20 @@ module.exports = async (_env, argv) => {
       },
       proxy: noInsightsProxy
         ? [
+          // /mockdata routes - go to MSW Node.js server OR Python server
+          // When USE_MSW_SERVER=true, routes to MSW at localhost:9001
+          // Otherwise, routes to legacy Python server at port 8010
           {
             context: ['/mockdata'],
             pathRewrite: { '^/mockdata': '' },
-            target: 'http://[::1]:8010',
+            target: useMswServer ? 'http://localhost:9001' : 'http://[::1]:8010',
+            changeOrigin: true,
+            logLevel: 'info',
+            onProxyReq(proxyRequest, req) {
+              if (useMswServer) {
+                console.log('[WEBPACK] → MSW Server:', req.url);
+              }
+            },
           },
           runAIinStandalone
             ? {

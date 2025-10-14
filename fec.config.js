@@ -31,7 +31,16 @@ module.exports = {
     {
       context: ['/mockdata'],
       pathRewrite: { '^/mockdata': '' },
-      target: 'http://[::1]:8010',
+      // Use MSW Node.js server if .msw-mode file exists, otherwise Python server
+      target: require('fs').existsSync(require('path').join(__dirname, '.msw-mode')) 
+        ? 'http://localhost:9001' 
+        : 'http://[::1]:8010',
+      onProxyReq: (proxyReq, req) => {
+        const isMswMode = require('fs').existsSync(require('path').join(__dirname, '.msw-mode'));
+        if (isMswMode) {
+          console.log('[FEC PROXY] → MSW Server:', req.url);
+        }
+      },
     },
   ],
   plugins: [

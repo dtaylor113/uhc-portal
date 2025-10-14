@@ -38,3 +38,6 @@ openapi/*.json
 /unitTestCoverage
 
 .cache/
+
+# MSW mode detection file
+.msw-mode
