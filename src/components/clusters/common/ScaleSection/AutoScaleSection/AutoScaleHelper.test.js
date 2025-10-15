@@ -71,7 +71,8 @@ describe('AutoScaleHelper.js', () => {
 
   describe('getMinReplicasCount', () => {
     it('returns expected value for BYOC multi AZ with HCP selected', () => {
-      const expected = DEFAULT_NODE_COUNT_CUSTOMER_MULTI_AZ;
+      // when isHypershift, than the minimal rep. count can't be lower than 2
+      const expected = 2;
       const result = getMinReplicasCount(true, true, false, true);
       expect(result).toBe(expected);
     });

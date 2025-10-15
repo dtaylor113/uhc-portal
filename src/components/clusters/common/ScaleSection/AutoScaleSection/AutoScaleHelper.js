@@ -54,7 +54,8 @@ export const getNodesCount = (isBYOC, isMultiAz, asString) => {
 export const getMinReplicasCount = (isBYOC, isMultiAz, asString, isHypershiftSelected = false) => {
   const nodesCount = getNodesCount(isBYOC, isMultiAz, false);
   const minReplicas = isMultiAz && !isBYOC && !isHypershiftSelected ? nodesCount / 3 : nodesCount;
-  return asString ? `${minReplicas}` : minReplicas;
+  const retVal = isHypershiftSelected && minReplicas < 2 ? 2 : minReplicas;
+  return asString ? `${retVal}` : retVal;
 };
 
 export const computeNodeHintText = (isHypershiftWizard, isAddEditHypershiftModal) => {
