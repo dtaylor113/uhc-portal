@@ -41,3 +41,14 @@ openapi/*.json
 
 # MSW mode detection file
 .msw-mode
+
+# MSW TypeScript compiler output (build artifacts)
+mockdata/msw/fixtures/dist/
+
+# MSW recorded fixtures (local staging area - not committed)
+mockdata/msw/fixtures/recorded/
+src/types/**/*.js
+src/types/**/*.js.map
+src/types/**/*.d.ts
+src/types/**/*.d.ts.map
+!src/types/**/*.ts

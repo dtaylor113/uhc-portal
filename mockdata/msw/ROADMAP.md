@@ -103,46 +103,142 @@ This project went through multiple starts and stops before achieving success:
 
 ---
 
-## 📊 Current Status (Phase 1 Complete)
+## 📊 Current Status
 
-### What's Working
+### ✅ Phase 1 Complete (October 2025)
+- MSW Node.js server running on port 9001
+- Full integration with FEC webpack configuration
+- File-based mode detection (`.msw-mode`)
+- Cookie-based client/server coordination
+- All major API endpoints implemented
+- Working cluster list and details pages
+
+### ✅ Phase 2 Complete (October 17, 2025)
+
+**Achievement:** Replaced all legacy JSON dependencies with type-safe TypeScript fixtures!
+
+#### What Was Built
+
+1. **TypeScript Fixture System**
+   ```
+   mockdata/msw/fixtures/
+   ├── types.ts                    # Type definitions from OpenAPI
+   ├── clusters.ts                 # hypershift-ready cluster
+   ├── subscriptions.ts            # Subscription fixtures
+   ├── accounts.ts                 # Account/organization data
+   ├── providers.ts                # Cloud providers & machine types
+   ├── authorization.ts            # Auth response fixtures
+   ├── access-transparency.ts      # Access transparency data
+   ├── index.ts                    # Main export
+   ├── tsconfig.json              # TypeScript configuration
+   ├── package.json               # ES module marker
+   └── dist/                      # Compiled JavaScript
+   ```
+
+2. **Build System Integration**
+   - `yarn msw:fixtures:build` - Compile TypeScript fixtures
+   - `yarn msw:fixtures:watch` - Watch mode for development
+   - `yarn start:msw` - Automatically builds before starting server
+
+3. **Type Safety Benefits**
+   - IDE auto-complete for all mock data fields
+   - Compile-time type checking against OpenAPI schemas
+   - Factory functions (`createCluster()`) for easy customization
+   - Self-documenting code with TypeScript types
+
+#### Current Mock Data
+
+- **Clusters:** Recorded from real OCM clusters (auto-discovered)
+  - Currently: 1 recorded cluster (OSD on GCP, single-zone, private)
+  - Easy to add more: `./mockdata/msw/scripts/record-cluster.sh <subscription-id>`
+- **Subscriptions:** Auto-recorded alongside clusters
+- **1 organization:** Mock Organization with capabilities
+- **1 current account:** mnecas.openshift
+- **8 cloud providers:** AWS, GCP, Azure, etc. (from legacy JSON)
+- **197 machine types:** All platforms (from legacy JSON)
+
+#### What's Working Now
 
 | Component | Status | Details |
 |-----------|--------|---------|
 | MSW Server | ✅ Running | Port 9001, Node.js HTTP server |
-| Webpack Dev Server | ✅ Running | Port 1337, FEC-based |
-| Proxy Routing | ✅ Working | Routes `/mockdata` to MSW server |
-| Mode Detection | ✅ Working | File-based (`.msw-mode`) |
-| Cluster List | ✅ Working | Shows all 23 clusters |
+| TypeScript Fixtures | ✅ Active | No dependency on legacy JSON |
+| Type Safety | ✅ Working | OpenAPI types enforced at compile-time |
+| Build System | ✅ Integrated | Automatic compilation |
+| Cluster List | ✅ Working | Shows 1 comprehensive cluster |
 | Cluster Details | ✅ Working | All sub-resources loading |
+| Factory Functions | ✅ Available | Easy to create custom mock data |
 | SSO Authentication | ✅ Real | Uses actual Red Hat SSO |
 | Chrome Framework | ✅ Real | Loaded from console.redhat.com |
 
-### Mock Data Stats
+#### Technical Debt Resolved
 
-- **23 clusters** from `mockdata/api/clusters_mgmt/v1/clusters.json`
-- **23 subscriptions** (generated dynamically per cluster)
-- **8 cloud providers** (AWS, GCP, Azure, etc.)
-- **197 machine types**
-- **1 organization** with quota
-- **1 current account** (mnecas.openshift)
+✅ ~~Still using legacy JSON files~~ → **RESOLVED!** Now using TypeScript fixtures  
+✅ ~~No TypeScript type checking~~ → **RESOLVED!** Full type safety with OpenAPI types  
+⚠️ Manual request routing → Still using if/else, consider routing library in future
 
-### Technical Debt
+### ✅ Phase 2.5 Complete (October 18, 2025)
 
-1. **Still using legacy JSON files** ⚠️ HIGH PRIORITY
-   - Dependency on `mockdata/api/**/*.json`
-   - No type safety
-   - **Solution:** Phase 2 (TypeScript fixtures)
+**Achievement:** Auto-discovery system, recording workflow, and production-ready cluster details!
 
-2. **No TypeScript type checking** ⚠️
-   - Server is JavaScript (`.mjs`)
-   - Mock data can have wrong types
-   - **Solution:** Phase 2
+#### What Was Built
 
-3. **Manual request routing** ⚠️
-   - Lots of if/else statements
-   - Verbose code
-   - **Solution:** Consider routing library or Phase 2 refactor
+1. **Auto-Discovery System**
+   - Individual fixtures stored in `fixtures/clusters/` and `fixtures/subscriptions/`
+   - `generate-fixture-indexes.mjs` automatically scans directories and creates index files
+   - No manual imports needed - just add/remove fixture files!
+   - `clusters.ts` and `subscriptions.ts` automatically import from generated indexes
+
+2. **Recording Workflow**
+   - `record-cluster.sh` - Fetch real cluster data from OCM API and generate TypeScript fixtures
+   - `rename-cluster.sh` - Rename recorded fixtures (updates both cluster and subscription)
+   - `delete-cluster.sh` - Delete recorded fixtures
+   - `ROSA_CLUSTER_FLAVORS.md` - Documentation for creating various cluster types
+   - `recorded/` directory for local staging (git-ignored)
+
+3. **Cluster Details Page - Fully Working!**
+   - Fixed missing API handlers for cluster sub-resources:
+     - `/machine_pools` - Critical for details page loading
+     - `/node_pools` - Node pool management
+     - `/identity_providers` - IDP configuration
+     - `/ingresses` - Ingress configuration
+     - `/gate_agreements` - Version gate agreements
+     - `/limited_support_reasons` - Limited support status
+     - `/control_plane/upgrade_policies` - Control plane upgrades
+     - `/version_gates` - Version gate status
+     - `/inflight_checks` - Pre-flight validation
+     - `/notification_contacts` - Subscription notification contacts
+   - Fixed organization data structure (nested `organization.id` in account)
+   - Cluster details now loads instantly, no more infinite spinner!
+
+4. **Clean Logging System**
+   - Removed excessive debug emojis and box borders
+   - Clean, production-ready logging
+   - Easy to read terminal output
+   - Unhandled requests clearly identified
+
+#### Key Technical Wins
+
+1. **Path Extraction Fix**
+   - Cluster ID extraction now handles sub-resources correctly
+   - Uses `path.split('/')` instead of strict route matching
+   - Single handler for all cluster sub-resources
+
+2. **Subscription Routing Fix**
+   - Prioritizes sub-resources before ID matching
+   - `/notification_contacts` now routes correctly
+   - Proper handler ordering prevents false matches
+
+3. **Organization Data Fix**
+   - `mockCurrentAccount` now has nested `organization` object
+   - Matches expected structure: `organization.id`, not `organization_id`
+   - `getOrganizationAndQuota()` now triggers correctly
+
+#### Impact
+
+- **Before:** Only 1 hand-crafted cluster, details page spinning indefinitely
+- **After:** Auto-discovered real clusters, details page loads instantly!
+- **Developer Experience:** Record real clusters in seconds, zero manual imports
 
 ---
 
@@ -150,9 +246,9 @@ This project went through multiple starts and stops before achieving success:
 
 **Create a well-documented, type-checked, and easy-to-use MSW mocking system with the ability to easily add, edit, and delete mock data.**
 
-### Success Criteria
+### Success Criteria ✅ ACHIEVED!
 
-When Phase 2 is complete, developers will be able to:
+Developers can now:
 
 1. ✅ **Add new mock data** by editing TypeScript files with full IDE support
 2. ✅ **Get compile-time errors** if mock data doesn't match API types
@@ -164,9 +260,11 @@ When Phase 2 is complete, developers will be able to:
 
 ---
 
-## 🚀 Phase 2: TypeScript Fixtures with Type Safety
+## 🚀 Phase 2: TypeScript Fixtures with Type Safety ✅ COMPLETE
 
 **Goal:** Replace legacy JSON dependencies with independent TypeScript fixtures using OpenAPI-generated types.
+
+**Status:** ✅ Completed October 17, 2025
 
 ### Why Phase 2?
 
@@ -415,14 +513,9 @@ export function handleCreateCluster(req) {
 }
 ```
 
-### 3.4: Request Recording
+**Note on Recording:** Phase 2 delivered a **targeted recording solution** via `./mockdata/msw/scripts/record-cluster.sh`, which is better suited for QE workflows than automatic session recording. See `mockdata/msw/scripts/README.md` and `mockdata/msw/scripts/ROSA_CLUSTER_FLAVORS.md` for the complete workflow.
 
-```bash
-# Record real API responses to create fixtures
-yarn msw:record
-```
-
-### 3.5: OpenAPI Validation
+### 3.4: OpenAPI Validation
 
 ```typescript
 import { validateResponse } from 'openapi-validator';

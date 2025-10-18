@@ -211,7 +211,10 @@
   "scripts": {
     "start:ci": "concurrently --kill-others --prefix=name --names=SERVER,MOCK --prefix-colors=cyan,reset --passthrough-arguments 'yarn dev-server --env noproxy {@}' 'mockdata/mockserver.py' --",
     "start": "concurrently --kill-others --prefix=name --names=SERVER,MOCK --prefix-colors=cyan,reset --passthrough-arguments 'HOT=true yarn dev:fec --clouddotEnv prod {@}' 'mockdata/mockserver.py' --",
-    "msw:server": "node mockdata/msw/server/dev-server-simple.mjs",
+    "msw:fixtures:build": "node mockdata/msw/scripts/generate-fixture-indexes.mjs && tsc -p mockdata/msw/fixtures/tsconfig.json",
+    "msw:fixtures:watch": "tsc -p mockdata/msw/fixtures/tsconfig.json --watch",
+    "msw:fixtures:clean": "rm -rf mockdata/msw/fixtures/dist",
+    "msw:server": "yarn msw:fixtures:build && node mockdata/msw/server/dev-server-simple.mjs",
     "start:msw": "yarn stop:msw && touch .msw-mode && concurrently --kill-others --prefix=name --names=MSW,WEBPACK --prefix-colors=magenta,cyan 'yarn msw:server' 'HOT=true yarn dev:fec --clouddotEnv prod'",
     "stop:msw": "rm -f .msw-mode; pkill -9 -f 'msw:server'; pkill -9 -f 'yarn start:msw'; pkill -9 -f 'webpack serve'; lsof -ti:1337 | xargs kill -9 2>/dev/null || true; lsof -ti:9001 | xargs kill -9 2>/dev/null || true; sleep 2; echo 'All MSW processes killed'",
     "build": "webpack $(run/progress-flag-if-tty.sh)",
