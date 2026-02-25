@@ -1,0 +1,168 @@
+{
+  "_comment": "SanKey priority framework. Tiers are evaluated top-to-bottom (first match wins). Each tier has a base_priority plus optional modifiers for customer/heat/impact signals. Activity Type field: customfield_12320040.",
+
+  "_guidelines_note": "Bug priorities implemented via bug_impact_patterns, story/task priorities via story_impact_patterns (both in area_keywords.json). Patterns evaluated in order; first match wins. Customer signal bumps one level on top. Normal is the base (no pattern needed). Minor detected via cosmetic/alignment/font/text patterns. Severity field represents SanKey company priority band (separate from per-ticket Priority).",
+  "_guidelines": {
+    "Blocker": {
+      "bug": "Completely prevents users from performing a critical function without a workaround.",
+      "bug_examples": ["Login failure", "Form submission failure without warning", "Error page instead of rendering", "White screen for critical functions"],
+      "bug_keywords": "login fail, white screen, blank page, error page, unusable, complete failure",
+      "story": "Feature is required.",
+      "story_keywords": "required, must have, mandatory, blocking release",
+      "epic_note": "Story/epic cannot be closed. Address immediately."
+    },
+    "Critical": {
+      "bug": "Significantly degrades functionality or compromises important features without a workaround.",
+      "bug_examples": ["Form submission with unexpected error", "Parts of page failing to render", "User cannot navigate to or execute critical functionality"],
+      "bug_keywords": "unable to, cannot, broken, fails to render, crash, failure, not working",
+      "story": "Critical to user experience or RH business needs.",
+      "story_keywords": "critical to, urgent, compliance, regulatory",
+      "epic_note": "Story/epic cannot be closed. Work on immediately once in-progress work completes."
+    },
+    "Major": {
+      "bug": "Significant issues affecting important features, but application not unusable. Complex workaround may exist.",
+      "bug_examples": ["Data missing or incorrect", "Validation prevents moving forward", "Cluster not showing on list", "Cannot enter valid value", "Missing labels/aria-labels"],
+      "bug_keywords": "data missing, data incorrect, validation prevents, not showing, doesn't appear, cannot enter/reach",
+      "story": "Highly desirable and time sensitive.",
+      "story_keywords": "time sensitive, deadline, high priority, needed by",
+      "epic_note": "Story/epic cannot be closed. Work on in next sprint."
+    },
+    "Normal": {
+      "bug": "Issues that affect certain features but are not critical or major. Straightforward workaround exists.",
+      "bug_examples": ["Incorrect placeholder (changeable)", "Must click twice to activate", "Misspellings", "Vague labels"],
+      "story": "Typical request for enhancement.",
+      "note": "Base priority — assigned when no impact keywords are detected."
+    },
+    "Minor": {
+      "bug": "Relatively less significant issues with minimal impact on functionality and UX.",
+      "bug_examples": ["Two buttons misaligned", "Broken informative link in help popover"],
+      "bug_keywords": "misalign, alignment, font color, font size, cosmetic, text change, typo, misspell, pixel, whitespace",
+      "story": "Cosmetic change.",
+      "story_keywords": "cosmetic, text change, font color, alignment, typo",
+      "note": "Detected via minor impact patterns in area_keywords.json. Customer bumps to Normal."
+    }
+  },
+
+  "activity_type_field": "customfield_12320040",
+  "severity_field": "customfield_12316142",
+
+  "tier_to_severity": {
+    "support-escalation": "Critical",
+    "cve-security":       "Critical",
+    "tech-debt":          "Important",
+    "chore":              "Important",
+    "bug":                "Important",
+    "weakness":           "Important",
+    "strategic":          "Moderate",
+    "bu-product":         "Moderate",
+    "all-else":           "Low"
+  },
+
+  "tier_to_activity_type": {
+    "support-escalation": "Incidents & Support",
+    "cve-security":       "Security & Compliance",
+    "tech-debt":          "Quality / Stability / Reliability",
+    "chore":              "Quality / Stability / Reliability",
+    "bug":                "Incidents & Support",
+    "weakness":           "Security & Compliance",
+    "strategic":          "Future Sustainability",
+    "bu-product":         "Product / Portfolio Work",
+    "all-else":           null
+  },
+
+  "sankey_tiers": [
+    {
+      "tier": "support-escalation",
+      "description": "Bugs linked to RHOCPPRIO (support escalations)",
+      "detect": "issuelinks contain RHOCPPRIO key",
+      "base_priority": "Blocker",
+      "modifiers": {}
+    },
+    {
+      "tier": "cve-security",
+      "description": "CVEs and security issues",
+      "detect": "issuetype=Vulnerability OR label=SecurityTracking OR activity_type='Security & Compliance'",
+      "base_priority": "Critical",
+      "modifiers": {}
+    },
+    {
+      "tier": "tech-debt",
+      "description": "Technical debt — stability and reliability work",
+      "detect": "feature_label=ui-feature:tech-debt OR existing_labels=tech-debt,tech-maintenance OR activity_type='Quality / Stability / Reliability'",
+      "base_priority": "Normal",
+      "modifiers": {
+        "customer_or_hot": "Major"
+      }
+    },
+    {
+      "tier": "chore",
+      "description": "Chores — routine maintenance",
+      "detect": "summary~chore OR label in (chore, chores)",
+      "base_priority": "Normal",
+      "modifiers": {}
+    },
+    {
+      "tier": "bug",
+      "description": "Bugs not caught by higher tiers. Base Normal per guidelines. Impact keywords bump: blocker→Blocker, critical→Critical, major→Major, minor→Minor. Customer bumps one level.",
+      "detect": "issuetype=Bug OR activity_type='Incidents & Support'",
+      "base_priority": "Normal",
+      "modifiers": {
+        "blocker_customer": "Blocker",
+        "blocker": "Blocker",
+        "critical_customer": "Blocker",
+        "critical": "Critical",
+        "major_customer": "Critical",
+        "major": "Major",
+        "minor_customer": "Normal",
+        "minor": "Minor",
+        "customer": "Major",
+        "customer_and_hot": "Critical"
+      }
+    },
+    {
+      "tier": "weakness",
+      "description": "Weakness tracking",
+      "detect": "issuetype=Weakness OR label=WeaknessTracking",
+      "base_priority": "Normal",
+      "modifiers": {
+        "customer_or_hot": "Major"
+      }
+    },
+    {
+      "tier": "strategic",
+      "description": "Strategic investments — future sustainability",
+      "detect": "activity_type='Future Sustainability'",
+      "base_priority": "Normal",
+      "modifiers": {
+        "customer": "Major"
+      }
+    },
+    {
+      "tier": "bu-product",
+      "description": "BU / portfolio product work",
+      "detect": "activity_type='Product / Portfolio Work'",
+      "base_priority": "Normal",
+      "modifiers": {
+        "customer": "Major"
+      }
+    },
+    {
+      "tier": "all-else",
+      "description": "Stories/Tasks not classified above. Impact keywords from story_impact_patterns bump based on business value language.",
+      "detect": "fallback",
+      "base_priority": "Normal",
+      "modifiers": {
+        "blocker_customer": "Blocker",
+        "blocker": "Blocker",
+        "critical_customer": "Blocker",
+        "critical": "Critical",
+        "major_customer": "Critical",
+        "major": "Major",
+        "minor_customer": "Normal",
+        "minor": "Minor",
+        "customer": "Major",
+        "customer_and_hot": "Critical"
+      }
+    }
+  ]
+}

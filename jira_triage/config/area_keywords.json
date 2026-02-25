@@ -1,0 +1,102 @@
+{
+  "_comment": "All patterns matched case-insensitively against ticket summary + description. First match wins within each group. Skip patterns match summary only (use ^ anchors). Bug-tier tickets use bug_impact_patterns; all other tiers use story_impact_patterns. Product types sourced from src/common/subscriptionTypes.ts productFilterOptions.",
+
+  "skip_patterns": [
+    "^e2e automation:",
+    "^ci automation:",
+    "^post-merge testing:",
+    "^post-merge testing for",
+    "\\bspike\\b"
+  ],
+
+  "product_patterns": [
+    { "pattern": "\\[\\s*rosa[- ]hcp",                    "label": "ui-product:rosa-hcp" },
+    { "pattern": "\\[\\s*rosa[- ]classic",                 "label": "ui-product:rosa-classic" },
+    { "pattern": "\\[\\s*hcp\\s*\\]",                     "label": "ui-product:rosa-hcp" },
+    { "pattern": "rosa\\s+hcp|hosted\\s+control\\s+plane", "label": "ui-product:rosa-hcp" },
+    { "pattern": "rosa\\s+classic",                        "label": "ui-product:rosa-classic" },
+    { "pattern": "\\[\\s*aro\\s*\\]|\\baro\\b|azure\\s+red\\s+hat", "label": "ui-product:aro" },
+    { "pattern": "\\[\\s*rhoic\\s*\\]|\\brhoic\\b|openshift.*ibm\\s+cloud|ibm\\s+cloud.*openshift", "label": "ui-product:rhoic" },
+    { "pattern": "\\[\\s*osd.*gcp|osd.*google|osd-gcp|osd in gc",  "label": "ui-product:osd-gcp" },
+    { "pattern": "\\[\\s*osd.*aws|osd.*ccs.*aws",         "label": "ui-product:osd-aws" },
+    { "pattern": "\\[\\s*osd|\\bosd\\b|openshift\\s+dedicated",    "label": "ui-product:osd" },
+    { "pattern": "assisted.install|\\bai\\s+cluster|\\[\\s*ocp-ai",  "label": "ui-product:ocp-ai" },
+    { "pattern": "\\[\\s*ocp\\s*\\]|\\bocp\\b(?!.*rio)",  "label": "ui-product:ocp" },
+    { "pattern": "\\[\\s*rosa|\\brosa\\b",                "label": "ui-product:rosa" }
+  ],
+
+  "feature_patterns": [
+    { "pattern": "\\[fedramp\\]|\\[fedramp |fedramp",     "label": "ui-feature:fedramp" },
+    { "pattern": "\\[yaml.editor\\]|yaml editor",         "label": "ui-feature:yaml-editor" },
+    { "pattern": "machine.pool|node.?pool|compute.node",  "label": "ui-feature:machine-pools" },
+    { "pattern": "autoscal|max.nodes.total",              "label": "ui-feature:autoscaling" },
+    { "pattern": "wizard|day.?1.*creat|creat\\w*\\s+\\S*\\s*cluster|cluster\\s+creat|creation\\s+flow", "label": "ui-feature:wizard" },
+    { "pattern": "cluster.detail|cluster.overview|day.?2|overview.*page|overview.*tab", "label": "ui-feature:cluster-details" },
+    { "pattern": "cluster.list|clusters.page|cluster.table", "label": "ui-feature:cluster-list" },
+    { "pattern": "access.control|identity.provider|\\bidp\\b|htpasswd|ldap|oauth|openid|cluster.roles|ocm.roles", "label": "ui-feature:access-control" },
+    { "pattern": "network|ingress|\\bvpc\\b|subnet|\\bcidr\\b|security.group|proxy", "label": "ui-feature:networking" },
+    { "pattern": "download|cli.download|install.*link|\\bbinar|\\bcli\\b.*url|download.*url|url.*download|broken.*url|url.*broken|\\boci\\b.*mirror|pull.secret", "label": "ui-feature:downloads" },
+    { "pattern": "doc.link|external.link|link.checker|broken.link", "label": "ui-feature:docs-links" },
+    { "pattern": "billing|subscription|marketplace|quota|cost", "label": "ui-feature:billing" },
+    { "pattern": "transfer.*cluster|cluster.*transfer|transfer.*ownership", "label": "ui-feature:transfers" },
+    { "pattern": "banner|\\balert|notification|announcement", "label": "ui-feature:notifications" },
+    { "pattern": "feature.flag|feature.gate|feature flag", "label": "ui-feature:feature-flags" },
+    { "pattern": "refactor|remove.*unused|dead.code|tech.debt|cleanup|clean.up|deprecat", "label": "ui-feature:tech-debt" },
+    { "pattern": "node\\.?js|konflux|jenkins|renovate|eslint|migration.*ci|ci.*migration", "label": "ui-feature:infra" },
+    { "pattern": "dashboard(?!.*team)",                    "label": "ui-feature:dashboard" },
+    { "pattern": "encrypt|\\betcd\\b|\\bkms\\b|\\bfips\\b", "label": "ui-feature:encryption" },
+    { "pattern": "add-?on|addon|operator",                 "label": "ui-feature:add-ons" },
+    { "pattern": "upgrade|version.*select",                "label": "ui-feature:upgrades" },
+    { "pattern": "bare.?metal|\\bbm\\b.*cluster",         "label": "ui-feature:bare-metal" }
+  ],
+
+  "customer_patterns": [
+    "customer|\\brfe\\b|rhn-support|\\bsre\\b|support.case|escalat|\\bcee\\b"
+  ],
+
+  "story_impact_patterns": [
+    {
+      "_comment": "Blocker: feature is required, must-have, blocking release. Checked first.",
+      "pattern": "\\brequired\\b|\\bmust.have\\b|\\bmandatory\\b|\\brelease.block|\\bblocking.release|\\bmust.ship\\b",
+      "impact": "blocker"
+    },
+    {
+      "_comment": "Major-specific: time sensitive, deadlines, high priority. Checked BEFORE broad critical.",
+      "pattern": "\\btime.sensitive\\b|\\bdeadline\\b|\\bneeded.by\\b|\\bneeded.for\\b|\\bhigh.priority\\b|\\bhighly.desirable\\b",
+      "impact": "major"
+    },
+    {
+      "_comment": "Critical: critical to UX or business, urgent, compliance. Catch-all after major.",
+      "pattern": "\\bcritical\\s+to\\b|\\burgent\\b|\\bbusiness.need|\\bcompliance\\b|\\bregulatory\\b|\\basap\\b|\\bmust.fix\\b",
+      "impact": "critical"
+    },
+    {
+      "_comment": "Minor: purely cosmetic story work, text/font/alignment tweaks.",
+      "pattern": "\\bcosmetic|\\btext\\s*(change|update)|\\bfont\\s*(color|size|style)|\\balignment\\b|\\btypo|\\bmisspell",
+      "impact": "minor"
+    }
+  ],
+
+  "bug_impact_patterns": [
+    {
+      "_comment": "Blocker: complete halt, unusable, no workaround. Checked first.",
+      "pattern": "login\\s+(fail|error|broken)|white\\s+screen|blank\\s+(screen|page)|\\berror\\s+page\\b|complete(ly)?\\s+(fail|broken|halt|prevent|block)|\\bunusable\\b|form\\s+submission\\s+fail",
+      "impact": "blocker"
+    },
+    {
+      "_comment": "Major-specific: data issues, validation, display missing, specific 'cannot X'. Checked BEFORE broad critical patterns to avoid false escalation.",
+      "pattern": "\\bdata\\b.{0,20}(missing|incorrect|wrong)|(missing|incorrect|wrong).{0,20}\\bdata\\b|validation.{0,15}(prevent|block|stop)|\\bnot\\s+show(ing)?\\b|\\bdoesn.?t\\s+(show|appear)|\\bisn.?t\\s+show|cannot\\s+(enter|type|input|reach|select|click)|missing\\s+(label|aria)|incorrect\\s+(label|aria)|\\boverlap",
+      "impact": "major"
+    },
+    {
+      "_comment": "Critical: broad blocking language — unable to, cannot, broken, crash, not working. Catch-all after major-specific patterns.",
+      "pattern": "\\bunable\\s+to|\\bcannot\\b|\\bcan.?t\\s+\\w+|\\bbroken\\b|\\bbreaks\\b|\\bfails?\\s+to|\\bfailure|not\\s+work|doesn.?t\\s+work|\\bcrash|\\bprevent\\w*\\b|\\bunresponsive|\\bnot\\s+allow",
+      "impact": "critical"
+    },
+    {
+      "_comment": "Minor: cosmetic issues, alignment, font/text changes, typos. Minimal functional impact.",
+      "pattern": "\\bmisalign|\\balignment\\b|\\bfont\\s*(color|size|style|change)|\\bcosmetic|\\btext\\s*(change|update)|\\btypo|\\bmisspell|\\bspelling\\b|\\bwhitespace\\b|\\bpixel|\\bpadding\\s*(issue|wrong|off)|\\bmargin\\s*(issue|wrong|off)",
+      "impact": "minor"
+    }
+  ]
+}

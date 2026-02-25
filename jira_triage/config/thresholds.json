@@ -1,0 +1,8 @@
+{
+  "_comment": "Thresholds for triage-heat labels based on comment count.",
+  "heat": {
+    "hot": 5,
+    "warm": 2,
+    "cold": 0
+  }
+}
