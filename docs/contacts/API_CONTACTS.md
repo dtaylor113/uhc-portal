@@ -127,7 +127,7 @@ When you have questions about an API — its behavior, expected response data, c
 - **UI Areas:**
   - Downloads page
   - Install cluster instruction pages
-- **Slack:** `#ocm-osd-ui` (our code makes these calls; GitHub is a public API)
+- **Slack:** `#ocm-osd-ui` (no external contact — OCMUI owns the integration with GitHub)
 
 ### Assisted Installer
 - **Path:** Federated (module federation remote)
@@ -140,19 +140,6 @@ When you have questions about an API — its behavior, expected response data, c
   - Dashboard (empty state)
 - **Slack:** `#forum-assisted-installer`
 - **JIRA:** [MGMT](https://redhat.atlassian.net/projects/MGMT)
-
----
-
-## Product Managers
-
-| Product Area | Slack |
-|-------------|-------|
-| ROSA | `@Bala Chandrasekaran`, `@Aaren`, `@Sean Y` |
-| OSD | `@Shreyans Mulkutkar` |
-| ARO | `@Jerome`, `@Oren Kashi` |
-| OCM | `@Likhith` |
-| Marketplace/Billing | `@Likhith`, `@Jiri Fiala` |
-| ROSA Hyperfleet | `@Aaren`, `@Abhishek Gupta` |
 
 ---
 
