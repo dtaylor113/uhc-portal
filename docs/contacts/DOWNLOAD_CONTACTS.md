@@ -59,6 +59,6 @@ For broken doc links ("Get started" / "Learn more"), file a ticket in the **OSDO
 
 | Display Name | Upstream OWNERS | Slack Channel | Notes |
 |-------------|-----------------|---------------|-------|
-| Pull Secret | — | `#forum-managed-openshift` | API: /api/accounts_mgmt/v1/access_token |
+| Pull Secret | — | `#forum-managed-openshift` | API: [/api/accounts_mgmt/v1/access_token](https://api.openshift.com/?urls.primaryName=Accounts+management+service#/default/post_api_accounts_mgmt_v1_access_token) |
 | OCM API Token | — | `#forum-managed-openshift` | [console.redhat.com/openshift/token](https://console.redhat.com/openshift/token) |
 

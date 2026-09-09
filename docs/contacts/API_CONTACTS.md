@@ -96,7 +96,7 @@ When you have questions about an API — its behavior, expected response data, c
   - Dashboard (Insights card)
   - Cluster details
 - **Slack:** `#forum-consoledot`
-- **JIRA:** [CCX](https://redhat.atlassian.net/projects/CCX)
+- **JIRA:** [CCXDEV](https://redhat.atlassian.net/projects/CCXDEV)
 
 ### FedRAMP Customer Interest
 - **Path:** `/fedramp-customer-interest/incident`
@@ -127,9 +127,10 @@ When you have questions about an API — its behavior, expected response data, c
 - **UI Areas:**
   - Downloads page
   - Install cluster instruction pages
-- **Slack:** `#ocm-osd-ui` (no external contact — OCMUI owns the integration with GitHub)
+- **Slack:** `#ocm-osd-ui`
+- **Notes:** No external owner — OCMUI owns this integration. File issues in [OCMUI](https://redhat.atlassian.net/projects/OCMUI).
 
-### Assisted Installer
+### Assisted Installer (OCP clusters)
 - **Path:** Federated (module federation remote)
 - **UI Areas:**
   - Overview page
