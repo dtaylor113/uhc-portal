@@ -11,10 +11,9 @@ When you have questions about an API — its behavior, expected response data, c
 
 ### Clusters Management (CS)
 - **Path:** [`/api/clusters_mgmt/v1`](https://api.openshift.com/?urls.primaryName=Clusters+management+service)
-- **UI Areas:**
-
-  | Cluster list | Archived cluster list |
+- | UI Areas | |
   |---|---|
+  | Cluster list | Archived cluster list |
   | Cluster details (all tabs) | OSD wizard (AWS/GCP) |
   | OSD Trial wizard | ROSA Classic wizard |
   | ROSA HCP wizard | ROSA Get Started wizard |
@@ -29,10 +28,9 @@ When you have questions about an API — its behavior, expected response data, c
 
 ### Account Management (AMS)
 - **Path:** [`/api/accounts_mgmt/v1`](https://api.openshift.com/?urls.primaryName=Accounts+management+service)
-- **UI Areas:**
-
-  | Quota page | Dashboard |
+- | UI Areas | |
   |---|---|
+  | Quota page | Dashboard |
   | Cluster list | Cluster details |
   | OSD wizard (AWS/GCP) | ROSA Classic wizard |
   | ROSA HCP wizard | ROSA Get Started wizard |
@@ -112,10 +110,9 @@ When you have questions about an API — its behavior, expected response data, c
 
 ### Product Life Cycles
 - **Path:** `access.redhat.com/product-life-cycles/api/v1`
-- **UI Areas:**
-
-  | Releases page | Cluster details |
+- | UI Areas | |
   |---|---|
+  | Releases page | Cluster details |
   | OSD wizard | ROSA Classic wizard |
   | ROSA HCP wizard | ROSA Get Started wizard |
 
