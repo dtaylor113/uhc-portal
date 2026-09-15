@@ -11,7 +11,7 @@ const getReleaseNotesLink = (version: string | undefined): string | null => {
 
   const { major, minor, patch, prerelease } = parsed;
 
-  if (major !== 4 || !isEmpty(prerelease)) {
+  if (!isEmpty(prerelease)) {
     return null;
   }
 

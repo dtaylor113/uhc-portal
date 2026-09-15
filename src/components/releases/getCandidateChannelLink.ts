@@ -11,15 +11,16 @@ const getCandidateChannelLink = (version: string | undefined): string | null => 
 
   const { major, minor, prerelease } = parsed;
 
-  if (major !== 4 || !isEmpty(prerelease)) {
+  if (!isEmpty(prerelease)) {
     return null;
   }
 
   let filename = 'understanding-openshift-updates-1#understanding-update-channels-releases';
-  // docs changed the URL with 4.14+
-  if (minor < 14) {
-    // docs changed the URL with 4.6+
+  // Legacy URL patterns only ever applied to OCP 4.x; 5.x always uses the current filename.
+  if (major === 4 && minor < 14) {
+    // docs changed the URL with 4.14+
     if (minor < 6) {
+      // docs changed the URL with 4.6+
       filename = `index#candidate-${major}-${minor}-channel`;
     } else {
       filename =
