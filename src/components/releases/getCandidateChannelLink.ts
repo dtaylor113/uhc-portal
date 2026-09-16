@@ -1,7 +1,6 @@
-import isEmpty from 'lodash/isEmpty';
 import semver from 'semver';
 
-// example link: https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/updating_clusters/updating-cluster-within-minor#candidate-4-8-channel
+// example link: https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/updating_clusters/understanding-openshift-updates-1#understanding-update-channels-releases
 const getCandidateChannelLink = (version: string | undefined): string | null => {
   const parsed = semver.coerce(version);
 
@@ -9,11 +8,9 @@ const getCandidateChannelLink = (version: string | undefined): string | null => 
     return null;
   }
 
-  const { major, minor, prerelease } = parsed;
-
-  if (!isEmpty(prerelease)) {
-    return null;
-  }
+  // semver.coerce() always strips any prerelease/build metadata (e.g. "-beta.1"), so
+  // `parsed.prerelease` is unconditionally `[]` here — there is no prerelease guard to apply.
+  const { major, minor } = parsed;
 
   let filename = 'understanding-openshift-updates-1#understanding-update-channels-releases';
   // Legacy URL patterns only ever applied to OCP 4.x; 5.x always uses the current filename.
