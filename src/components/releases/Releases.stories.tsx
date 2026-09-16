@@ -5,7 +5,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { OCP5_SUPPORT, TABBED_CLUSTERS } from '~/queries/featureGates/featureConstants';
-import { V1_API_URL, V2_API_URL } from '~/services/productLifeCycleService';
 import { ProductLifeCycle } from '~/types/product-life-cycles';
 import { Graph } from '~/types/upgrades_info.v1';
 
@@ -23,28 +22,24 @@ const FOUR_X_ONLY_VERSIONS = ALL_VERSIONS.filter((version) => !version.name.star
 // where stable/fast/eus/candidate channels for the same minor sit on different patches.
 const PATCH_OFFSET_BY_PREFIX: Record<string, number> = { stable: 2, fast: 5, eus: 1, candidate: 7 };
 
-// Toggled per-story by buildQueryClient() just before the QueryClient is constructed —
-// see the "Lifecycle fetch failed" story, which intentionally leaves the
-// ocpLifeCycleStatus query unseeded so its queryFn actually runs (and needs to fail
-// without hitting the real network).
-let forceLifecycleFetchError = false;
-
 /**
- * Two real network calls happen behind this page, neither of which we want Storybook
- * to make for real:
- *  - `getOCPLifeCycleStatus` (productLifeCycleService.ts) calls the real, absolute
- *    `access.redhat.com` product-life-cycles API directly — used to seed the "Lifecycle
- *    fetch failed" story with a genuine rejection instead of a real request.
- *  - `getOCPReleaseChannel` (hooks.ts) is a plain axios call (not react-query) to
- *    `/api/upgrades_info/v1/graph` for each channel's "Latest version" text and
- *    candidate-channel popover link. The real staging API has no channels for
- *    not-yet-released 5.x versions and silently falls back to an unrelated 4.x
- *    version, so we fake a per-channel response scoped to that channel's own
- *    major.minor instead.
- * Patched once at module scope.
+ * `ReleaseChannel`'s "Latest version" text and its candidate-channel popover link
+ * (`hooks.ts` -> `getOCPReleaseChannel`) are fetched via a plain axios call, not
+ * react-query, so they can't be satisfied by seeding a QueryClient cache. Patch
+ * `axios.get` once at module scope to fake the `/api/upgrades_info/v1/graph`
+ * response, scoped to each requested channel's own major.minor — otherwise
+ * Storybook would hit the real staging API, which has no channels for
+ * not-yet-released 5.x versions and silently falls back to an unrelated 4.x
+ * version for every channel.
+ *
+ * This is safe to share across all stories (unlike a per-story error flag would
+ * be — see `buildQueryClient`'s use of `prefetchQuery` for that instead): the
+ * fake response only ever depends on the requested channel name, which is the
+ * same for every story, including when Storybook's "Docs" page mounts all of
+ * them at once.
  */
 let isAxiosPatched = false;
-const patchAxiosForStorybook = () => {
+const patchAxiosGraphEndpoint = () => {
   if (isAxiosPatched) return;
   isAxiosPatched = true;
 
@@ -74,9 +69,6 @@ const patchAxiosForStorybook = () => {
     if (url === '/api/upgrades_info/v1/graph') {
       return Promise.resolve(fakeGraphForChannel(config?.params?.channel));
     }
-    if ((url === V1_API_URL || url === V2_API_URL) && forceLifecycleFetchError) {
-      return Promise.reject(new Error('Storybook: simulated lifecycle API failure'));
-    }
     return originalGet(url, config);
   }) as typeof axios.get;
 };
@@ -92,8 +84,7 @@ function buildQueryClient({
   versions,
   simulateFetchError,
 }: BuildQueryClientOptions) {
-  patchAxiosForStorybook();
-  forceLifecycleFetchError = simulateFetchError;
+  patchAxiosGraphEndpoint();
 
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -110,9 +101,17 @@ function buildQueryClient({
   });
   queryClient.setQueryData([FEATURE_GATE_QUERY_KEY, TABBED_CLUSTERS], { data: { enabled: false } });
 
-  // Leave ocpLifeCycleStatus unseeded when simulating a fetch error, so useQuery
-  // actually invokes queryFn (and hits our patched, rejecting axios.get above).
-  if (!simulateFetchError) {
+  if (simulateFetchError) {
+    // Writes a genuine error state directly into *this* QueryClient instance via
+    // the public prefetchQuery API — scoped to this story only, unlike patching
+    // shared axios.get would be (which broke when Storybook's "Docs" page mounts
+    // every story's QueryClient at once).
+    queryClient.prefetchQuery({
+      queryKey: [OCP_LIFECYCLE_QUERY_KEY, isOcp5SupportEnabled],
+      queryFn: () => Promise.reject(new Error('Storybook: simulated lifecycle API failure')),
+      retry: false,
+    });
+  } else {
     queryClient.setQueryData([OCP_LIFECYCLE_QUERY_KEY, isOcp5SupportEnabled], {
       data: { data: [{ ...ocpLifeCycleStatuses.data.data[0], versions }] },
     });

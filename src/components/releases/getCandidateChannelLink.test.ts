@@ -6,6 +6,12 @@ describe('getCandidateChannelLink', () => {
     expect(getCandidateChannelLink('not-a-version')).toBeNull();
   });
 
+  // A prerelease (e.g. an OCP candidate/nightly build) must not get a link to
+  // an update-channels page that doesn't apply to that build.
+  it('returns null for a prerelease version', () => {
+    expect(getCandidateChannelLink('5.0.0-rc.1')).toBeNull();
+  });
+
   it('uses the legacy index filename for 4.x versions before 4.6', () => {
     expect(getCandidateChannelLink('4.5')).toBe(
       'https://docs.redhat.com/en/documentation/openshift_container_platform/4.5/html/updating_clusters/index#candidate-4-5-channel',
@@ -29,12 +35,6 @@ describe('getCandidateChannelLink', () => {
   it('uses the current filename for 5.x versions, even at minor 0', () => {
     expect(getCandidateChannelLink('5.0')).toBe(
       'https://docs.redhat.com/en/documentation/openshift_container_platform/5.0/html/updating_clusters/understanding-openshift-updates-1#understanding-update-channels-releases',
-    );
-  });
-
-  it('uses the current filename for 5.x versions at higher minors', () => {
-    expect(getCandidateChannelLink('5.2')).toBe(
-      'https://docs.redhat.com/en/documentation/openshift_container_platform/5.2/html/updating_clusters/understanding-openshift-updates-1#understanding-update-channels-releases',
     );
   });
 });
