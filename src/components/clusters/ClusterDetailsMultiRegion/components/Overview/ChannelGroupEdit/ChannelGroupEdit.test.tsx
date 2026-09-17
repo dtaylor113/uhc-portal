@@ -257,7 +257,7 @@ describe('<ChannelGroupEdit />', () => {
     expect(screen.getByRole('button', { name: /save/i })).toBeDisabled();
   });
 
-  it('should enable save button after changing the value and call mutate on save', async () => {
+  it('should enable save button after changing the value and call mutate with region on save', async () => {
     mockUseGetChannelGroupsData.mockReturnValue({
       availableDropdownChannelGroups: mockOptions,
       isLoading: false,
@@ -291,10 +291,48 @@ describe('<ChannelGroupEdit />', () => {
         {
           clusterID: 'cluster-123',
           channelGroup: 'fast',
+          region: mockedROSAHyperShiftCluster.subscription?.rh_region_id,
         },
         expect.objectContaining({
           onSuccess: expect.any(Function),
         }),
+      );
+    });
+  });
+
+  it('should pass region from cluster subscription to mutate for regional routing', async () => {
+    mockUseGetChannelGroupsData.mockReturnValue({
+      availableDropdownChannelGroups: mockOptions,
+      isLoading: false,
+    });
+
+    const regionalCluster = {
+      ...mockedROSAHyperShiftCluster,
+      subscription: {
+        ...mockedROSAHyperShiftCluster.subscription,
+        rh_region_id: 'aws.ap-southeast-1.stage',
+      },
+    };
+
+    const { user } = render(
+      <ChannelGroupEdit
+        clusterID="cluster-123"
+        channelGroup="stable"
+        cluster={regionalCluster as AugmentedCluster}
+      />,
+    );
+
+    await user.click(screen.getByTestId('channelGroupModal'));
+
+    await user.selectOptions(screen.getByTestId('channel-group-select'), 'fast');
+    await user.click(screen.getByRole('button', { name: /save/i }));
+
+    await waitFor(() => {
+      expect(mutateMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          region: 'aws.ap-southeast-1.stage',
+        }),
+        expect.any(Object),
       );
     });
   });

@@ -37,6 +37,7 @@ type ChannelGroupEditModalProps = {
   isOpen: boolean;
   onClose: () => void;
   channelGroup: string;
+  region?: string;
   optionsDropdownData: {
     value: string;
     label: string;
@@ -55,6 +56,7 @@ const ChannelGroupEditModal = ({
   isOpen,
   onClose,
   channelGroup,
+  region,
   optionsDropdownData,
 }: ChannelGroupEditModalProps) => {
   const { mutate, isError, error, isPending } = useMutateChannelGroup();
@@ -65,7 +67,7 @@ const ChannelGroupEditModal = ({
       onSubmit={(values: any) => {
         const { channelGroup } = values;
         mutate(
-          { clusterID, channelGroup },
+          { clusterID, channelGroup, region },
           {
             onSuccess: () => {
               onClose();
@@ -141,6 +143,7 @@ export const ChannelGroupEdit = ({
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const canUpdateClusterResource = !!cluster.canUpdateClusterResource;
   const isClusterReady = cluster.state === clusterStates.ready;
+  const region = cluster?.subscription?.rh_region_id;
   const { availableDropdownChannelGroups, isLoading } = useGetChannelGroupsData(cluster);
   const hasChannelGroupOptions = (availableDropdownChannelGroups?.length ?? 0) > 0;
 
@@ -153,6 +156,7 @@ export const ChannelGroupEdit = ({
           optionsDropdownData={availableDropdownChannelGroups}
           onClose={() => setIsModalOpen(false)}
           channelGroup={channelGroup}
+          region={region}
         />
       )}
       <DescriptionListGroup>
