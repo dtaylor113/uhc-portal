@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { getClusterServiceForRegion } from '~/services/clusterService';
+import { clusterService } from '~/services';
 
 import { formatErrorData } from '../helpers';
 
@@ -10,19 +10,17 @@ export const useMutateChannelGroup = () => {
     mutationFn: async ({
       clusterID,
       channelGroup,
-      region,
     }: {
       clusterID: string;
       channelGroup: string;
-      region?: string;
     }) => {
-      const clusterService = getClusterServiceForRegion(region);
-
-      return clusterService.editCluster(clusterID, {
+      const response = await clusterService.editCluster(clusterID, {
         version: {
           channel_group: channelGroup,
         },
       });
+
+      return response;
     },
   });
 
