@@ -59,6 +59,7 @@ describe('<ClusterCreatedIndicator />', () => {
       managed: false,
       subscription: {
         [SUPPORT_LEVEL]: SubscriptionCommonFieldsSupportLevel.Eval,
+        eval_expiration_date: '2020-08-15T12:00:00Z',
       },
       creation_timestamp: creationTimeStamp,
     };
@@ -68,13 +69,33 @@ describe('<ClusterCreatedIndicator />', () => {
     expect(screen.getByText('15 Jun 2020')).toBeInTheDocument();
 
     await user.click(screen.getByRole('button'));
-    expect(await screen.findByRole('dialog')).toBeInTheDocument();
-
-    expect(screen.getByText('Your OCP cluster is not', { exact: false })).toBeInTheDocument();
+    const dialog = await screen.findByRole('dialog');
+    expect(dialog).toHaveTextContent(/Your OCP cluster is not/i);
+    expect(dialog).toHaveTextContent(/Please enable the support by/i);
+    expect(dialog).not.toHaveTextContent(/Invalid Date/i);
     expect(screen.getByRole('link', { name: /OCP subscriptions/i })).toHaveAttribute(
       'href',
       docLinks.RH_OCP_SUBSCRIPTIONS,
     );
+  });
+
+  it('should omit support deadline when Eval cluster has no eval_expiration_date', async () => {
+    const cluster = {
+      managed: false,
+      subscription: {
+        [SUPPORT_LEVEL]: SubscriptionCommonFieldsSupportLevel.Eval,
+      },
+      creation_timestamp: '2020-06-15T12:00:00Z',
+    };
+
+    const { user } = render(<ClusterCreatedIndicator cluster={cluster} />);
+    await user.click(screen.getByRole('button'));
+    const dialog = await screen.findByRole('dialog');
+
+    expect(dialog).toHaveTextContent(/Your OCP cluster is not/i);
+    expect(dialog).toHaveTextContent(/Your cluster will remain functional/i);
+    expect(dialog).not.toHaveTextContent(/Please enable the support by/i);
+    expect(dialog).not.toHaveTextContent(/Invalid Date/i);
   });
 
   it('should show "N/A" with warning when Eval cluster has no creation timestamp', () => {
