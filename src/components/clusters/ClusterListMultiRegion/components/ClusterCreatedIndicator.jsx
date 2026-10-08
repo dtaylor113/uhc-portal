@@ -125,15 +125,22 @@ function ClusterCreatedIndicator({ cluster }) {
         <ExternalLink href={supportLinks.OPENSHIFT_POLICY_UPDATES} noIcon>
           supported
         </ExternalLink>
-        . Your cluster will remain functional. Please enable the support by&nbsp;
-        <strong>
-          <Timestamp
-            date={new Date(subscription.eval_expiration_date)}
-            dateFormat={TimestampFormat.medium}
-            locale="en-GB"
-          />
-        </strong>
-        . To get Red Hat support for clusters, learn more about{' '}
+        . Your cluster will remain functional.
+        {subscription.eval_expiration_date && (
+          <>
+            {' '}
+            Please enable the support by&nbsp;
+            <strong>
+              <Timestamp
+                date={new Date(subscription.eval_expiration_date)}
+                dateFormat={TimestampFormat.medium}
+                locale="en-GB"
+              />
+            </strong>
+            .{' '}
+          </>
+        )}{' '}
+        To get Red Hat support for clusters, learn more about{' '}
         <ExternalLink href={docLinks.RH_OCP_SUBSCRIPTIONS} noIcon>
           OCP subscriptions
         </ExternalLink>
